@@ -1,7 +1,7 @@
 {
   "processedNodes": [],
   "failedNodes": [],
-  "currentNodeId": "run-database-migration",
+  "currentNodeId": "seed-categories",
   "isRunning": true,
   "phase": "bdd"
 }

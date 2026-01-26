@@ -9,9 +9,18 @@ module.exports = defineConfig({
   retries: process.env.CI ? 2 : 0,
   workers: 1,
   reporter: 'html',
+  timeout: 30000,
 
   use: {
     trace: 'on-first-retry',
+    baseURL: 'http://localhost:3000',
+  },
+
+  webServer: {
+    command: 'npm run dev',
+    url: 'http://localhost:3000',
+    reuseExistingServer: true,
+    timeout: 20000,
   },
 
   projects: [

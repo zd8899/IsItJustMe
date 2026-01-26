@@ -57,7 +57,11 @@
       ],
       "testLayers": [
         "api"
-      ]
+      ],
+      "bddSpecFile": ".tdad/workflows/database/seed-categories/seed-categories.feature",
+      "testCodeFile": ".tdad/workflows/database/seed-categories/seed-categories.test.js",
+      "actionFile": ".tdad/workflows/database/seed-categories/seed-categories.action.js",
+      "status": "ready-to-test"
     }
   ],
   "edges": [

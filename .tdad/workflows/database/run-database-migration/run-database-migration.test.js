@@ -37,7 +37,7 @@ test.describe('Run Database Migration', () => {
   // API TESTS - Migration Execution (Table Existence)
   // ==========================================
 
-  test('[API] Database migration creates User table', async ({ page, tdadTrace }) => {
+  test('[API-022] Database migration creates User table', async ({ page, tdadTrace }) => {
     // Verify User table exists by registering a user
     const result = await performUserTableExistsAction(page, {
       username: `migrationtest_${Date.now()}`,
@@ -53,7 +53,7 @@ test.describe('Run Database Migration', () => {
     expect(result.userId).toBeDefined();
   });
 
-  test('[API] Database migration creates Category table', async ({ page, tdadTrace }) => {
+  test('[API-023] Database migration creates Category table', async ({ page, tdadTrace }) => {
     // Verify Category table exists by listing categories
     const result = await performCategoryTableExistsAction(page);
 
@@ -65,7 +65,7 @@ test.describe('Run Database Migration', () => {
     expect(Array.isArray(result.categories)).toBe(true);
   });
 
-  test('[API] Database migration creates Post table', async ({ page, tdadTrace }) => {
+  test('[API-024] Database migration creates Post table', async ({ page, tdadTrace }) => {
     // Verify Post table exists and has foreign key to Category
     const result = await performPostTableExistsAction(page);
 
@@ -77,7 +77,7 @@ test.describe('Run Database Migration', () => {
     expect(result.categoryId).toBeDefined();
   });
 
-  test('[API] Database migration creates Comment table with foreign keys', async ({ page, tdadTrace }) => {
+  test('[API-025] Database migration creates Comment table with foreign keys', async ({ page, tdadTrace }) => {
     // Verify Comment table exists with:
     // - Foreign key to Post (cascade delete)
     // - Self-referencing foreign key for nested comments
@@ -94,7 +94,7 @@ test.describe('Run Database Migration', () => {
     expect(result.nestedCommentResult.success).toBe(true);
   });
 
-  test('[API] Database migration creates Vote table with foreign keys', async ({ page, tdadTrace }) => {
+  test('[API-026] Database migration creates Vote table with foreign keys', async ({ page, tdadTrace }) => {
     // Verify Vote table exists with:
     // - Nullable foreign key to Post (cascade delete)
     // - Nullable foreign key to Comment (cascade delete)
@@ -112,7 +112,7 @@ test.describe('Run Database Migration', () => {
   // API TESTS - Cascade Delete Verification
   // ==========================================
 
-  test('[API] Comment cascade delete when Post is deleted', async ({ page, tdadTrace }) => {
+  test('[API-027] Comment cascade delete when Post is deleted', async ({ page, tdadTrace }) => {
     // Verify Comment table has cascade delete on Post FK
     const result = await performCommentCascadeDeleteAction(page);
 
@@ -123,7 +123,7 @@ test.describe('Run Database Migration', () => {
     expect(result.commentCascaded).toBe(true);
   });
 
-  test('[API] Vote cascade delete when Post is deleted', async ({ page, tdadTrace }) => {
+  test('[API-028] Vote cascade delete when Post is deleted', async ({ page, tdadTrace }) => {
     // Verify Vote table has cascade delete on Post FK
     const result = await performVoteCascadeDeleteOnPostAction(page);
 
@@ -133,7 +133,7 @@ test.describe('Run Database Migration', () => {
     expect(result.postDeleted).toBe(true);
   });
 
-  test('[API] Vote cascade delete when Comment is deleted', async ({ page, tdadTrace }) => {
+  test('[API-029] Vote cascade delete when Comment is deleted', async ({ page, tdadTrace }) => {
     // Verify Vote table has cascade delete on Comment FK
     const result = await performVoteCascadeDeleteOnCommentAction(page);
 
@@ -147,7 +147,7 @@ test.describe('Run Database Migration', () => {
   // API TESTS - Index Verification
   // ==========================================
 
-  test('[API] Database migration creates required indexes on Post table', async ({ page, tdadTrace }) => {
+  test('[API-030] Database migration creates required indexes on Post table', async ({ page, tdadTrace }) => {
     // Verify indexes exist:
     // - categoryId index
     // - composite index on hotScore and createdAt
@@ -161,7 +161,7 @@ test.describe('Run Database Migration', () => {
     expect(result.newPostsSuccess).toBe(true);
   });
 
-  test('[API] Database migration creates required indexes on Comment table', async ({ page, tdadTrace }) => {
+  test('[API-031] Database migration creates required indexes on Comment table', async ({ page, tdadTrace }) => {
     // Verify indexes exist:
     // - postId index
     // - parentId index
@@ -173,7 +173,7 @@ test.describe('Run Database Migration', () => {
     expect(result.statusCode).toBe(200);
   });
 
-  test('[API] Database migration creates required indexes on Vote table', async ({ page, tdadTrace }) => {
+  test('[API-032] Database migration creates required indexes on Vote table', async ({ page, tdadTrace }) => {
     // Verify ipHash index exists
     const result = await performVoteIndexVerificationAction(page);
 
@@ -187,7 +187,7 @@ test.describe('Run Database Migration', () => {
   // API TESTS - Unique Constraint Verification
   // ==========================================
 
-  test('[API] Database migration creates unique constraint on User username', async ({ page, tdadTrace }) => {
+  test('[API-033] Database migration creates unique constraint on User username', async ({ page, tdadTrace }) => {
     // Verify unique constraint on username column
     const result = await performUserUsernameUniqueAction(page);
 
@@ -198,7 +198,7 @@ test.describe('Run Database Migration', () => {
     expect(result.duplicateRejected).toBe(true);
   });
 
-  test('[API] Database migration creates unique constraint on Category name', async ({ page, tdadTrace }) => {
+  test('[API-034] Database migration creates unique constraint on Category name', async ({ page, tdadTrace }) => {
     // Verify unique constraint on name column
     const result = await performCategoryNameUniqueAction(page);
 
@@ -209,7 +209,7 @@ test.describe('Run Database Migration', () => {
     expect(result.duplicateRejected).toBe(true);
   });
 
-  test('[API] Database migration creates unique constraint on Category slug', async ({ page, tdadTrace }) => {
+  test('[API-035] Database migration creates unique constraint on Category slug', async ({ page, tdadTrace }) => {
     // Verify unique constraint on slug column
     const result = await performCategorySlugUniqueAction(page);
 
@@ -220,7 +220,7 @@ test.describe('Run Database Migration', () => {
     expect(result.duplicateRejected).toBe(true);
   });
 
-  test('[API] Database migration creates composite unique constraints on Vote', async ({ page, tdadTrace }) => {
+  test('[API-036] Database migration creates composite unique constraints on Vote', async ({ page, tdadTrace }) => {
     // Verify composite unique constraints:
     // - postId + userId
     // - postId + anonymousId
@@ -239,7 +239,7 @@ test.describe('Run Database Migration', () => {
   // API TESTS - Default Value Verification
   // ==========================================
 
-  test('[API] Database migration applies default values to User model', async ({ page, tdadTrace }) => {
+  test('[API-037] Database migration applies default values to User model', async ({ page, tdadTrace }) => {
     // Verify default values:
     // - karma defaults to 0
     // - createdAt is automatically set
@@ -254,7 +254,7 @@ test.describe('Run Database Migration', () => {
     // The test verifies the user was created successfully, implying defaults work
   });
 
-  test('[API] Database migration applies default values to Post model', async ({ page, tdadTrace }) => {
+  test('[API-038] Database migration applies default values to Post model', async ({ page, tdadTrace }) => {
     // Verify default values:
     // - upvotes defaults to 0
     // - downvotes defaults to 0
@@ -282,7 +282,7 @@ test.describe('Run Database Migration', () => {
     }
   });
 
-  test('[API] Database migration applies default values to Comment model', async ({ page, tdadTrace }) => {
+  test('[API-039] Database migration applies default values to Comment model', async ({ page, tdadTrace }) => {
     // Verify default values:
     // - upvotes defaults to 0
     // - downvotes defaults to 0
@@ -310,7 +310,7 @@ test.describe('Run Database Migration', () => {
   // API TESTS - Edge Cases
   // ==========================================
 
-  test('[API] Migration is idempotent when run multiple times', async ({ page, tdadTrace }) => {
+  test('[API-040] Migration is idempotent when run multiple times', async ({ page, tdadTrace }) => {
     // Verify that running operations multiple times doesn't cause errors
     // This tests that the migration can be applied consistently
     const result1 = await performMigrationIdempotencyAction(page);
@@ -322,7 +322,7 @@ test.describe('Run Database Migration', () => {
     expect(result2.success).toBe(true);
   });
 
-  test('[API] Migration handles invalid requests gracefully', async ({ page, tdadTrace }) => {
+  test('[API-041] Migration handles invalid requests gracefully', async ({ page, tdadTrace }) => {
     // Test that the API returns proper error responses for invalid operations
     // This verifies the schema constraints are properly enforced
     const response = await page.request.post('/api/trpc/post.create', {

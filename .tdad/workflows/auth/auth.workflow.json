@@ -15,7 +15,11 @@
       "dependencies": [],
       "testLayers": [
         "api"
-      ]
+      ],
+      "bddSpecFile": ".tdad/workflows/auth/validate-username/validate-username.feature",
+      "testCodeFile": ".tdad/workflows/auth/validate-username/validate-username.test.js",
+      "actionFile": ".tdad/workflows/auth/validate-username/validate-username.action.js",
+      "status": "failed"
     },
     {
       "id": "hash-password",
@@ -25,13 +29,17 @@
       "nodeType": "feature",
       "fileName": "hash-password",
       "position": {
-        "x": 300,
-        "y": 100
+        "x": 100,
+        "y": 240
       },
       "dependencies": [],
       "testLayers": [
         "api"
-      ]
+      ],
+      "bddSpecFile": ".tdad/workflows/auth/hash-password/hash-password.feature",
+      "testCodeFile": ".tdad/workflows/auth/hash-password/hash-password.test.js",
+      "actionFile": ".tdad/workflows/auth/hash-password/hash-password.action.js",
+      "status": "ready-to-test"
     },
     {
       "id": "create-user-record",
@@ -41,8 +49,8 @@
       "nodeType": "feature",
       "fileName": "create-user-record",
       "position": {
-        "x": 200,
-        "y": 250
+        "x": 380,
+        "y": 170
       },
       "dependencies": [
         "validate-username",
@@ -50,7 +58,11 @@
       ],
       "testLayers": [
         "api"
-      ]
+      ],
+      "bddSpecFile": ".tdad/workflows/auth/create-user-record/create-user-record.feature",
+      "testCodeFile": ".tdad/workflows/auth/create-user-record/create-user-record.test.js",
+      "actionFile": ".tdad/workflows/auth/create-user-record/create-user-record.action.js",
+      "status": "ready-to-test"
     },
     {
       "id": "show-register-form",
@@ -60,13 +72,17 @@
       "nodeType": "feature",
       "fileName": "show-register-form",
       "position": {
-        "x": 500,
-        "y": 100
+        "x": 100,
+        "y": 380
       },
       "dependencies": [],
       "testLayers": [
         "ui"
-      ]
+      ],
+      "bddSpecFile": ".tdad/workflows/auth/show-register-form/show-register-form.feature",
+      "testCodeFile": ".tdad/workflows/auth/show-register-form/show-register-form.test.js",
+      "actionFile": ".tdad/workflows/auth/show-register-form/show-register-form.action.js",
+      "status": "ready-to-test"
     },
     {
       "id": "submit-register-form",
@@ -76,8 +92,8 @@
       "nodeType": "feature",
       "fileName": "submit-register-form",
       "position": {
-        "x": 500,
-        "y": 250
+        "x": 660,
+        "y": 275
       },
       "dependencies": [
         "show-register-form",
@@ -86,7 +102,11 @@
       "testLayers": [
         "ui",
         "api"
-      ]
+      ],
+      "bddSpecFile": ".tdad/workflows/auth/submit-register-form/submit-register-form.feature",
+      "testCodeFile": ".tdad/workflows/auth/submit-register-form/submit-register-form.test.js",
+      "actionFile": ".tdad/workflows/auth/submit-register-form/submit-register-form.action.js",
+      "status": "ready-to-test"
     },
     {
       "id": "verify-credentials",
@@ -96,13 +116,17 @@
       "nodeType": "feature",
       "fileName": "verify-credentials",
       "position": {
-        "x": 700,
-        "y": 100
+        "x": 100,
+        "y": 520
       },
       "dependencies": [],
       "testLayers": [
         "api"
-      ]
+      ],
+      "bddSpecFile": ".tdad/workflows/auth/verify-credentials/verify-credentials.feature",
+      "testCodeFile": ".tdad/workflows/auth/verify-credentials/verify-credentials.test.js",
+      "actionFile": ".tdad/workflows/auth/verify-credentials/verify-credentials.action.js",
+      "status": "ready-to-test"
     },
     {
       "id": "create-session",
@@ -112,15 +136,19 @@
       "nodeType": "feature",
       "fileName": "create-session",
       "position": {
-        "x": 700,
-        "y": 250
+        "x": 380,
+        "y": 520
       },
       "dependencies": [
         "verify-credentials"
       ],
       "testLayers": [
         "api"
-      ]
+      ],
+      "bddSpecFile": ".tdad/workflows/auth/create-session/create-session.feature",
+      "testCodeFile": ".tdad/workflows/auth/create-session/create-session.test.js",
+      "actionFile": ".tdad/workflows/auth/create-session/create-session.action.js",
+      "status": "ready-to-test"
     },
     {
       "id": "show-login-form",
@@ -130,13 +158,17 @@
       "nodeType": "feature",
       "fileName": "show-login-form",
       "position": {
-        "x": 900,
-        "y": 100
+        "x": 100,
+        "y": 660
       },
       "dependencies": [],
       "testLayers": [
         "ui"
-      ]
+      ],
+      "bddSpecFile": ".tdad/workflows/auth/show-login-form/show-login-form.feature",
+      "testCodeFile": ".tdad/workflows/auth/show-login-form/show-login-form.test.js",
+      "actionFile": ".tdad/workflows/auth/show-login-form/show-login-form.action.js",
+      "status": "ready-to-test"
     },
     {
       "id": "submit-login-form",
@@ -146,8 +178,8 @@
       "nodeType": "feature",
       "fileName": "submit-login-form",
       "position": {
-        "x": 900,
-        "y": 250
+        "x": 660,
+        "y": 590
       },
       "dependencies": [
         "show-login-form",
@@ -156,7 +188,11 @@
       "testLayers": [
         "ui",
         "api"
-      ]
+      ],
+      "bddSpecFile": ".tdad/workflows/auth/submit-login-form/submit-login-form.feature",
+      "testCodeFile": ".tdad/workflows/auth/submit-login-form/submit-login-form.test.js",
+      "actionFile": ".tdad/workflows/auth/submit-login-form/submit-login-form.action.js",
+      "status": "ready-to-test"
     },
     {
       "id": "show-user-menu",
@@ -166,13 +202,17 @@
       "nodeType": "feature",
       "fileName": "show-user-menu",
       "position": {
-        "x": 1100,
-        "y": 100
+        "x": 100,
+        "y": 800
       },
       "dependencies": [],
       "testLayers": [
         "ui"
-      ]
+      ],
+      "bddSpecFile": ".tdad/workflows/auth/show-user-menu/show-user-menu.feature",
+      "testCodeFile": ".tdad/workflows/auth/show-user-menu/show-user-menu.test.js",
+      "actionFile": ".tdad/workflows/auth/show-user-menu/show-user-menu.action.js",
+      "status": "ready-to-test"
     },
     {
       "id": "handle-logout",
@@ -182,8 +222,8 @@
       "nodeType": "feature",
       "fileName": "handle-logout",
       "position": {
-        "x": 1100,
-        "y": 250
+        "x": 380,
+        "y": 800
       },
       "dependencies": [
         "show-user-menu"
@@ -191,7 +231,11 @@
       "testLayers": [
         "ui",
         "api"
-      ]
+      ],
+      "bddSpecFile": ".tdad/workflows/auth/handle-logout/handle-logout.feature",
+      "testCodeFile": ".tdad/workflows/auth/handle-logout/handle-logout.test.js",
+      "actionFile": ".tdad/workflows/auth/handle-logout/handle-logout.action.js",
+      "status": "ready-to-test"
     }
   ],
   "edges": [

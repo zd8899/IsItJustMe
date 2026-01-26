@@ -153,155 +153,155 @@ test.describe('Login', () => {
 
 ---
 
-# Test Generation: Run Database Migration
+# Test Generation: Seed Categories
 
 ## Context
-**Description:** Execute Prisma migrate to create tables
+**Description:** Insert predefined categories into database
 
 **Gherkin Specification:**
 ```gherkin
-Feature: Run Database Migration
+Feature: Seed Categories
   As a developer
-  I want to execute Prisma migrations to create database tables
-  So that the application can persist and retrieve data
+  I want to insert predefined categories into the database
+  So that users can categorize their frustration posts
 
-  # NOTE: This feature validates that Prisma migrations successfully create
-  # all required database tables as defined in the schema.
+  # NOTE: Categories are predefined as per PRD: Work, Relationships, Technology,
+  # Health, Parenting, Finance, Daily Life, Social, Other
 
 
   # ==========================================
   # API SCENARIOS (API Request & Response)
   # ==========================================
 
-  # --- Migration Execution ---
-  Scenario: [API] Database migration creates User table
-    Given the Prisma schema defines the User model
-    When the database migration is executed
-    Then the User table should exist in the database
-    And the client sends POST request to "/api/trpc/user.register" with:
-      | username | migrationtest |
-      | password | testpass123   |
-    And the response status should be 200
-
-  Scenario: [API] Database migration creates Category table
-    Given the Prisma schema defines the Category model
-    When the database migration is executed
-    Then the Category table should exist in the database
+  # --- Happy Path: Seed Execution ---
+  Scenario: [API] Seed creates all predefined categories
+    Given the database migration has been executed
+    And the Category table is empty
+    When the database seed is executed
+    Then the Category table should contain 9 categories
     And the client sends GET request to "/api/trpc/category.list"
     And the response status should be 200
+    And the response should contain 9 categories
 
-  Scenario: [API] Database migration creates Post table
-    Given the Prisma schema defines the Post model
-    When the database migration is executed
-    Then the Post table should exist in the database
-    And the Post table has foreign key to Category table
-    And the Post table has nullable foreign key to User table
+  Scenario: [API] Seed creates Work category with correct data
+    Given the database migration has been executed
+    When the database seed is executed
+    Then the Category table should contain a category with name "Work"
+    And the category should have slug "work"
 
-  Scenario: [API] Database migration creates Comment table
-    Given the Prisma schema defines the Comment model
-    When the database migration is executed
-    Then the Comment table should exist in the database
-    And the Comment table has foreign key to Post table with cascade delete
-    And the Comment table has nullable foreign key to User table
-    And the Comment table has self-referencing foreign key for nested comments
+  Scenario: [API] Seed creates Relationships category with correct data
+    Given the database migration has been executed
+    When the database seed is executed
+    Then the Category table should contain a category with name "Relationships"
+    And the category should have slug "relationships"
 
-  Scenario: [API] Database migration creates Vote table
-    Given the Prisma schema defines the Vote model
-    When the database migration is executed
-    Then the Vote table should exist in the database
-    And the Vote table has nullable foreign key to Post table with cascade delete
-    And the Vote table has nullable foreign key to Comment table with cascade delete
-    And the Vote table has nullable foreign key to User table
+  Scenario: [API] Seed creates Technology category with correct data
+    Given the database migration has been executed
+    When the database seed is executed
+    Then the Category table should contain a category with name "Technology"
+    And the category should have slug "technology"
 
-  # --- Index Verification ---
-  Scenario: [API] Database migration creates required indexes on Post table
-    Given the Prisma schema defines indexes on Post model
-    When the database migration is executed
-    Then the Post table should have index on categoryId
-    And the Post table should have composite index on score and createdAt
-    And the Post table should have index on createdAt
+  Scenario: [API] Seed creates Health category with correct data
+    Given the database migration has been executed
+    When the database seed is executed
+    Then the Category table should contain a category with name "Health"
+    And the category should have slug "health"
 
-  Scenario: [API] Database migration creates required indexes on Comment table
-    Given the Prisma schema defines indexes on Comment model
-    When the database migration is executed
-    Then the Comment table should have index on postId
-    And the Comment table should have index on parentId
+  Scenario: [API] Seed creates Parenting category with correct data
+    Given the database migration has been executed
+    When the database seed is executed
+    Then the Category table should contain a category with name "Parenting"
+    And the category should have slug "parenting"
 
-  Scenario: [API] Database migration creates required indexes on Vote table
-    Given the Prisma schema defines indexes on Vote model
-    When the database migration is executed
-    Then the Vote table should have index on ipHash
+  Scenario: [API] Seed creates Finance category with correct data
+    Given the database migration has been executed
+    When the database seed is executed
+    Then the Category table should contain a category with name "Finance"
+    And the category should have slug "finance"
 
-  # --- Unique Constraints ---
-  Scenario: [API] Database migration creates unique constraint on User username
-    Given the Prisma schema defines unique constraint on User.username
-    When the database migration is executed
-    Then the User table should have unique constraint on username column
+  Scenario: [API] Seed creates Daily Life category with correct data
+    Given the database migration has been executed
+    When the database seed is executed
+    Then the Category table should contain a category with name "Daily Life"
+    And the category should have slug "daily-life"
 
-  Scenario: [API] Database migration creates unique constraints on Category
-    Given the Prisma schema defines unique constraints on Category model
-    When the database migration is executed
-    Then the Category table should have unique constraint on name column
-    And the Category table should have unique constraint on slug column
+  Scenario: [API] Seed creates Social category with correct data
+    Given the database migration has been executed
+    When the database seed is executed
+    Then the Category table should contain a category with name "Social"
+    And the category should have slug "social"
 
-  Scenario: [API] Database migration creates composite unique constraints on Vote
-    Given the Prisma schema defines composite unique constraints on Vote model
-    When the database migration is executed
-    Then the Vote table should have unique constraint on postId and userId
-    And the Vote table should have unique constraint on postId and anonymousId
-    And the Vote table should have unique constraint on commentId and userId
-    And the Vote table should have unique constraint on commentId and anonymousId
+  Scenario: [API] Seed creates Other category with correct data
+    Given the database migration has been executed
+    When the database seed is executed
+    Then the Category table should contain a category with name "Other"
+    And the category should have slug "other"
 
-  # --- Default Values ---
-  Scenario: [API] Database migration applies default values to User model
-    Given the Prisma schema defines default values on User model
-    When the database migration is executed
-    And a new user is created without specifying karma
-    Then the user karma should default to 0
-    And the user createdAt should be automatically set
+  # --- API Verification ---
+  Scenario: [API] Category list API returns all seeded categories
+    Given the database migration has been executed
+    And the database seed has been executed
+    When the client sends GET request to "/api/trpc/category.list"
+    Then the response status should be 200
+    And the response should contain category with name "Work"
+    And the response should contain category with name "Relationships"
+    And the response should contain category with name "Technology"
+    And the response should contain category with name "Health"
+    And the response should contain category with name "Parenting"
+    And the response should contain category with name "Finance"
+    And the response should contain category with name "Daily Life"
+    And the response should contain category with name "Social"
+    And the response should contain category with name "Other"
 
-  Scenario: [API] Database migration applies default values to Post model
-    Given the Prisma schema defines default values on Post model
-    When the database migration is executed
-    And a new post is created without specifying vote counts
-    Then the post upvotes should default to 0
-    And the post downvotes should default to 0
-    And the post score should default to 0
-    And the post commentCount should default to 0
+  Scenario: [API] Category list API returns categories with id and slug
+    Given the database migration has been executed
+    And the database seed has been executed
+    When the client sends GET request to "/api/trpc/category.list"
+    Then the response status should be 200
+    And each category in the response should have an "id" field
+    And each category in the response should have a "name" field
+    And each category in the response should have a "slug" field
 
-  Scenario: [API] Database migration applies default values to Comment model
-    Given the Prisma schema defines default values on Comment model
-    When the database migration is executed
-    And a new comment is created without specifying vote counts
-    Then the comment upvotes should default to 0
-    And the comment downvotes should default to 0
-    And the comment score should default to 0
-
-  # --- Edge Cases ---
-  Scenario: [API] Migration is idempotent when run multiple times
-    Given the database migration has already been executed
-    When the database migration is executed again
+  # --- Edge Cases: Idempotency ---
+  Scenario: [API] Seed is idempotent when run multiple times
+    Given the database migration has been executed
+    And the database seed has been executed
+    When the database seed is executed again
     Then no errors should occur
-    And the existing data should remain intact
+    And the Category table should contain exactly 9 categories
+    And no duplicate categories should exist
 
-  Scenario: [API] Migration fails gracefully with invalid database connection
-    Given the database connection string is invalid
-    When the database migration is attempted
-    Then the migration should fail with connection error
-    And no partial schema changes should be applied
+  Scenario: [API] Seed handles existing categories gracefully
+    Given the database migration has been executed
+    And the Category table already contains category "Work" with slug "work"
+    When the database seed is executed
+    Then no errors should occur
+    And only one category with name "Work" should exist
+
+  # --- Edge Cases: Error Handling ---
+  Scenario: [API] Seed fails gracefully without database connection
+    Given the database connection is unavailable
+    When the database seed is attempted
+    Then the seed should fail with connection error
+    And no partial data should be inserted
+
+  Scenario: [API] Seed fails if migration has not been executed
+    Given the database migration has not been executed
+    When the database seed is attempted
+    Then the seed should fail with table not found error
 ```
 
 
 ## Dependencies
 
-### Create Prisma Schema
-- **Action File:** `.tdad/workflows/database/create-prisma-schema/create-prisma-schema.action.js`
+### Run Database Migration
+- **Action File:** `.tdad/workflows/database/run-database-migration/run-database-migration.action.js`
 {{#if ../isESM}}
-- **Import:** `import { performCreatePrismaSchemaAction } from '../create-prisma-schema/create-prisma-schema.action.js';`
+- **Import:** `import { performRunDatabaseMigrationAction } from '../run-database-migration/run-database-migration.action.js';`
 {{else}}
-- **Import:** `const { performCreatePrismaSchemaAction } = require('../create-prisma-schema/create-prisma-schema.action.js');`
+- **Import:** `const { performRunDatabaseMigrationAction } = require('../run-database-migration/run-database-migration.action.js');`
 {{/if}}
-- **Usage:** Call action directly to get fresh data (e.g., `const result = await performCreatePrismaSchemaAction(page);`)
+- **Usage:** Call action directly to get fresh data (e.g., `const result = await performRunDatabaseMigrationAction(page);`)
 
 
 
@@ -320,7 +320,7 @@ The following documentation files are provided for context:
 ---
 
 ## Your Task
-Implement `.tdad/workflows/database/run-database-migration/run-database-migration.action.js` and `.tdad/workflows/database/run-database-migration/run-database-migration.test.js`.
+Implement `.tdad/workflows/database/seed-categories/seed-categories.action.js` and `.tdad/workflows/database/seed-categories/seed-categories.test.js`.
 1. **Analyze** the Gherkin and Dependencies.
 2. **Implement Action:** Follow the **Reference Implementation** (Error Detection, Artifacts, Return Object).
 3. **Export Helpers:** Create and export helper functions for any data (IDs, tokens) that future steps might need.
