@@ -2,9 +2,20 @@ import { initTRPC } from "@trpc/server";
 import superjson from "superjson";
 import { prisma } from "./db";
 
-export const createContext = async () => {
+export const createContext = async (opts?: { req?: Request }) => {
+  let userId: string | null = null;
+
+  // Extract userId from Authorization header (Bearer token)
+  if (opts?.req) {
+    const authHeader = opts.req.headers.get("authorization");
+    if (authHeader?.startsWith("Bearer ")) {
+      userId = authHeader.substring(7);
+    }
+  }
+
   return {
     prisma,
+    userId,
   };
 };
 

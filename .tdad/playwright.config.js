@@ -17,7 +17,7 @@ module.exports = defineConfig({
   projects: [
     {
       name: 'ui',
-      use: { baseURL: 'http://localhost:5173' },
+      use: { baseURL: 'http://localhost:3000' },
       grep: /\[(UI|API)-\d+\]/,  // Match [UI-xxx] and [API-xxx] tests
     }
   ],

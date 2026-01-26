@@ -15,7 +15,10 @@
       "dependencies": [],
       "testLayers": [
         "api"
-      ]
+      ],
+      "testCodeFile": ".tdad\\workflows\\database\\create-prisma-schema/create-prisma-schema.test.js",
+      "actionFile": ".tdad\\workflows\\database\\create-prisma-schema/create-prisma-schema.action.js",
+      "status": "passed"
     },
     {
       "id": "run-database-migration",
@@ -25,7 +28,7 @@
       "nodeType": "feature",
       "fileName": "run-database-migration",
       "position": {
-        "x": 300,
+        "x": 380,
         "y": 100
       },
       "dependencies": [
@@ -33,7 +36,10 @@
       ],
       "testLayers": [
         "api"
-      ]
+      ],
+      "testCodeFile": ".tdad\\workflows\\database\\run-database-migration/run-database-migration.test.js",
+      "actionFile": ".tdad\\workflows\\database\\run-database-migration/run-database-migration.action.js",
+      "bddSpecFile": ".tdad\\workflows\\database\\run-database-migration\\run-database-migration.feature"
     },
     {
       "id": "seed-categories",
@@ -43,8 +49,8 @@
       "nodeType": "feature",
       "fileName": "seed-categories",
       "position": {
-        "x": 200,
-        "y": 250
+        "x": 660,
+        "y": 100
       },
       "dependencies": [
         "run-database-migration"

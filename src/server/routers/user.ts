@@ -1,12 +1,13 @@
 import { z } from "zod";
 import bcrypt from "bcryptjs";
+import { TRPCError } from "@trpc/server";
 import { router, publicProcedure } from "../trpc";
 
 export const userRouter = router({
   register: publicProcedure
     .input(
       z.object({
-        username: z.string().min(3).max(20),
+        username: z.string().min(3).max(50),
         password: z.string().min(6),
       })
     )
@@ -16,7 +17,10 @@ export const userRouter = router({
       });
 
       if (existingUser) {
-        throw new Error("Username already taken");
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "Username already taken",
+        });
       }
 
       const passwordHash = await bcrypt.hash(input.password, 12);
@@ -28,7 +32,7 @@ export const userRouter = router({
         },
       });
 
-      return { id: user.id, username: user.username };
+      return { id: user.id, username: user.username, karma: user.karma };
     }),
 
   getProfile: publicProcedure

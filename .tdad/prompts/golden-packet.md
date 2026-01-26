@@ -39,6 +39,8 @@
 
 Check PASSED test traces as well to understand working patterns. Use trace to find WHERE to fix.
 
+**6. Time to time commit changes to keep track.
+
 ---
 
 # 🎯 TDAD Context Packet: "{{featureName}}"
