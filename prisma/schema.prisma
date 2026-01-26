@@ -1,0 +1,96 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String    @id @default(cuid())
+  username     String    @unique
+  passwordHash String
+  karma        Int       @default(0)
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  posts        Post[]
+  comments     Comment[]
+  votes        Vote[]
+}
+
+model Category {
+  id        String   @id @default(cuid())
+  name      String   @unique
+  slug      String   @unique
+  createdAt DateTime @default(now())
+  posts     Post[]
+}
+
+model Post {
+  id           String    @id @default(cuid())
+  frustration  String
+  identity     String
+  categoryId   String
+  category     Category  @relation(fields: [categoryId], references: [id])
+  userId       String?
+  user         User?     @relation(fields: [userId], references: [id])
+  anonymousId  String?
+  upvotes      Int       @default(0)
+  downvotes    Int       @default(0)
+  score        Int       @default(0)
+  hotScore     Float     @default(0)
+  commentCount Int       @default(0)
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  comments     Comment[]
+  votes        Vote[]
+
+  @@index([categoryId])
+  @@index([hotScore(sort: Desc), createdAt(sort: Desc)])
+  @@index([createdAt(sort: Desc)])
+  @@index([userId])
+}
+
+model Comment {
+  id          String    @id @default(cuid())
+  content     String
+  postId      String
+  post        Post      @relation(fields: [postId], references: [id], onDelete: Cascade)
+  userId      String?
+  user        User?     @relation(fields: [userId], references: [id])
+  parentId    String?
+  parent      Comment?  @relation("CommentReplies", fields: [parentId], references: [id], onDelete: Cascade)
+  replies     Comment[] @relation("CommentReplies")
+  anonymousId String?
+  upvotes     Int       @default(0)
+  downvotes   Int       @default(0)
+  score       Int       @default(0)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  votes       Vote[]
+
+  @@index([postId])
+  @@index([parentId])
+  @@index([userId])
+}
+
+model Vote {
+  id          String   @id @default(cuid())
+  value       Int      // +1 or -1
+  postId      String?
+  post        Post?    @relation(fields: [postId], references: [id], onDelete: Cascade)
+  commentId   String?
+  comment     Comment? @relation(fields: [commentId], references: [id], onDelete: Cascade)
+  userId      String?
+  user        User?    @relation(fields: [userId], references: [id])
+  anonymousId String?
+  ipHash      String
+  createdAt   DateTime @default(now())
+
+  @@unique([postId, userId])
+  @@unique([postId, anonymousId])
+  @@unique([commentId, userId])
+  @@unique([commentId, anonymousId])
+  @@index([ipHash])
+}

@@ -1,0 +1,128 @@
+{
+  "version": "1.0",
+  "nodes": [
+    {
+      "id": "validate-vote-input",
+      "workflowId": "voting",
+      "title": "Validate Vote Input",
+      "description": "Check vote value is valid",
+      "nodeType": "feature",
+      "fileName": "validate-vote-input",
+      "position": { "x": 100, "y": 100 },
+      "dependencies": [],
+      "testLayers": ["api"]
+    },
+    {
+      "id": "check-existing-vote",
+      "workflowId": "voting",
+      "title": "Check Existing Vote",
+      "description": "Find previous vote by user",
+      "nodeType": "feature",
+      "fileName": "check-existing-vote",
+      "position": { "x": 300, "y": 100 },
+      "dependencies": [],
+      "testLayers": ["api"]
+    },
+    {
+      "id": "create-vote-record",
+      "workflowId": "voting",
+      "title": "Create Vote Record",
+      "description": "Insert or update vote in database",
+      "nodeType": "feature",
+      "fileName": "create-vote-record",
+      "position": { "x": 200, "y": 250 },
+      "dependencies": ["validate-vote-input", "check-existing-vote"],
+      "testLayers": ["api"]
+    },
+    {
+      "id": "update-post-score",
+      "workflowId": "voting",
+      "title": "Update Post Score",
+      "description": "Recalculate post vote totals",
+      "nodeType": "feature",
+      "fileName": "update-post-score",
+      "position": { "x": 100, "y": 400 },
+      "dependencies": ["create-vote-record"],
+      "testLayers": ["api"]
+    },
+    {
+      "id": "update-comment-score",
+      "workflowId": "voting",
+      "title": "Update Comment Score",
+      "description": "Recalculate comment vote totals",
+      "nodeType": "feature",
+      "fileName": "update-comment-score",
+      "position": { "x": 300, "y": 400 },
+      "dependencies": ["create-vote-record"],
+      "testLayers": ["api"]
+    },
+    {
+      "id": "update-user-karma",
+      "workflowId": "voting",
+      "title": "Update User Karma",
+      "description": "Adjust author karma from vote",
+      "nodeType": "feature",
+      "fileName": "update-user-karma",
+      "position": { "x": 500, "y": 400 },
+      "dependencies": ["update-post-score", "update-comment-score"],
+      "testLayers": ["api"]
+    },
+    {
+      "id": "show-vote-buttons",
+      "workflowId": "voting",
+      "title": "Show Vote Buttons",
+      "description": "Render upvote downvote arrows",
+      "nodeType": "feature",
+      "fileName": "show-vote-buttons",
+      "position": { "x": 500, "y": 100 },
+      "dependencies": [],
+      "testLayers": ["ui"]
+    },
+    {
+      "id": "handle-upvote-click",
+      "workflowId": "voting",
+      "title": "Handle Upvote Click",
+      "description": "Process upvote button click",
+      "nodeType": "feature",
+      "fileName": "handle-upvote-click",
+      "position": { "x": 700, "y": 100 },
+      "dependencies": ["show-vote-buttons", "update-user-karma"],
+      "testLayers": ["ui", "api"]
+    },
+    {
+      "id": "handle-downvote-click",
+      "workflowId": "voting",
+      "title": "Handle Downvote Click",
+      "description": "Process downvote button click",
+      "nodeType": "feature",
+      "fileName": "handle-downvote-click",
+      "position": { "x": 700, "y": 250 },
+      "dependencies": ["show-vote-buttons", "update-user-karma"],
+      "testLayers": ["ui", "api"]
+    },
+    {
+      "id": "show-score-display",
+      "workflowId": "voting",
+      "title": "Show Score Display",
+      "description": "Render current vote count",
+      "nodeType": "feature",
+      "fileName": "show-score-display",
+      "position": { "x": 500, "y": 250 },
+      "dependencies": ["show-vote-buttons"],
+      "testLayers": ["ui"]
+    }
+  ],
+  "edges": [
+    { "id": "validate-to-create", "source": "validate-vote-input", "target": "create-vote-record" },
+    { "id": "check-to-create", "source": "check-existing-vote", "target": "create-vote-record" },
+    { "id": "create-to-post-score", "source": "create-vote-record", "target": "update-post-score" },
+    { "id": "create-to-comment-score", "source": "create-vote-record", "target": "update-comment-score" },
+    { "id": "post-to-karma", "source": "update-post-score", "target": "update-user-karma" },
+    { "id": "comment-to-karma", "source": "update-comment-score", "target": "update-user-karma" },
+    { "id": "buttons-to-upvote", "source": "show-vote-buttons", "target": "handle-upvote-click" },
+    { "id": "karma-to-upvote", "source": "update-user-karma", "target": "handle-upvote-click" },
+    { "id": "buttons-to-downvote", "source": "show-vote-buttons", "target": "handle-downvote-click" },
+    { "id": "karma-to-downvote", "source": "update-user-karma", "target": "handle-downvote-click" },
+    { "id": "buttons-to-score", "source": "show-vote-buttons", "target": "show-score-display" }
+  ]
+}

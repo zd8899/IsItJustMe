@@ -1,0 +1,71 @@
+{
+  "version": "1.0",
+  "nodes": [
+    {
+      "id": "create-prisma-schema",
+      "workflowId": "database",
+      "title": "Create Prisma Schema",
+      "description": "Define database models in schema.prisma",
+      "nodeType": "feature",
+      "fileName": "create-prisma-schema",
+      "position": {
+        "x": 100,
+        "y": 100
+      },
+      "dependencies": [],
+      "testLayers": [
+        "api"
+      ]
+    },
+    {
+      "id": "run-database-migration",
+      "workflowId": "database",
+      "title": "Run Database Migration",
+      "description": "Execute Prisma migrate to create tables",
+      "nodeType": "feature",
+      "fileName": "run-database-migration",
+      "position": {
+        "x": 300,
+        "y": 100
+      },
+      "dependencies": [
+        "create-prisma-schema"
+      ],
+      "testLayers": [
+        "api"
+      ]
+    },
+    {
+      "id": "seed-categories",
+      "workflowId": "database",
+      "title": "Seed Categories",
+      "description": "Insert predefined categories into database",
+      "nodeType": "feature",
+      "fileName": "seed-categories",
+      "position": {
+        "x": 200,
+        "y": 250
+      },
+      "dependencies": [
+        "run-database-migration"
+      ],
+      "testLayers": [
+        "api"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "id": "schema-to-migrate",
+      "source": "create-prisma-schema",
+      "target": "run-database-migration",
+      "type": "custom"
+    },
+    {
+      "id": "migrate-to-seed",
+      "source": "run-database-migration",
+      "target": "seed-categories",
+      "type": "custom"
+    }
+  ]
+}

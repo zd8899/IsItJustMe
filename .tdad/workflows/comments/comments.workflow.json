@@ -1,0 +1,113 @@
+{
+  "version": "1.0",
+  "nodes": [
+    {
+      "id": "validate-comment-input",
+      "workflowId": "comments",
+      "title": "Validate Comment Input",
+      "description": "Check comment content length",
+      "nodeType": "feature",
+      "fileName": "validate-comment-input",
+      "position": { "x": 100, "y": 100 },
+      "dependencies": [],
+      "testLayers": ["api"]
+    },
+    {
+      "id": "create-comment-record",
+      "workflowId": "comments",
+      "title": "Create Comment Record",
+      "description": "Insert new comment into database",
+      "nodeType": "feature",
+      "fileName": "create-comment-record",
+      "position": { "x": 300, "y": 100 },
+      "dependencies": ["validate-comment-input"],
+      "testLayers": ["api"]
+    },
+    {
+      "id": "update-comment-count",
+      "workflowId": "comments",
+      "title": "Update Comment Count",
+      "description": "Increment post comment counter",
+      "nodeType": "feature",
+      "fileName": "update-comment-count",
+      "position": { "x": 500, "y": 100 },
+      "dependencies": ["create-comment-record"],
+      "testLayers": ["api"]
+    },
+    {
+      "id": "fetch-comments-by-post",
+      "workflowId": "comments",
+      "title": "Fetch Comments By Post",
+      "description": "Retrieve comments for a post",
+      "nodeType": "feature",
+      "fileName": "fetch-comments-by-post",
+      "position": { "x": 100, "y": 250 },
+      "dependencies": [],
+      "testLayers": ["api"]
+    },
+    {
+      "id": "show-comment-form",
+      "workflowId": "comments",
+      "title": "Show Comment Form",
+      "description": "Render comment input textarea",
+      "nodeType": "feature",
+      "fileName": "show-comment-form",
+      "position": { "x": 300, "y": 250 },
+      "dependencies": [],
+      "testLayers": ["ui"]
+    },
+    {
+      "id": "submit-comment-form",
+      "workflowId": "comments",
+      "title": "Submit Comment Form",
+      "description": "Handle comment form submission",
+      "nodeType": "feature",
+      "fileName": "submit-comment-form",
+      "position": { "x": 500, "y": 250 },
+      "dependencies": ["show-comment-form", "update-comment-count"],
+      "testLayers": ["ui", "api"]
+    },
+    {
+      "id": "show-comment-card",
+      "workflowId": "comments",
+      "title": "Show Comment Card",
+      "description": "Render single comment with metadata",
+      "nodeType": "feature",
+      "fileName": "show-comment-card",
+      "position": { "x": 100, "y": 400 },
+      "dependencies": [],
+      "testLayers": ["ui"]
+    },
+    {
+      "id": "show-comment-list",
+      "workflowId": "comments",
+      "title": "Show Comment List",
+      "description": "Render nested comment thread",
+      "nodeType": "feature",
+      "fileName": "show-comment-list",
+      "position": { "x": 300, "y": 400 },
+      "dependencies": ["fetch-comments-by-post", "show-comment-card"],
+      "testLayers": ["ui"]
+    },
+    {
+      "id": "show-reply-form",
+      "workflowId": "comments",
+      "title": "Show Reply Form",
+      "description": "Display reply form under comment",
+      "nodeType": "feature",
+      "fileName": "show-reply-form",
+      "position": { "x": 500, "y": 400 },
+      "dependencies": ["show-comment-card"],
+      "testLayers": ["ui"]
+    }
+  ],
+  "edges": [
+    { "id": "validate-to-create", "source": "validate-comment-input", "target": "create-comment-record" },
+    { "id": "create-to-count", "source": "create-comment-record", "target": "update-comment-count" },
+    { "id": "form-to-submit", "source": "show-comment-form", "target": "submit-comment-form" },
+    { "id": "count-to-submit", "source": "update-comment-count", "target": "submit-comment-form" },
+    { "id": "fetch-to-list", "source": "fetch-comments-by-post", "target": "show-comment-list" },
+    { "id": "card-to-list", "source": "show-comment-card", "target": "show-comment-list" },
+    { "id": "card-to-reply", "source": "show-comment-card", "target": "show-reply-form" }
+  ]
+}

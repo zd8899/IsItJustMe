@@ -1,0 +1,114 @@
+{
+  "version": "1.0",
+  "nodes": [
+    {
+      "id": "fetch-hot-posts",
+      "workflowId": "feed",
+      "title": "Fetch Hot Posts",
+      "description": "Query posts sorted by hot score",
+      "nodeType": "feature",
+      "fileName": "fetch-hot-posts",
+      "position": { "x": 100, "y": 100 },
+      "dependencies": [],
+      "testLayers": ["api"]
+    },
+    {
+      "id": "fetch-new-posts",
+      "workflowId": "feed",
+      "title": "Fetch New Posts",
+      "description": "Query posts sorted by creation date",
+      "nodeType": "feature",
+      "fileName": "fetch-new-posts",
+      "position": { "x": 300, "y": 100 },
+      "dependencies": [],
+      "testLayers": ["api"]
+    },
+    {
+      "id": "fetch-posts-by-category",
+      "workflowId": "feed",
+      "title": "Fetch Posts By Category",
+      "description": "Filter posts by selected category",
+      "nodeType": "feature",
+      "fileName": "fetch-posts-by-category",
+      "position": { "x": 500, "y": 100 },
+      "dependencies": [],
+      "testLayers": ["api"]
+    },
+    {
+      "id": "show-feed-tabs",
+      "workflowId": "feed",
+      "title": "Show Feed Tabs",
+      "description": "Render hot and new tab buttons",
+      "nodeType": "feature",
+      "fileName": "show-feed-tabs",
+      "position": { "x": 100, "y": 250 },
+      "dependencies": [],
+      "testLayers": ["ui"]
+    },
+    {
+      "id": "switch-feed-type",
+      "workflowId": "feed",
+      "title": "Switch Feed Type",
+      "description": "Toggle between hot and new feeds",
+      "nodeType": "feature",
+      "fileName": "switch-feed-type",
+      "position": { "x": 300, "y": 250 },
+      "dependencies": ["show-feed-tabs", "fetch-hot-posts", "fetch-new-posts"],
+      "testLayers": ["ui"]
+    },
+    {
+      "id": "show-category-filter",
+      "workflowId": "feed",
+      "title": "Show Category Filter",
+      "description": "Render category dropdown selector",
+      "nodeType": "feature",
+      "fileName": "show-category-filter",
+      "position": { "x": 500, "y": 250 },
+      "dependencies": [],
+      "testLayers": ["ui"]
+    },
+    {
+      "id": "apply-category-filter",
+      "workflowId": "feed",
+      "title": "Apply Category Filter",
+      "description": "Filter feed by selected category",
+      "nodeType": "feature",
+      "fileName": "apply-category-filter",
+      "position": { "x": 700, "y": 250 },
+      "dependencies": ["show-category-filter", "fetch-posts-by-category"],
+      "testLayers": ["ui", "api"]
+    },
+    {
+      "id": "show-post-list",
+      "workflowId": "feed",
+      "title": "Show Post List",
+      "description": "Render list of post cards",
+      "nodeType": "feature",
+      "fileName": "show-post-list",
+      "position": { "x": 400, "y": 400 },
+      "dependencies": ["switch-feed-type", "apply-category-filter"],
+      "testLayers": ["ui"]
+    },
+    {
+      "id": "load-more-posts",
+      "workflowId": "feed",
+      "title": "Load More Posts",
+      "description": "Fetch next page of posts",
+      "nodeType": "feature",
+      "fileName": "load-more-posts",
+      "position": { "x": 600, "y": 400 },
+      "dependencies": ["show-post-list"],
+      "testLayers": ["ui", "api"]
+    }
+  ],
+  "edges": [
+    { "id": "tabs-to-switch", "source": "show-feed-tabs", "target": "switch-feed-type" },
+    { "id": "hot-to-switch", "source": "fetch-hot-posts", "target": "switch-feed-type" },
+    { "id": "new-to-switch", "source": "fetch-new-posts", "target": "switch-feed-type" },
+    { "id": "filter-to-apply", "source": "show-category-filter", "target": "apply-category-filter" },
+    { "id": "category-to-apply", "source": "fetch-posts-by-category", "target": "apply-category-filter" },
+    { "id": "switch-to-list", "source": "switch-feed-type", "target": "show-post-list" },
+    { "id": "apply-to-list", "source": "apply-category-filter", "target": "show-post-list" },
+    { "id": "list-to-load", "source": "show-post-list", "target": "load-more-posts" }
+  ]
+}

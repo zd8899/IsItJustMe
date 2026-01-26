@@ -1,0 +1,90 @@
+{
+  "version": "1.0",
+  "nodes": [
+    {
+      "id": "fetch-user-profile",
+      "workflowId": "profile",
+      "title": "Fetch User Profile",
+      "description": "Query user data from database",
+      "nodeType": "feature",
+      "fileName": "fetch-user-profile",
+      "position": { "x": 100, "y": 100 },
+      "dependencies": [],
+      "testLayers": ["api"]
+    },
+    {
+      "id": "fetch-user-karma",
+      "workflowId": "profile",
+      "title": "Fetch User Karma",
+      "description": "Calculate total karma score",
+      "nodeType": "feature",
+      "fileName": "fetch-user-karma",
+      "position": { "x": 300, "y": 100 },
+      "dependencies": [],
+      "testLayers": ["api"]
+    },
+    {
+      "id": "fetch-user-posts",
+      "workflowId": "profile",
+      "title": "Fetch User Posts",
+      "description": "Query posts created by user",
+      "nodeType": "feature",
+      "fileName": "fetch-user-posts",
+      "position": { "x": 500, "y": 100 },
+      "dependencies": [],
+      "testLayers": ["api"]
+    },
+    {
+      "id": "show-profile-header",
+      "workflowId": "profile",
+      "title": "Show Profile Header",
+      "description": "Render username and join date",
+      "nodeType": "feature",
+      "fileName": "show-profile-header",
+      "position": { "x": 100, "y": 250 },
+      "dependencies": ["fetch-user-profile"],
+      "testLayers": ["ui"]
+    },
+    {
+      "id": "show-karma-display",
+      "workflowId": "profile",
+      "title": "Show Karma Display",
+      "description": "Render karma score badge",
+      "nodeType": "feature",
+      "fileName": "show-karma-display",
+      "position": { "x": 300, "y": 250 },
+      "dependencies": ["fetch-user-karma"],
+      "testLayers": ["ui"]
+    },
+    {
+      "id": "show-user-posts-list",
+      "workflowId": "profile",
+      "title": "Show User Posts List",
+      "description": "Render list of user posts",
+      "nodeType": "feature",
+      "fileName": "show-user-posts-list",
+      "position": { "x": 500, "y": 250 },
+      "dependencies": ["fetch-user-posts"],
+      "testLayers": ["ui"]
+    },
+    {
+      "id": "show-profile-page",
+      "workflowId": "profile",
+      "title": "Show Profile Page",
+      "description": "Render complete profile page layout",
+      "nodeType": "feature",
+      "fileName": "show-profile-page",
+      "position": { "x": 300, "y": 400 },
+      "dependencies": ["show-profile-header", "show-karma-display", "show-user-posts-list"],
+      "testLayers": ["ui"]
+    }
+  ],
+  "edges": [
+    { "id": "profile-to-header", "source": "fetch-user-profile", "target": "show-profile-header" },
+    { "id": "karma-to-display", "source": "fetch-user-karma", "target": "show-karma-display" },
+    { "id": "posts-to-list", "source": "fetch-user-posts", "target": "show-user-posts-list" },
+    { "id": "header-to-page", "source": "show-profile-header", "target": "show-profile-page" },
+    { "id": "karma-to-page", "source": "show-karma-display", "target": "show-profile-page" },
+    { "id": "list-to-page", "source": "show-user-posts-list", "target": "show-profile-page" }
+  ]
+}

@@ -1,0 +1,247 @@
+{
+  "version": "1.0",
+  "nodes": [
+    {
+      "id": "validate-username",
+      "workflowId": "auth",
+      "title": "Validate Username",
+      "description": "Check username format and uniqueness",
+      "nodeType": "feature",
+      "fileName": "validate-username",
+      "position": {
+        "x": 100,
+        "y": 100
+      },
+      "dependencies": [],
+      "testLayers": [
+        "api"
+      ]
+    },
+    {
+      "id": "hash-password",
+      "workflowId": "auth",
+      "title": "Hash Password",
+      "description": "Hash password using bcrypt with salt",
+      "nodeType": "feature",
+      "fileName": "hash-password",
+      "position": {
+        "x": 300,
+        "y": 100
+      },
+      "dependencies": [],
+      "testLayers": [
+        "api"
+      ]
+    },
+    {
+      "id": "create-user-record",
+      "workflowId": "auth",
+      "title": "Create User Record",
+      "description": "Insert new user into database",
+      "nodeType": "feature",
+      "fileName": "create-user-record",
+      "position": {
+        "x": 200,
+        "y": 250
+      },
+      "dependencies": [
+        "validate-username",
+        "hash-password"
+      ],
+      "testLayers": [
+        "api"
+      ]
+    },
+    {
+      "id": "show-register-form",
+      "workflowId": "auth",
+      "title": "Show Register Form",
+      "description": "Render registration form with fields",
+      "nodeType": "feature",
+      "fileName": "show-register-form",
+      "position": {
+        "x": 500,
+        "y": 100
+      },
+      "dependencies": [],
+      "testLayers": [
+        "ui"
+      ]
+    },
+    {
+      "id": "submit-register-form",
+      "workflowId": "auth",
+      "title": "Submit Register Form",
+      "description": "Handle registration form submission",
+      "nodeType": "feature",
+      "fileName": "submit-register-form",
+      "position": {
+        "x": 500,
+        "y": 250
+      },
+      "dependencies": [
+        "show-register-form",
+        "create-user-record"
+      ],
+      "testLayers": [
+        "ui",
+        "api"
+      ]
+    },
+    {
+      "id": "verify-credentials",
+      "workflowId": "auth",
+      "title": "Verify Credentials",
+      "description": "Check username and password match",
+      "nodeType": "feature",
+      "fileName": "verify-credentials",
+      "position": {
+        "x": 700,
+        "y": 100
+      },
+      "dependencies": [],
+      "testLayers": [
+        "api"
+      ]
+    },
+    {
+      "id": "create-session",
+      "workflowId": "auth",
+      "title": "Create Session",
+      "description": "Generate JWT token for user",
+      "nodeType": "feature",
+      "fileName": "create-session",
+      "position": {
+        "x": 700,
+        "y": 250
+      },
+      "dependencies": [
+        "verify-credentials"
+      ],
+      "testLayers": [
+        "api"
+      ]
+    },
+    {
+      "id": "show-login-form",
+      "workflowId": "auth",
+      "title": "Show Login Form",
+      "description": "Render login form with fields",
+      "nodeType": "feature",
+      "fileName": "show-login-form",
+      "position": {
+        "x": 900,
+        "y": 100
+      },
+      "dependencies": [],
+      "testLayers": [
+        "ui"
+      ]
+    },
+    {
+      "id": "submit-login-form",
+      "workflowId": "auth",
+      "title": "Submit Login Form",
+      "description": "Handle login form submission",
+      "nodeType": "feature",
+      "fileName": "submit-login-form",
+      "position": {
+        "x": 900,
+        "y": 250
+      },
+      "dependencies": [
+        "show-login-form",
+        "create-session"
+      ],
+      "testLayers": [
+        "ui",
+        "api"
+      ]
+    },
+    {
+      "id": "show-user-menu",
+      "workflowId": "auth",
+      "title": "Show User Menu",
+      "description": "Display user menu in header",
+      "nodeType": "feature",
+      "fileName": "show-user-menu",
+      "position": {
+        "x": 1100,
+        "y": 100
+      },
+      "dependencies": [],
+      "testLayers": [
+        "ui"
+      ]
+    },
+    {
+      "id": "handle-logout",
+      "workflowId": "auth",
+      "title": "Handle Logout",
+      "description": "Clear session and redirect home",
+      "nodeType": "feature",
+      "fileName": "handle-logout",
+      "position": {
+        "x": 1100,
+        "y": 250
+      },
+      "dependencies": [
+        "show-user-menu"
+      ],
+      "testLayers": [
+        "ui",
+        "api"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "id": "username-to-user",
+      "source": "validate-username",
+      "target": "create-user-record",
+      "type": "custom"
+    },
+    {
+      "id": "hash-to-user",
+      "source": "hash-password",
+      "target": "create-user-record",
+      "type": "custom"
+    },
+    {
+      "id": "register-form-to-submit",
+      "source": "show-register-form",
+      "target": "submit-register-form",
+      "type": "custom"
+    },
+    {
+      "id": "create-user-to-submit",
+      "source": "create-user-record",
+      "target": "submit-register-form",
+      "type": "custom"
+    },
+    {
+      "id": "verify-to-session",
+      "source": "verify-credentials",
+      "target": "create-session",
+      "type": "custom"
+    },
+    {
+      "id": "login-form-to-submit",
+      "source": "show-login-form",
+      "target": "submit-login-form",
+      "type": "custom"
+    },
+    {
+      "id": "session-to-login",
+      "source": "create-session",
+      "target": "submit-login-form",
+      "type": "custom"
+    },
+    {
+      "id": "menu-to-logout",
+      "source": "show-user-menu",
+      "target": "handle-logout",
+      "type": "custom"
+    }
+  ]
+}

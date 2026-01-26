@@ -1,0 +1,104 @@
+{
+  "version": "1.0",
+  "nodes": [
+    {
+      "id": "database",
+      "workflowId": "root",
+      "title": "Database",
+      "description": "Database schema and seed data",
+      "nodeType": "folder",
+      "folderPath": "database",
+      "position": {
+        "x": 100,
+        "y": 100
+      },
+      "dependencies": [],
+      "children": []
+    },
+    {
+      "id": "auth",
+      "workflowId": "root",
+      "title": "Authentication",
+      "description": "User registration and login",
+      "nodeType": "folder",
+      "folderPath": "auth",
+      "position": {
+        "x": 100,
+        "y": 240
+      },
+      "dependencies": [],
+      "children": []
+    },
+    {
+      "id": "posts",
+      "workflowId": "root",
+      "title": "Posts",
+      "description": "Post creation and display",
+      "nodeType": "folder",
+      "folderPath": "posts",
+      "position": {
+        "x": 100,
+        "y": 380
+      },
+      "dependencies": [],
+      "children": []
+    },
+    {
+      "id": "comments",
+      "workflowId": "root",
+      "title": "Comments",
+      "description": "Comment creation and display",
+      "nodeType": "folder",
+      "folderPath": "comments",
+      "position": {
+        "x": 100,
+        "y": 520
+      },
+      "dependencies": [],
+      "children": []
+    },
+    {
+      "id": "voting",
+      "workflowId": "root",
+      "title": "Voting",
+      "description": "Upvote and downvote system",
+      "nodeType": "folder",
+      "folderPath": "voting",
+      "position": {
+        "x": 100,
+        "y": 660
+      },
+      "dependencies": [],
+      "children": []
+    },
+    {
+      "id": "feed",
+      "workflowId": "root",
+      "title": "Feed",
+      "description": "Hot and new feed display",
+      "nodeType": "folder",
+      "folderPath": "feed",
+      "position": {
+        "x": 100,
+        "y": 800
+      },
+      "dependencies": [],
+      "children": []
+    },
+    {
+      "id": "profile",
+      "workflowId": "root",
+      "title": "Profile",
+      "description": "User profile page",
+      "nodeType": "folder",
+      "folderPath": "profile",
+      "position": {
+        "x": 100,
+        "y": 940
+      },
+      "dependencies": [],
+      "children": []
+    }
+  ],
+  "edges": []
+}

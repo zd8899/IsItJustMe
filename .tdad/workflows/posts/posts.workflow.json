@@ -1,0 +1,124 @@
+{
+  "version": "1.0",
+  "nodes": [
+    {
+      "id": "validate-post-input",
+      "workflowId": "posts",
+      "title": "Validate Post Input",
+      "description": "Check frustration and identity fields",
+      "nodeType": "feature",
+      "fileName": "validate-post-input",
+      "position": { "x": 100, "y": 100 },
+      "dependencies": [],
+      "testLayers": ["api"]
+    },
+    {
+      "id": "generate-anonymous-id",
+      "workflowId": "posts",
+      "title": "Generate Anonymous ID",
+      "description": "Create UUID for anonymous posts",
+      "nodeType": "feature",
+      "fileName": "generate-anonymous-id",
+      "position": { "x": 300, "y": 100 },
+      "dependencies": [],
+      "testLayers": ["api"]
+    },
+    {
+      "id": "calculate-hot-score",
+      "workflowId": "posts",
+      "title": "Calculate Hot Score",
+      "description": "Compute ranking score for post",
+      "nodeType": "feature",
+      "fileName": "calculate-hot-score",
+      "position": { "x": 500, "y": 100 },
+      "dependencies": [],
+      "testLayers": ["api"]
+    },
+    {
+      "id": "create-post-record",
+      "workflowId": "posts",
+      "title": "Create Post Record",
+      "description": "Insert new post into database",
+      "nodeType": "feature",
+      "fileName": "create-post-record",
+      "position": { "x": 300, "y": 250 },
+      "dependencies": ["validate-post-input", "generate-anonymous-id", "calculate-hot-score"],
+      "testLayers": ["api"]
+    },
+    {
+      "id": "show-post-form",
+      "workflowId": "posts",
+      "title": "Show Post Form",
+      "description": "Render post creation form",
+      "nodeType": "feature",
+      "fileName": "show-post-form",
+      "position": { "x": 700, "y": 100 },
+      "dependencies": [],
+      "testLayers": ["ui"]
+    },
+    {
+      "id": "load-categories-dropdown",
+      "workflowId": "posts",
+      "title": "Load Categories Dropdown",
+      "description": "Populate category select options",
+      "nodeType": "feature",
+      "fileName": "load-categories-dropdown",
+      "position": { "x": 900, "y": 100 },
+      "dependencies": [],
+      "testLayers": ["ui", "api"]
+    },
+    {
+      "id": "submit-post-form",
+      "workflowId": "posts",
+      "title": "Submit Post Form",
+      "description": "Handle post form submission",
+      "nodeType": "feature",
+      "fileName": "submit-post-form",
+      "position": { "x": 800, "y": 250 },
+      "dependencies": ["show-post-form", "load-categories-dropdown", "create-post-record"],
+      "testLayers": ["ui", "api"]
+    },
+    {
+      "id": "fetch-post-by-id",
+      "workflowId": "posts",
+      "title": "Fetch Post By ID",
+      "description": "Retrieve single post from database",
+      "nodeType": "feature",
+      "fileName": "fetch-post-by-id",
+      "position": { "x": 100, "y": 400 },
+      "dependencies": [],
+      "testLayers": ["api"]
+    },
+    {
+      "id": "show-post-detail",
+      "workflowId": "posts",
+      "title": "Show Post Detail",
+      "description": "Render full post detail page",
+      "nodeType": "feature",
+      "fileName": "show-post-detail",
+      "position": { "x": 300, "y": 400 },
+      "dependencies": ["fetch-post-by-id"],
+      "testLayers": ["ui"]
+    },
+    {
+      "id": "show-post-card",
+      "workflowId": "posts",
+      "title": "Show Post Card",
+      "description": "Render post card in feed",
+      "nodeType": "feature",
+      "fileName": "show-post-card",
+      "position": { "x": 500, "y": 400 },
+      "dependencies": [],
+      "testLayers": ["ui"]
+    }
+  ],
+  "edges": [
+    { "id": "validate-to-create", "source": "validate-post-input", "target": "create-post-record" },
+    { "id": "anon-to-create", "source": "generate-anonymous-id", "target": "create-post-record" },
+    { "id": "score-to-create", "source": "calculate-hot-score", "target": "create-post-record" },
+    { "id": "form-to-submit", "source": "show-post-form", "target": "submit-post-form" },
+    { "id": "categories-to-submit", "source": "load-categories-dropdown", "target": "submit-post-form" },
+    { "id": "create-to-submit", "source": "create-post-record", "target": "submit-post-form" },
+    { "id": "fetch-to-detail", "source": "fetch-post-by-id", "target": "show-post-detail" }
+  ]
+}
