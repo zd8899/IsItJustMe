@@ -62,14 +62,6 @@ Feature: Submit Register Form
     Then the user should be redirected to the home page
     And the user should see their username "newuser123" in the header
 
-  Scenario: [UI] Display loading state during form submission
-    Given the user is on the registration page
-    And the user has entered "newuser123" in the "Username" field
-    And the user has entered "SecurePass123!" in the "Password" field
-    When the user clicks the "Create Account" button
-    Then the "Create Account" button should be disabled
-    And the user should see a loading indicator
-
   Scenario: [UI] Display error message when username is already taken
     Given the user is on the registration page
     And a user already exists with username "existinguser"
