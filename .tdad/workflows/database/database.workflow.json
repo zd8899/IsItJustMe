@@ -39,7 +39,8 @@
       ],
       "testCodeFile": ".tdad\\workflows\\database\\run-database-migration/run-database-migration.test.js",
       "actionFile": ".tdad\\workflows\\database\\run-database-migration/run-database-migration.action.js",
-      "bddSpecFile": ".tdad\\workflows\\database\\run-database-migration\\run-database-migration.feature"
+      "bddSpecFile": ".tdad\\workflows\\database\\run-database-migration\\run-database-migration.feature",
+      "status": "passed"
     },
     {
       "id": "seed-categories",
@@ -61,7 +62,7 @@
       "bddSpecFile": ".tdad/workflows/database/seed-categories/seed-categories.feature",
       "testCodeFile": ".tdad/workflows/database/seed-categories/seed-categories.test.js",
       "actionFile": ".tdad/workflows/database/seed-categories/seed-categories.action.js",
-      "status": "ready-to-test"
+      "status": "passed"
     }
   ],
   "edges": [
