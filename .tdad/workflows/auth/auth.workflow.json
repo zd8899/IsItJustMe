@@ -106,7 +106,7 @@
       "bddSpecFile": ".tdad/workflows/auth/submit-register-form/submit-register-form.feature",
       "testCodeFile": ".tdad/workflows/auth/submit-register-form/submit-register-form.test.js",
       "actionFile": ".tdad/workflows/auth/submit-register-form/submit-register-form.action.js",
-      "status": "ready-to-test"
+      "status": "passed"
     },
     {
       "id": "verify-credentials",

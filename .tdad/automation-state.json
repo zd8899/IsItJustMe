@@ -1,7 +1,7 @@
 {
   "processedNodes": [],
   "failedNodes": [],
-  "currentNodeId": "submit-register-form",
+  "currentNodeId": "submit-login-form",
   "isRunning": true,
   "phase": "bdd"
 }
