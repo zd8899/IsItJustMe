@@ -39,7 +39,7 @@ export function PostCard({
             <span className="px-2 py-1 bg-primary-100 rounded">{category}</span>
             <span>{commentCount} comments</span>
             <span>{username ? `by ${username}` : "Anonymous"}</span>
-            <span>{new Date(createdAt).toLocaleDateString()}</span>
+            <span suppressHydrationWarning>{new Date(createdAt).toLocaleDateString()}</span>
           </div>
         </div>
       </div>

@@ -19,7 +19,7 @@
       "bddSpecFile": ".tdad/workflows/auth/validate-username/validate-username.feature",
       "testCodeFile": ".tdad/workflows/auth/validate-username/validate-username.test.js",
       "actionFile": ".tdad/workflows/auth/validate-username/validate-username.action.js",
-      "status": "failed"
+      "status": "passed"
     },
     {
       "id": "hash-password",
@@ -39,7 +39,7 @@
       "bddSpecFile": ".tdad/workflows/auth/hash-password/hash-password.feature",
       "testCodeFile": ".tdad/workflows/auth/hash-password/hash-password.test.js",
       "actionFile": ".tdad/workflows/auth/hash-password/hash-password.action.js",
-      "status": "ready-to-test"
+      "status": "passed"
     },
     {
       "id": "create-user-record",
@@ -62,7 +62,7 @@
       "bddSpecFile": ".tdad/workflows/auth/create-user-record/create-user-record.feature",
       "testCodeFile": ".tdad/workflows/auth/create-user-record/create-user-record.test.js",
       "actionFile": ".tdad/workflows/auth/create-user-record/create-user-record.action.js",
-      "status": "ready-to-test"
+      "status": "passed"
     },
     {
       "id": "show-register-form",
@@ -82,7 +82,7 @@
       "bddSpecFile": ".tdad/workflows/auth/show-register-form/show-register-form.feature",
       "testCodeFile": ".tdad/workflows/auth/show-register-form/show-register-form.test.js",
       "actionFile": ".tdad/workflows/auth/show-register-form/show-register-form.action.js",
-      "status": "ready-to-test"
+      "status": "passed"
     },
     {
       "id": "submit-register-form",
@@ -126,7 +126,7 @@
       "bddSpecFile": ".tdad/workflows/auth/verify-credentials/verify-credentials.feature",
       "testCodeFile": ".tdad/workflows/auth/verify-credentials/verify-credentials.test.js",
       "actionFile": ".tdad/workflows/auth/verify-credentials/verify-credentials.action.js",
-      "status": "ready-to-test"
+      "status": "passed"
     },
     {
       "id": "create-session",
@@ -148,7 +148,7 @@
       "bddSpecFile": ".tdad/workflows/auth/create-session/create-session.feature",
       "testCodeFile": ".tdad/workflows/auth/create-session/create-session.test.js",
       "actionFile": ".tdad/workflows/auth/create-session/create-session.action.js",
-      "status": "ready-to-test"
+      "status": "passed"
     },
     {
       "id": "show-login-form",
@@ -168,7 +168,7 @@
       "bddSpecFile": ".tdad/workflows/auth/show-login-form/show-login-form.feature",
       "testCodeFile": ".tdad/workflows/auth/show-login-form/show-login-form.test.js",
       "actionFile": ".tdad/workflows/auth/show-login-form/show-login-form.action.js",
-      "status": "ready-to-test"
+      "status": "passed"
     },
     {
       "id": "submit-login-form",
@@ -212,7 +212,7 @@
       "bddSpecFile": ".tdad/workflows/auth/show-user-menu/show-user-menu.feature",
       "testCodeFile": ".tdad/workflows/auth/show-user-menu/show-user-menu.test.js",
       "actionFile": ".tdad/workflows/auth/show-user-menu/show-user-menu.action.js",
-      "status": "ready-to-test"
+      "status": "passed"
     },
     {
       "id": "handle-logout",
@@ -235,7 +235,7 @@
       "bddSpecFile": ".tdad/workflows/auth/handle-logout/handle-logout.feature",
       "testCodeFile": ".tdad/workflows/auth/handle-logout/handle-logout.test.js",
       "actionFile": ".tdad/workflows/auth/handle-logout/handle-logout.action.js",
-      "status": "ready-to-test"
+      "status": "passed"
     }
   ],
   "edges": [

@@ -11,17 +11,11 @@ export function RegisterForm() {
   const router = useRouter();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
-
-    if (password !== confirmPassword) {
-      setError("Passwords do not match");
-      return;
-    }
 
     // TODO: Implement registration via tRPC
     console.log({ username, password });
@@ -52,14 +46,6 @@ export function RegisterForm() {
           onChange={(e) => setPassword(e.target.value)}
           required
           minLength={6}
-        />
-        <Input
-          id="confirmPassword"
-          type="password"
-          label="Confirm Password"
-          value={confirmPassword}
-          onChange={(e) => setConfirmPassword(e.target.value)}
-          required
         />
         <Button type="submit" className="w-full">
           Create Account

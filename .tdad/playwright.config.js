@@ -17,10 +17,12 @@ module.exports = defineConfig({
   },
 
   webServer: {
-    command: 'npm run dev',
+    command: 'cmd /c D:\\source\\repos\\zekeriyademir\\IsItJustMe\\start-server.bat',
     url: 'http://localhost:3000',
     reuseExistingServer: true,
-    timeout: 20000,
+    timeout: 120000,
+    stdout: 'pipe',
+    stderr: 'pipe',
   },
 
   projects: [

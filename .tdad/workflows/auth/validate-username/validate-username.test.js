@@ -124,8 +124,9 @@ test.describe('Validate Username', () => {
     });
 
     test('[API-050] Validate Username - Case Insensitive Uniqueness Check', async ({ page }) => {
-        // Setup: Create a user with mixed case username
-        const baseUsername = `TestUser${Date.now()}`;
+        // Setup: Create a user with mixed case username (max 20 chars)
+        const shortTimestamp = Date.now().toString().slice(-6);
+        const baseUsername = `TestUser_${shortTimestamp}`;
         const setupResult = await createTestUser(page, baseUsername);
         expect(setupResult.success).toBe(true);
 

@@ -11,7 +11,7 @@ const placeholderPosts = [
     category: "Work",
     score: 42,
     commentCount: 15,
-    createdAt: new Date().toISOString(),
+    createdAt: "2026-01-20T12:00:00.000Z",
     username: undefined,
   },
   {
@@ -21,7 +21,7 @@ const placeholderPosts = [
     category: "Relationships",
     score: 28,
     commentCount: 8,
-    createdAt: new Date().toISOString(),
+    createdAt: "2026-01-19T12:00:00.000Z",
     username: "user123",
   },
 ];

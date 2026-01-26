@@ -91,10 +91,12 @@ async function createTestUser(page, username, password = 'TestPassword123!') {
 /**
  * Generate unique username with timestamp
  * @param {string} prefix - Prefix for the username
- * @returns {string} - Unique username
+ * @returns {string} - Unique username (max 20 chars)
  */
 function generateUniqueUsername(prefix = 'user') {
-    return `${prefix}_${Date.now()}`;
+    // Use last 6 digits of timestamp to keep username short (max 20 chars)
+    const shortTimestamp = Date.now().toString().slice(-6);
+    return `${prefix}_${shortTimestamp}`;
 }
 
 module.exports = {
