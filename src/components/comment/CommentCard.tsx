@@ -16,6 +16,15 @@ interface CommentCardProps {
   depth?: number;
 }
 
+// Format date consistently to avoid hydration mismatch
+function formatDate(dateString: string): string {
+  const date = new Date(dateString);
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+}
+
 export function CommentCard({
   id,
   content,
@@ -38,7 +47,7 @@ export function CommentCard({
             <p className="text-primary-800">{content}</p>
             <div className="flex items-center gap-4 mt-2 text-xs text-primary-500">
               <span>{username || "Anonymous"}</span>
-              <span>{new Date(createdAt).toLocaleDateString()}</span>
+              <span>{formatDate(createdAt)}</span>
               {canReply && (
                 <Button
                   variant="ghost"

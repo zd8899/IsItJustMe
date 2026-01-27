@@ -32,7 +32,7 @@
   }
 
   .card {
-    @apply bg-white border border-primary-200 rounded-lg p-6;
+    @apply bg-white border border-primary-100 rounded-lg p-6;
   }
 
   .input {

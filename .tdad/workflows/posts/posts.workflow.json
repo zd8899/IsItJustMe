@@ -8,9 +8,18 @@
       "description": "Check frustration and identity fields",
       "nodeType": "feature",
       "fileName": "validate-post-input",
-      "position": { "x": 100, "y": 100 },
+      "position": {
+        "x": 100,
+        "y": 100
+      },
       "dependencies": [],
-      "testLayers": ["api"]
+      "testLayers": [
+        "api"
+      ],
+      "testCodeFile": ".tdad\\workflows\\posts\\validate-post-input/validate-post-input.test.js",
+      "actionFile": ".tdad\\workflows\\posts\\validate-post-input/validate-post-input.action.js",
+      "bddSpecFile": ".tdad\\workflows\\posts\\validate-post-input\\validate-post-input.feature",
+      "status": "passed"
     },
     {
       "id": "generate-anonymous-id",
@@ -19,9 +28,18 @@
       "description": "Create UUID for anonymous posts",
       "nodeType": "feature",
       "fileName": "generate-anonymous-id",
-      "position": { "x": 300, "y": 100 },
+      "position": {
+        "x": 100,
+        "y": 240
+      },
       "dependencies": [],
-      "testLayers": ["api"]
+      "testLayers": [
+        "api"
+      ],
+      "testCodeFile": ".tdad\\workflows\\posts\\generate-anonymous-id/generate-anonymous-id.test.js",
+      "actionFile": ".tdad\\workflows\\posts\\generate-anonymous-id/generate-anonymous-id.action.js",
+      "bddSpecFile": ".tdad\\workflows\\posts\\generate-anonymous-id\\generate-anonymous-id.feature",
+      "status": "passed"
     },
     {
       "id": "calculate-hot-score",
@@ -30,9 +48,18 @@
       "description": "Compute ranking score for post",
       "nodeType": "feature",
       "fileName": "calculate-hot-score",
-      "position": { "x": 500, "y": 100 },
+      "position": {
+        "x": 100,
+        "y": 380
+      },
       "dependencies": [],
-      "testLayers": ["api"]
+      "testLayers": [
+        "api"
+      ],
+      "testCodeFile": ".tdad\\workflows\\posts\\calculate-hot-score/calculate-hot-score.test.js",
+      "actionFile": ".tdad\\workflows\\posts\\calculate-hot-score/calculate-hot-score.action.js",
+      "bddSpecFile": ".tdad\\workflows\\posts\\calculate-hot-score\\calculate-hot-score.feature",
+      "status": "passed"
     },
     {
       "id": "create-post-record",
@@ -41,9 +68,22 @@
       "description": "Insert new post into database",
       "nodeType": "feature",
       "fileName": "create-post-record",
-      "position": { "x": 300, "y": 250 },
-      "dependencies": ["validate-post-input", "generate-anonymous-id", "calculate-hot-score"],
-      "testLayers": ["api"]
+      "position": {
+        "x": 380,
+        "y": 240
+      },
+      "dependencies": [
+        "validate-post-input",
+        "generate-anonymous-id",
+        "calculate-hot-score"
+      ],
+      "testLayers": [
+        "api"
+      ],
+      "testCodeFile": ".tdad\\workflows\\posts\\create-post-record/create-post-record.test.js",
+      "actionFile": ".tdad\\workflows\\posts\\create-post-record/create-post-record.action.js",
+      "bddSpecFile": ".tdad\\workflows\\posts\\create-post-record\\create-post-record.feature",
+      "status": "passed"
     },
     {
       "id": "show-post-form",
@@ -52,9 +92,18 @@
       "description": "Render post creation form",
       "nodeType": "feature",
       "fileName": "show-post-form",
-      "position": { "x": 700, "y": 100 },
+      "position": {
+        "x": 100,
+        "y": 520
+      },
       "dependencies": [],
-      "testLayers": ["ui"]
+      "testLayers": [
+        "ui"
+      ],
+      "testCodeFile": ".tdad\\workflows\\posts\\show-post-form/show-post-form.test.js",
+      "actionFile": ".tdad\\workflows\\posts\\show-post-form/show-post-form.action.js",
+      "bddSpecFile": ".tdad\\workflows\\posts\\show-post-form\\show-post-form.feature",
+      "status": "passed"
     },
     {
       "id": "load-categories-dropdown",
@@ -63,9 +112,19 @@
       "description": "Populate category select options",
       "nodeType": "feature",
       "fileName": "load-categories-dropdown",
-      "position": { "x": 900, "y": 100 },
+      "position": {
+        "x": 100,
+        "y": 660
+      },
       "dependencies": [],
-      "testLayers": ["ui", "api"]
+      "testLayers": [
+        "ui",
+        "api"
+      ],
+      "testCodeFile": ".tdad\\workflows\\posts\\load-categories-dropdown/load-categories-dropdown.test.js",
+      "actionFile": ".tdad\\workflows\\posts\\load-categories-dropdown/load-categories-dropdown.action.js",
+      "bddSpecFile": ".tdad\\workflows\\posts\\load-categories-dropdown\\load-categories-dropdown.feature",
+      "status": "passed"
     },
     {
       "id": "submit-post-form",
@@ -74,9 +133,23 @@
       "description": "Handle post form submission",
       "nodeType": "feature",
       "fileName": "submit-post-form",
-      "position": { "x": 800, "y": 250 },
-      "dependencies": ["show-post-form", "load-categories-dropdown", "create-post-record"],
-      "testLayers": ["ui", "api"]
+      "position": {
+        "x": 660,
+        "y": 473.3333333333333
+      },
+      "dependencies": [
+        "show-post-form",
+        "load-categories-dropdown",
+        "create-post-record"
+      ],
+      "testLayers": [
+        "ui",
+        "api"
+      ],
+      "testCodeFile": ".tdad\\workflows\\posts\\submit-post-form/submit-post-form.test.js",
+      "actionFile": ".tdad\\workflows\\posts\\submit-post-form/submit-post-form.action.js",
+      "bddSpecFile": ".tdad\\workflows\\posts\\submit-post-form\\submit-post-form.feature",
+      "status": "passed"
     },
     {
       "id": "fetch-post-by-id",
@@ -85,9 +158,18 @@
       "description": "Retrieve single post from database",
       "nodeType": "feature",
       "fileName": "fetch-post-by-id",
-      "position": { "x": 100, "y": 400 },
+      "position": {
+        "x": 641.6203675166686,
+        "y": 145.20522733059462
+      },
       "dependencies": [],
-      "testLayers": ["api"]
+      "testLayers": [
+        "api"
+      ],
+      "testCodeFile": ".tdad\\workflows\\posts\\fetch-post-by-id/fetch-post-by-id.test.js",
+      "actionFile": ".tdad\\workflows\\posts\\fetch-post-by-id/fetch-post-by-id.action.js",
+      "bddSpecFile": ".tdad\\workflows\\posts\\fetch-post-by-id\\fetch-post-by-id.feature",
+      "status": "passed"
     },
     {
       "id": "show-post-detail",
@@ -96,9 +178,20 @@
       "description": "Render full post detail page",
       "nodeType": "feature",
       "fileName": "show-post-detail",
-      "position": { "x": 300, "y": 400 },
-      "dependencies": ["fetch-post-by-id"],
-      "testLayers": ["ui"]
+      "position": {
+        "x": 867.0541364608848,
+        "y": 146.41781024294636
+      },
+      "dependencies": [
+        "fetch-post-by-id"
+      ],
+      "testLayers": [
+        "ui"
+      ],
+      "testCodeFile": ".tdad\\workflows\\posts\\show-post-detail/show-post-detail.test.js",
+      "actionFile": ".tdad\\workflows\\posts\\show-post-detail/show-post-detail.action.js",
+      "bddSpecFile": ".tdad\\workflows\\posts\\show-post-detail\\show-post-detail.feature",
+      "status": "passed"
     },
     {
       "id": "show-post-card",
@@ -107,18 +200,62 @@
       "description": "Render post card in feed",
       "nodeType": "feature",
       "fileName": "show-post-card",
-      "position": { "x": 500, "y": 400 },
+      "position": {
+        "x": 654.7566824004685,
+        "y": 287.22619885117933
+      },
       "dependencies": [],
-      "testLayers": ["ui"]
+      "testLayers": [
+        "ui"
+      ],
+      "testCodeFile": ".tdad\\workflows\\posts\\show-post-card/show-post-card.test.js",
+      "actionFile": ".tdad\\workflows\\posts\\show-post-card/show-post-card.action.js",
+      "bddSpecFile": ".tdad\\workflows\\posts\\show-post-card\\show-post-card.feature",
+      "status": "passed"
     }
   ],
   "edges": [
-    { "id": "validate-to-create", "source": "validate-post-input", "target": "create-post-record" },
-    { "id": "anon-to-create", "source": "generate-anonymous-id", "target": "create-post-record" },
-    { "id": "score-to-create", "source": "calculate-hot-score", "target": "create-post-record" },
-    { "id": "form-to-submit", "source": "show-post-form", "target": "submit-post-form" },
-    { "id": "categories-to-submit", "source": "load-categories-dropdown", "target": "submit-post-form" },
-    { "id": "create-to-submit", "source": "create-post-record", "target": "submit-post-form" },
-    { "id": "fetch-to-detail", "source": "fetch-post-by-id", "target": "show-post-detail" }
+    {
+      "id": "validate-to-create",
+      "source": "validate-post-input",
+      "target": "create-post-record",
+      "type": "custom"
+    },
+    {
+      "id": "anon-to-create",
+      "source": "generate-anonymous-id",
+      "target": "create-post-record",
+      "type": "custom"
+    },
+    {
+      "id": "score-to-create",
+      "source": "calculate-hot-score",
+      "target": "create-post-record",
+      "type": "custom"
+    },
+    {
+      "id": "form-to-submit",
+      "source": "show-post-form",
+      "target": "submit-post-form",
+      "type": "custom"
+    },
+    {
+      "id": "categories-to-submit",
+      "source": "load-categories-dropdown",
+      "target": "submit-post-form",
+      "type": "custom"
+    },
+    {
+      "id": "create-to-submit",
+      "source": "create-post-record",
+      "target": "submit-post-form",
+      "type": "custom"
+    },
+    {
+      "id": "fetch-to-detail",
+      "source": "fetch-post-by-id",
+      "target": "show-post-detail",
+      "type": "custom"
+    }
   ]
 }

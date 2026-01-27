@@ -4,10 +4,12 @@ interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
   label?: string;
   error?: string;
   options: { value: string; label: string }[];
+  placeholder?: string;
+  loading?: boolean;
 }
 
 export const Select = forwardRef<HTMLSelectElement, SelectProps>(
-  ({ className = "", label, error, id, options, ...props }, ref) => {
+  ({ className = "", label, error, id, options, placeholder = "Select...", loading = false, ...props }, ref) => {
     return (
       <div className="w-full">
         {label && (
@@ -21,12 +23,13 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
         <select
           ref={ref}
           id={id}
+          aria-busy={loading}
           className={`w-full px-3 py-2 border border-primary-300 rounded focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent bg-white ${
             error ? "border-red-500" : ""
           } ${className}`}
           {...props}
         >
-          <option value="">Select...</option>
+          <option value="">{loading ? "Loading..." : placeholder}</option>
           {options.map((option) => (
             <option key={option.value} value={option.value}>
               {option.label}

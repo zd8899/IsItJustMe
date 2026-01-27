@@ -9,7 +9,7 @@ export const createPostSchema = z.object({
     .string()
     .min(1, "Please describe who you are")
     .max(100, "Identity must be less than 100 characters"),
-  categoryId: z.string().min(1, "Please select a category"),
+  categoryId: z.string({ required_error: "Please select a category" }).min(1, "Please select a category"),
 });
 
 export const createCommentSchema = z.object({
@@ -18,7 +18,7 @@ export const createCommentSchema = z.object({
     .min(1, "Comment cannot be empty")
     .max(2000, "Comment must be less than 2000 characters"),
   postId: z.string(),
-  parentId: z.string().optional(),
+  parentId: z.string().nullable().optional(),
 });
 
 export const registerSchema = z

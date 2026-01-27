@@ -192,7 +192,7 @@
       "bddSpecFile": ".tdad/workflows/auth/submit-login-form/submit-login-form.feature",
       "testCodeFile": ".tdad/workflows/auth/submit-login-form/submit-login-form.test.js",
       "actionFile": ".tdad/workflows/auth/submit-login-form/submit-login-form.action.js",
-      "status": "ready-to-test"
+      "status": "passed"
     },
     {
       "id": "show-user-menu",

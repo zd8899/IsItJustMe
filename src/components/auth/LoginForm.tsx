@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { signIn } from "next-auth/react";
 import Link from "next/link";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
@@ -12,12 +13,43 @@ export function LoginForm() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
-    // TODO: Implement login via NextAuth
-    console.log({ username, password });
+
+    // Client-side validation
+    if (!username.trim()) {
+      setError("Username is required");
+      return;
+    }
+
+    if (!password) {
+      setError("Password is required");
+      return;
+    }
+
+    setIsLoading(true);
+
+    try {
+      const result = await signIn("credentials", {
+        username: username.trim(),
+        password,
+        redirect: false,
+      });
+
+      if (result?.error) {
+        setError("Invalid username or password");
+      } else if (result?.ok) {
+        router.push("/");
+        router.refresh();
+      }
+    } catch {
+      setError("An error occurred. Please try again.");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -33,7 +65,6 @@ export function LoginForm() {
           label="Username"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
-          required
         />
         <Input
           id="password"
@@ -41,10 +72,14 @@ export function LoginForm() {
           label="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          required
         />
-        <Button type="submit" className="w-full">
-          Sign In
+        <Button
+          type="submit"
+          className="w-full"
+          disabled={isLoading}
+          aria-busy={isLoading}
+        >
+          {isLoading ? "Logging in..." : "Log In"}
         </Button>
         <p className="text-center text-sm text-primary-600">
           Don&apos;t have an account?{" "}
