@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { Card } from "@/components/ui/Card";
 import { VoteButtons } from "@/components/vote/VoteButtons";
 import { CommentList } from "@/components/comment/CommentList";
@@ -38,7 +38,17 @@ export function PostDetail({ postId }: PostDetailProps) {
   const [post, setPost] = useState<Post | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [commentCount] = useState(0);
+  const [commentCount, setCommentCount] = useState(0);
+  const [commentListKey, setCommentListKey] = useState(0);
+
+  const handleCommentsLoaded = useCallback((count: number) => {
+    setCommentCount(count);
+  }, []);
+
+  const handleCommentSuccess = useCallback(() => {
+    // Increment key to force CommentList to re-fetch
+    setCommentListKey((prev) => prev + 1);
+  }, []);
 
   useEffect(() => {
     async function fetchPost() {
@@ -133,14 +143,14 @@ export function PostDetail({ postId }: PostDetailProps) {
         <h2 className="text-lg font-serif font-semibold text-primary-900 mb-4">
           Add a Comment
         </h2>
-        <CommentForm postId={postId} />
+        <CommentForm postId={postId} onSuccess={handleCommentSuccess} />
       </Card>
 
       <div>
         <h2 className="text-lg font-serif font-semibold text-primary-900 mb-4">
           Comments ({commentCount})
         </h2>
-        <CommentList postId={postId} />
+        <CommentList key={commentListKey} postId={postId} onCommentsLoaded={handleCommentsLoaded} />
       </div>
     </div>
   );

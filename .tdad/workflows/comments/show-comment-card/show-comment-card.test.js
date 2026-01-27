@@ -85,7 +85,7 @@ test.describe('Show Comment Card', () => {
         await expect(commentCard.getByRole('button', { name: 'Downvote' })).toBeVisible();
 
         // Verify current score is displayed
-        await expect(commentCard.locator('.text-sm.font-medium.text-primary-700')).toBeVisible();
+        await expect(commentCard.locator('[data-testid="vote-score"]')).toBeVisible();
     });
 
     test('[UI-076] Comment card shows anonymous author', async ({ page }) => {

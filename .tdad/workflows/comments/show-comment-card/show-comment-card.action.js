@@ -60,21 +60,21 @@ async function viewCommentCardElements(page) {
         const commentCard = page.locator('.bg-white.border.border-primary-200.rounded-lg').first();
         await commentCard.waitFor({ state: 'visible', timeout: 5000 });
 
-        // Check for comment content
+        // Check for comment content - wait for element to be visible
         const contentLocator = commentCard.locator('p.text-primary-800');
-        const hasContent = await contentLocator.isVisible().catch(() => false);
+        const hasContent = await contentLocator.waitFor({ state: 'visible', timeout: 3000 }).then(() => true).catch(() => false);
 
-        // Check for vote score (inside VoteButtons)
-        const scoreLocator = commentCard.locator('.text-sm.font-medium.text-primary-700');
-        const hasScore = await scoreLocator.isVisible().catch(() => false);
+        // Check for vote score (inside VoteButtons) - wait for element to be visible
+        const scoreLocator = commentCard.locator('[data-testid="vote-score"]');
+        const hasScore = await scoreLocator.waitFor({ state: 'visible', timeout: 3000 }).then(() => true).catch(() => false);
 
-        // Check for author name
+        // Check for author name - wait for element to be visible
         const authorLocator = commentCard.locator('.text-xs.text-primary-500 span').first();
-        const hasAuthor = await authorLocator.isVisible().catch(() => false);
+        const hasAuthor = await authorLocator.waitFor({ state: 'visible', timeout: 3000 }).then(() => true).catch(() => false);
 
-        // Check for date
+        // Check for date - wait for element to be visible
         const dateLocator = commentCard.locator('.text-xs.text-primary-500 span').last();
-        const hasDate = await dateLocator.isVisible().catch(() => false);
+        const hasDate = await dateLocator.waitFor({ state: 'visible', timeout: 3000 }).then(() => true).catch(() => false);
 
         const elements = {
             content: hasContent,
@@ -84,6 +84,9 @@ async function viewCommentCardElements(page) {
         };
 
         const allPresent = Object.values(elements).every(v => v === true);
+
+        // Debug logging
+        console.log('[DEBUG viewCommentCardElements] elements:', JSON.stringify(elements));
 
         // Extract content for verification
         const contentText = await contentLocator.textContent().catch(() => null);
@@ -120,17 +123,17 @@ async function viewCommentVoteButtons(page) {
         const commentCard = page.locator('.bg-white.border.border-primary-200.rounded-lg').first();
         await commentCard.waitFor({ state: 'visible', timeout: 5000 });
 
-        // Check for upvote button
+        // Check for upvote button - wait for element to be visible
         const upvoteButton = commentCard.getByRole('button', { name: 'Upvote' });
-        const hasUpvote = await upvoteButton.isVisible().catch(() => false);
+        const hasUpvote = await upvoteButton.waitFor({ state: 'visible', timeout: 3000 }).then(() => true).catch(() => false);
 
-        // Check for downvote button
+        // Check for downvote button - wait for element to be visible
         const downvoteButton = commentCard.getByRole('button', { name: 'Downvote' });
-        const hasDownvote = await downvoteButton.isVisible().catch(() => false);
+        const hasDownvote = await downvoteButton.waitFor({ state: 'visible', timeout: 3000 }).then(() => true).catch(() => false);
 
-        // Check for score display
-        const scoreLocator = commentCard.locator('.text-sm.font-medium.text-primary-700');
-        const hasScore = await scoreLocator.isVisible().catch(() => false);
+        // Check for score display - wait for element to be visible
+        const scoreLocator = commentCard.locator('[data-testid="vote-score"]');
+        const hasScore = await scoreLocator.waitFor({ state: 'visible', timeout: 3000 }).then(() => true).catch(() => false);
 
         const voteElements = {
             upvote: hasUpvote,

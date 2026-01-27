@@ -13,7 +13,11 @@
         "y": 100
       },
       "dependencies": [],
-      "children": []
+      "children": [
+        "create-prisma-schema",
+        "run-database-migration",
+        "seed-categories"
+      ]
     },
     {
       "id": "auth",
@@ -27,7 +31,19 @@
         "y": 240
       },
       "dependencies": [],
-      "children": []
+      "children": [
+        "validate-username",
+        "hash-password",
+        "create-user-record",
+        "show-register-form",
+        "submit-register-form",
+        "verify-credentials",
+        "create-session",
+        "show-login-form",
+        "submit-login-form",
+        "show-user-menu",
+        "handle-logout"
+      ]
     },
     {
       "id": "posts",
@@ -41,7 +57,18 @@
         "y": 380
       },
       "dependencies": [],
-      "children": []
+      "children": [
+        "validate-post-input",
+        "generate-anonymous-id",
+        "calculate-hot-score",
+        "create-post-record",
+        "show-post-form",
+        "load-categories-dropdown",
+        "submit-post-form",
+        "fetch-post-by-id",
+        "show-post-detail",
+        "show-post-card"
+      ]
     },
     {
       "id": "comments",
@@ -55,7 +82,17 @@
         "y": 520
       },
       "dependencies": [],
-      "children": []
+      "children": [
+        "validate-comment-input",
+        "create-comment-record",
+        "update-comment-count",
+        "fetch-comments-by-post",
+        "show-comment-form",
+        "submit-comment-form",
+        "show-comment-card",
+        "show-comment-list",
+        "show-reply-form"
+      ]
     },
     {
       "id": "voting",
@@ -69,7 +106,18 @@
         "y": 660
       },
       "dependencies": [],
-      "children": []
+      "children": [
+        "validate-vote-input",
+        "check-existing-vote",
+        "create-vote-record",
+        "update-post-score",
+        "update-comment-score",
+        "update-user-karma",
+        "show-vote-buttons",
+        "handle-upvote-click",
+        "handle-downvote-click",
+        "show-score-display"
+      ]
     },
     {
       "id": "feed",
@@ -83,7 +131,17 @@
         "y": 800
       },
       "dependencies": [],
-      "children": []
+      "children": [
+        "fetch-hot-posts",
+        "fetch-new-posts",
+        "fetch-posts-by-category",
+        "show-feed-tabs",
+        "switch-feed-type",
+        "show-category-filter",
+        "apply-category-filter",
+        "show-post-list",
+        "load-more-posts"
+      ]
     },
     {
       "id": "profile",
@@ -97,7 +155,15 @@
         "y": 940
       },
       "dependencies": [],
-      "children": []
+      "children": [
+        "fetch-user-profile",
+        "fetch-user-karma",
+        "fetch-user-posts",
+        "show-profile-header",
+        "show-karma-display",
+        "show-user-posts-list",
+        "show-profile-page"
+      ]
     }
   ],
   "edges": []

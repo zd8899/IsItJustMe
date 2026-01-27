@@ -15,10 +15,13 @@ export const createPostSchema = z.object({
 export const createCommentSchema = z.object({
   content: z
     .string()
-    .min(1, "Comment cannot be empty")
+    .min(1, "Comment is required")
+    .min(3, "Comment must be at least 3 characters")
     .max(2000, "Comment must be less than 2000 characters"),
   postId: z.string(),
   parentId: z.string().nullable().optional(),
+  userId: z.string().nullable().optional(),
+  anonymousId: z.string().nullable().optional(),
 });
 
 export const registerSchema = z

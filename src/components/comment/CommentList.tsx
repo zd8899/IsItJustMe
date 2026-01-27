@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { CommentCard } from "./CommentCard";
 
 interface Comment {
@@ -15,32 +15,46 @@ interface Comment {
 
 interface CommentListProps {
   postId: string;
+  onCommentsLoaded?: (count: number) => void;
 }
 
-export function CommentList({ postId }: CommentListProps) {
+export function CommentList({ postId, onCommentsLoaded }: CommentListProps) {
   const [comments, setComments] = useState<Comment[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [activeReplyCommentId, setActiveReplyCommentId] = useState<string | null>(null);
+
+  const fetchComments = useCallback(async () => {
+    try {
+      setIsLoading(true);
+      const response = await fetch(`/api/comments?postId=${postId}`);
+      if (response.ok) {
+        const data = await response.json();
+        setComments(data);
+        onCommentsLoaded?.(data.length);
+      } else {
+        setComments([]);
+        onCommentsLoaded?.(0);
+      }
+    } catch {
+      setComments([]);
+      onCommentsLoaded?.(0);
+    } finally {
+      setIsLoading(false);
+    }
+  }, [postId, onCommentsLoaded]);
 
   useEffect(() => {
-    async function fetchComments() {
-      try {
-        setIsLoading(true);
-        const response = await fetch(`/api/comments?postId=${postId}`);
-        if (response.ok) {
-          const data = await response.json();
-          setComments(data);
-        } else {
-          setComments([]);
-        }
-      } catch {
-        setComments([]);
-      } finally {
-        setIsLoading(false);
-      }
-    }
-
     fetchComments();
-  }, [postId]);
+  }, [fetchComments]);
+
+  const handleReplyFormToggle = useCallback((commentId: string, isOpen: boolean) => {
+    setActiveReplyCommentId(isOpen ? commentId : null);
+  }, []);
+
+  const handleReplySuccess = useCallback(() => {
+    setActiveReplyCommentId(null);
+    fetchComments();
+  }, [fetchComments]);
 
   if (isLoading) {
     return (
@@ -61,7 +75,14 @@ export function CommentList({ postId }: CommentListProps) {
   return (
     <div className="space-y-4">
       {comments.map((comment) => (
-        <CommentCard key={comment.id} {...comment} postId={postId} />
+        <CommentCard
+          key={comment.id}
+          {...comment}
+          postId={postId}
+          isReplyFormOpen={activeReplyCommentId === comment.id}
+          onReplyFormToggle={(isOpen) => handleReplyFormToggle(comment.id, isOpen)}
+          onReplySuccess={handleReplySuccess}
+        />
       ))}
     </div>
   );

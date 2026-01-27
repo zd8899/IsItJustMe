@@ -37,7 +37,11 @@
       ],
       "testLayers": [
         "api"
-      ]
+      ],
+      "testCodeFile": ".tdad\\workflows\\comments\\create-comment-record/create-comment-record.test.js",
+      "actionFile": ".tdad\\workflows\\comments\\create-comment-record/create-comment-record.action.js",
+      "bddSpecFile": ".tdad\\workflows\\comments\\create-comment-record\\create-comment-record.feature",
+      "status": "passed"
     },
     {
       "id": "update-comment-count",
@@ -55,7 +59,11 @@
       ],
       "testLayers": [
         "api"
-      ]
+      ],
+      "testCodeFile": ".tdad\\workflows\\comments\\update-comment-count/update-comment-count.test.js",
+      "actionFile": ".tdad\\workflows\\comments\\update-comment-count/update-comment-count.action.js",
+      "bddSpecFile": ".tdad\\workflows\\comments\\update-comment-count\\update-comment-count.feature",
+      "status": "passed"
     },
     {
       "id": "fetch-comments-by-post",
@@ -115,7 +123,11 @@
       "testLayers": [
         "ui",
         "api"
-      ]
+      ],
+      "testCodeFile": ".tdad\\workflows\\comments\\submit-comment-form/submit-comment-form.test.js",
+      "actionFile": ".tdad\\workflows\\comments\\submit-comment-form/submit-comment-form.action.js",
+      "bddSpecFile": ".tdad\\workflows\\comments\\submit-comment-form\\submit-comment-form.feature",
+      "status": "passed"
     },
     {
       "id": "show-comment-card",
@@ -134,7 +146,8 @@
       ],
       "testCodeFile": ".tdad\\workflows\\comments\\show-comment-card/show-comment-card.test.js",
       "actionFile": ".tdad\\workflows\\comments\\show-comment-card/show-comment-card.action.js",
-      "bddSpecFile": ".tdad\\workflows\\comments\\show-comment-card\\show-comment-card.feature"
+      "bddSpecFile": ".tdad\\workflows\\comments\\show-comment-card\\show-comment-card.feature",
+      "status": "passed"
     },
     {
       "id": "show-comment-list",
@@ -153,7 +166,11 @@
       ],
       "testLayers": [
         "ui"
-      ]
+      ],
+      "testCodeFile": ".tdad\\workflows\\comments\\show-comment-list/show-comment-list.test.js",
+      "actionFile": ".tdad\\workflows\\comments\\show-comment-list/show-comment-list.action.js",
+      "bddSpecFile": ".tdad\\workflows\\comments\\show-comment-list\\show-comment-list.feature",
+      "status": "passed"
     },
     {
       "id": "show-reply-form",
@@ -171,7 +188,11 @@
       ],
       "testLayers": [
         "ui"
-      ]
+      ],
+      "testCodeFile": ".tdad\\workflows\\comments\\show-reply-form/show-reply-form.test.js",
+      "actionFile": ".tdad\\workflows\\comments\\show-reply-form/show-reply-form.action.js",
+      "bddSpecFile": ".tdad\\workflows\\comments\\show-reply-form\\show-reply-form.feature",
+      "status": "passed"
     }
   ],
   "edges": [

@@ -42,7 +42,7 @@ export function VoteButtons({ score, postId, commentId }: VoteButtonsProps) {
           />
         </svg>
       </Button>
-      <span className="text-sm font-medium text-primary-700">{score}</span>
+      <span className="text-sm font-medium text-primary-700" data-testid="vote-score">{score}</span>
       <Button
         variant="ghost"
         size="sm"

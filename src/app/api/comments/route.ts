@@ -126,6 +126,8 @@ export async function POST(request: NextRequest) {
         content: validatedData.content,
         postId: validatedData.postId,
         parentId: validatedData.parentId,
+        userId: validatedData.userId,
+        anonymousId: validatedData.anonymousId,
       },
     });
 
@@ -141,6 +143,11 @@ export async function POST(request: NextRequest) {
         content: comment.content,
         postId: comment.postId,
         parentId: comment.parentId,
+        userId: comment.userId,
+        anonymousId: comment.anonymousId,
+        upvotes: comment.upvotes,
+        downvotes: comment.downvotes,
+        score: comment.score,
         createdAt: comment.createdAt,
       },
       { status: 201 }

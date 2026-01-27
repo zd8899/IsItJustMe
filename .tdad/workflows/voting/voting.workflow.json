@@ -8,9 +8,14 @@
       "description": "Check vote value is valid",
       "nodeType": "feature",
       "fileName": "validate-vote-input",
-      "position": { "x": 100, "y": 100 },
+      "position": {
+        "x": 100,
+        "y": 100
+      },
       "dependencies": [],
-      "testLayers": ["api"]
+      "testLayers": [
+        "api"
+      ]
     },
     {
       "id": "check-existing-vote",
@@ -19,9 +24,14 @@
       "description": "Find previous vote by user",
       "nodeType": "feature",
       "fileName": "check-existing-vote",
-      "position": { "x": 300, "y": 100 },
+      "position": {
+        "x": 100,
+        "y": 240
+      },
       "dependencies": [],
-      "testLayers": ["api"]
+      "testLayers": [
+        "api"
+      ]
     },
     {
       "id": "create-vote-record",
@@ -30,9 +40,17 @@
       "description": "Insert or update vote in database",
       "nodeType": "feature",
       "fileName": "create-vote-record",
-      "position": { "x": 200, "y": 250 },
-      "dependencies": ["validate-vote-input", "check-existing-vote"],
-      "testLayers": ["api"]
+      "position": {
+        "x": 380,
+        "y": 170
+      },
+      "dependencies": [
+        "validate-vote-input",
+        "check-existing-vote"
+      ],
+      "testLayers": [
+        "api"
+      ]
     },
     {
       "id": "update-post-score",
@@ -41,9 +59,16 @@
       "description": "Recalculate post vote totals",
       "nodeType": "feature",
       "fileName": "update-post-score",
-      "position": { "x": 100, "y": 400 },
-      "dependencies": ["create-vote-record"],
-      "testLayers": ["api"]
+      "position": {
+        "x": 660,
+        "y": 170
+      },
+      "dependencies": [
+        "create-vote-record"
+      ],
+      "testLayers": [
+        "api"
+      ]
     },
     {
       "id": "update-comment-score",
@@ -52,9 +77,16 @@
       "description": "Recalculate comment vote totals",
       "nodeType": "feature",
       "fileName": "update-comment-score",
-      "position": { "x": 300, "y": 400 },
-      "dependencies": ["create-vote-record"],
-      "testLayers": ["api"]
+      "position": {
+        "x": 660,
+        "y": 310
+      },
+      "dependencies": [
+        "create-vote-record"
+      ],
+      "testLayers": [
+        "api"
+      ]
     },
     {
       "id": "update-user-karma",
@@ -63,9 +95,17 @@
       "description": "Adjust author karma from vote",
       "nodeType": "feature",
       "fileName": "update-user-karma",
-      "position": { "x": 500, "y": 400 },
-      "dependencies": ["update-post-score", "update-comment-score"],
-      "testLayers": ["api"]
+      "position": {
+        "x": 940,
+        "y": 240
+      },
+      "dependencies": [
+        "update-post-score",
+        "update-comment-score"
+      ],
+      "testLayers": [
+        "api"
+      ]
     },
     {
       "id": "show-vote-buttons",
@@ -74,9 +114,14 @@
       "description": "Render upvote downvote arrows",
       "nodeType": "feature",
       "fileName": "show-vote-buttons",
-      "position": { "x": 500, "y": 100 },
+      "position": {
+        "x": 100,
+        "y": 380
+      },
       "dependencies": [],
-      "testLayers": ["ui"]
+      "testLayers": [
+        "ui"
+      ]
     },
     {
       "id": "handle-upvote-click",
@@ -85,9 +130,18 @@
       "description": "Process upvote button click",
       "nodeType": "feature",
       "fileName": "handle-upvote-click",
-      "position": { "x": 700, "y": 100 },
-      "dependencies": ["show-vote-buttons", "update-user-karma"],
-      "testLayers": ["ui", "api"]
+      "position": {
+        "x": 1220,
+        "y": 310
+      },
+      "dependencies": [
+        "show-vote-buttons",
+        "update-user-karma"
+      ],
+      "testLayers": [
+        "ui",
+        "api"
+      ]
     },
     {
       "id": "handle-downvote-click",
@@ -96,9 +150,18 @@
       "description": "Process downvote button click",
       "nodeType": "feature",
       "fileName": "handle-downvote-click",
-      "position": { "x": 700, "y": 250 },
-      "dependencies": ["show-vote-buttons", "update-user-karma"],
-      "testLayers": ["ui", "api"]
+      "position": {
+        "x": 1220,
+        "y": 450
+      },
+      "dependencies": [
+        "show-vote-buttons",
+        "update-user-karma"
+      ],
+      "testLayers": [
+        "ui",
+        "api"
+      ]
     },
     {
       "id": "show-score-display",
@@ -107,22 +170,84 @@
       "description": "Render current vote count",
       "nodeType": "feature",
       "fileName": "show-score-display",
-      "position": { "x": 500, "y": 250 },
-      "dependencies": ["show-vote-buttons"],
-      "testLayers": ["ui"]
+      "position": {
+        "x": 380,
+        "y": 380
+      },
+      "dependencies": [
+        "show-vote-buttons"
+      ],
+      "testLayers": [
+        "ui"
+      ]
     }
   ],
   "edges": [
-    { "id": "validate-to-create", "source": "validate-vote-input", "target": "create-vote-record" },
-    { "id": "check-to-create", "source": "check-existing-vote", "target": "create-vote-record" },
-    { "id": "create-to-post-score", "source": "create-vote-record", "target": "update-post-score" },
-    { "id": "create-to-comment-score", "source": "create-vote-record", "target": "update-comment-score" },
-    { "id": "post-to-karma", "source": "update-post-score", "target": "update-user-karma" },
-    { "id": "comment-to-karma", "source": "update-comment-score", "target": "update-user-karma" },
-    { "id": "buttons-to-upvote", "source": "show-vote-buttons", "target": "handle-upvote-click" },
-    { "id": "karma-to-upvote", "source": "update-user-karma", "target": "handle-upvote-click" },
-    { "id": "buttons-to-downvote", "source": "show-vote-buttons", "target": "handle-downvote-click" },
-    { "id": "karma-to-downvote", "source": "update-user-karma", "target": "handle-downvote-click" },
-    { "id": "buttons-to-score", "source": "show-vote-buttons", "target": "show-score-display" }
+    {
+      "id": "validate-to-create",
+      "source": "validate-vote-input",
+      "target": "create-vote-record",
+      "type": "custom"
+    },
+    {
+      "id": "check-to-create",
+      "source": "check-existing-vote",
+      "target": "create-vote-record",
+      "type": "custom"
+    },
+    {
+      "id": "create-to-post-score",
+      "source": "create-vote-record",
+      "target": "update-post-score",
+      "type": "custom"
+    },
+    {
+      "id": "create-to-comment-score",
+      "source": "create-vote-record",
+      "target": "update-comment-score",
+      "type": "custom"
+    },
+    {
+      "id": "post-to-karma",
+      "source": "update-post-score",
+      "target": "update-user-karma",
+      "type": "custom"
+    },
+    {
+      "id": "comment-to-karma",
+      "source": "update-comment-score",
+      "target": "update-user-karma",
+      "type": "custom"
+    },
+    {
+      "id": "buttons-to-upvote",
+      "source": "show-vote-buttons",
+      "target": "handle-upvote-click",
+      "type": "custom"
+    },
+    {
+      "id": "karma-to-upvote",
+      "source": "update-user-karma",
+      "target": "handle-upvote-click",
+      "type": "custom"
+    },
+    {
+      "id": "buttons-to-downvote",
+      "source": "show-vote-buttons",
+      "target": "handle-downvote-click",
+      "type": "custom"
+    },
+    {
+      "id": "karma-to-downvote",
+      "source": "update-user-karma",
+      "target": "handle-downvote-click",
+      "type": "custom"
+    },
+    {
+      "id": "buttons-to-score",
+      "source": "show-vote-buttons",
+      "target": "show-score-display",
+      "type": "custom"
+    }
   ]
 }

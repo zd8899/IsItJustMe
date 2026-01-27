@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { VoteButtons } from "@/components/vote/VoteButtons";
 import { CommentForm } from "./CommentForm";
 import { Button } from "@/components/ui/Button";
@@ -14,6 +13,9 @@ interface CommentCardProps {
   postId: string;
   replies?: CommentCardProps[];
   depth?: number;
+  isReplyFormOpen?: boolean;
+  onReplyFormToggle?: (isOpen: boolean) => void;
+  onReplySuccess?: () => void;
 }
 
 // Format date consistently to avoid hydration mismatch
@@ -34,9 +36,23 @@ export function CommentCard({
   postId,
   replies = [],
   depth = 0,
+  isReplyFormOpen = false,
+  onReplyFormToggle,
+  onReplySuccess,
 }: CommentCardProps) {
-  const [showReplyForm, setShowReplyForm] = useState(false);
-  const canReply = depth < 1; // Max 2 levels of nesting
+  const canReply = depth < 1; // Max 2 levels of nesting (only top-level comments can have replies)
+
+  const handleReplyClick = () => {
+    onReplyFormToggle?.(!isReplyFormOpen);
+  };
+
+  const handleCancel = () => {
+    onReplyFormToggle?.(false);
+  };
+
+  const handleSuccess = () => {
+    onReplySuccess?.();
+  };
 
   return (
     <div className={`${depth > 0 ? "ml-8 border-l-2 border-primary-100 pl-4" : ""}`}>
@@ -52,18 +68,20 @@ export function CommentCard({
                 <Button
                   variant="ghost"
                   size="sm"
-                  onClick={() => setShowReplyForm(!showReplyForm)}
+                  onClick={handleReplyClick}
                 >
                   Reply
                 </Button>
               )}
             </div>
-            {showReplyForm && (
+            {isReplyFormOpen && (
               <div className="mt-3">
                 <CommentForm
                   postId={postId}
                   parentId={id}
-                  onCancel={() => setShowReplyForm(false)}
+                  onCancel={handleCancel}
+                  onSuccess={handleSuccess}
+                  autoFocus
                 />
               </div>
             )}
@@ -73,7 +91,7 @@ export function CommentCard({
       {replies.length > 0 && (
         <div className="mt-2 space-y-2">
           {replies.map((reply) => (
-            <CommentCard key={reply.id} {...reply} depth={depth + 1} />
+            <CommentCard key={reply.id} {...reply} postId={postId} depth={depth + 1} />
           ))}
         </div>
       )}

@@ -10,19 +10,11 @@ module.exports = defineConfig({
   workers: 1,
   reporter: 'html',
   timeout: 20000,
+  globalSetup: './globalSetup.js',
 
   use: {
     trace: 'on-first-retry',
     baseURL: 'http://localhost:3000',
-  },
-
-  webServer: {
-    command: 'cmd /c D:\\source\\repos\\zekeriyademir\\IsItJustMe\\start-server.bat',
-    url: 'http://localhost:3000',
-    reuseExistingServer: true,
-    timeout: 120000,
-    stdout: 'pipe',
-    stderr: 'pipe',
   },
 
   projects: [

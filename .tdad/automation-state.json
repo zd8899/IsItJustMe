@@ -1,7 +1,7 @@
 {
   "processedNodes": [],
   "failedNodes": [],
-  "currentNodeId": "show-comment-card",
+  "currentNodeId": "validate-vote-input",
   "isRunning": true,
-  "phase": "fixing"
+  "phase": "bdd"
 }
