@@ -39,7 +39,13 @@ export function LoginForm() {
         redirect: false,
       });
 
-      if (result?.error) {
+      // Check for explicit error or if URL indicates a failure (CSRF error, signin redirect)
+      const hasError = result?.error ||
+        result?.url?.includes('csrf=') ||
+        result?.url?.includes('/error') ||
+        result?.url?.includes('/signin');
+
+      if (hasError) {
         setError("Invalid username or password");
       } else if (result?.ok) {
         router.push("/");
