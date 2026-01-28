@@ -24,23 +24,24 @@ export const voteRouter = router({
         });
       }
 
-      // Check for existing vote by userId (authenticated user) or anonymousId
+      // Check for existing vote by anonymousId (if provided) or userId (authenticated user)
+      // Prioritize anonymousId when explicitly provided to support anonymous voting
       let existingVote = null;
-      if (ctx.userId) {
-        existingVote = await ctx.prisma.vote.findUnique({
-          where: {
-            postId_userId: {
-              postId: input.postId,
-              userId: ctx.userId,
-            },
-          },
-        });
-      } else if (input.anonymousId) {
+      if (input.anonymousId) {
         existingVote = await ctx.prisma.vote.findUnique({
           where: {
             postId_anonymousId: {
               postId: input.postId,
               anonymousId: input.anonymousId,
+            },
+          },
+        });
+      } else if (ctx.userId) {
+        existingVote = await ctx.prisma.vote.findUnique({
+          where: {
+            postId_userId: {
+              postId: input.postId,
+              userId: ctx.userId,
             },
           },
         });
@@ -130,11 +131,12 @@ export const voteRouter = router({
       }
 
       // Create new vote
+      // If anonymousId is provided, don't set userId to keep the vote anonymous
       const vote = await ctx.prisma.vote.create({
         data: {
           postId: input.postId,
           value: input.value,
-          userId: ctx.userId,
+          userId: input.anonymousId ? null : ctx.userId,
           anonymousId: input.anonymousId,
           ipHash: input.anonymousId || ctx.userId || "unknown",
         },
@@ -193,23 +195,24 @@ export const voteRouter = router({
         });
       }
 
-      // Check for existing vote by userId (authenticated user) or anonymousId
+      // Check for existing vote by anonymousId (if provided) or userId (authenticated user)
+      // Prioritize anonymousId when explicitly provided to support anonymous voting
       let existingVote = null;
-      if (ctx.userId) {
-        existingVote = await ctx.prisma.vote.findUnique({
-          where: {
-            commentId_userId: {
-              commentId: input.commentId,
-              userId: ctx.userId,
-            },
-          },
-        });
-      } else if (input.anonymousId) {
+      if (input.anonymousId) {
         existingVote = await ctx.prisma.vote.findUnique({
           where: {
             commentId_anonymousId: {
               commentId: input.commentId,
               anonymousId: input.anonymousId,
+            },
+          },
+        });
+      } else if (ctx.userId) {
+        existingVote = await ctx.prisma.vote.findUnique({
+          where: {
+            commentId_userId: {
+              commentId: input.commentId,
+              userId: ctx.userId,
             },
           },
         });
@@ -299,11 +302,12 @@ export const voteRouter = router({
       }
 
       // Create new vote
+      // If anonymousId is provided, don't set userId to keep the vote anonymous
       const vote = await ctx.prisma.vote.create({
         data: {
           commentId: input.commentId,
           value: input.value,
-          userId: ctx.userId,
+          userId: input.anonymousId ? null : ctx.userId,
           anonymousId: input.anonymousId,
           ipHash: input.anonymousId || ctx.userId || "unknown",
         },

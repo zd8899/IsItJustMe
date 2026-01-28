@@ -162,7 +162,7 @@ export function PostForm({ onPostCreated }: PostFormProps) {
 
   return (
     <Card>
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form onSubmit={handleSubmit} className="space-y-4" noValidate>
         {formError && (
           <div className="text-red-500 text-sm" role="alert">
             {formError}

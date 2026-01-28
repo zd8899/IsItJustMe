@@ -173,8 +173,13 @@ async function performExecuteSeedAction(page, context = {}) {
  * @param {Object} options - { skipCleanup: boolean } - skip cleanup if called from another action
  * @returns {Promise<Object>} - { success, statusCode, categories, body }
  */
-async function performGetCategoriesAction(page) {
+async function performGetCategoriesAction(page, options = {}) {
   try {
+    // Ensure test isolation by cleaning up test artifacts (runs once per test run)
+    if (!options.skipCleanup) {
+      cleanupTestArtifacts();
+    }
+
     const response = await page.request.get('/api/trpc/category.list');
 
     const statusCode = response.status();

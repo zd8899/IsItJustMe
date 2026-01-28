@@ -53,27 +53,11 @@ export const userRouter = router({
   getKarma: publicProcedure
     .input(z.object({ userId: z.string() }))
     .query(async ({ ctx, input }) => {
-      // Calculate postKarma: sum of score from all posts by this user
-      const postKarmaResult = await ctx.prisma.post.aggregate({
-        where: { userId: input.userId },
-        _sum: { score: true },
+      // Return the user's karma directly (updated by vote router)
+      const user = await ctx.prisma.user.findUnique({
+        where: { id: input.userId },
+        select: { karma: true },
       });
-      const postKarma = postKarmaResult._sum.score ?? 0;
-
-      // Calculate commentKarma: sum of score from all comments by this user
-      const commentKarmaResult = await ctx.prisma.comment.aggregate({
-        where: { userId: input.userId },
-        _sum: { score: true },
-      });
-      const commentKarma = commentKarmaResult._sum.score ?? 0;
-
-      // Calculate totalKarma
-      const totalKarma = postKarma + commentKarma;
-
-      return {
-        postKarma,
-        commentKarma,
-        totalKarma,
-      };
+      return user?.karma ?? 0;
     }),
 });

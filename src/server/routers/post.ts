@@ -130,15 +130,15 @@ export const postRouter = router({
   listByCategory: publicProcedure
     .input(
       z.object({
-        categoryId: z.string(),
+        categorySlug: z.string(),
         limit: z.number().min(1).max(50).default(20),
         cursor: z.string().optional(),
       })
     )
     .query(async ({ ctx, input }) => {
-      // Validate that the category exists
+      // Validate that the category exists by slug
       const category = await ctx.prisma.category.findUnique({
-        where: { id: input.categoryId },
+        where: { slug: input.categorySlug },
       });
 
       if (!category) {
@@ -153,7 +153,7 @@ export const postRouter = router({
         take: limit,
         skip: input.cursor ? 1 : undefined,
         cursor: input.cursor ? { id: input.cursor } : undefined,
-        where: { categoryId: input.categoryId },
+        where: { categoryId: category.id },
         orderBy: { createdAt: "desc" },
         include: {
           category: true,
