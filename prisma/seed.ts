@@ -45,17 +45,21 @@ async function main() {
   });
 
   if (dailyLifeCategory) {
-    await prisma.post.upsert({
-      where: { id: "sample-registered-user-post" },
-      update: {},
-      create: {
-        id: "sample-registered-user-post",
-        frustration: "find time for everything",
-        identity: "a busy professional",
-        categoryId: dailyLifeCategory.id,
-        userId: sampleUser.id,
-      },
+    // Check if user already has posts
+    const existingPost = await prisma.post.findFirst({
+      where: { userId: sampleUser.id },
     });
+
+    if (!existingPost) {
+      await prisma.post.create({
+        data: {
+          frustration: "find time for everything",
+          identity: "a busy professional",
+          categoryId: dailyLifeCategory.id,
+          userId: sampleUser.id,
+        },
+      });
+    }
   }
 
   console.log("Seeding complete!");

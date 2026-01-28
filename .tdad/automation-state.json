@@ -1,7 +1,7 @@
 {
   "processedNodes": [],
   "failedNodes": [],
-  "currentNodeId": "show-post-card",
+  "currentNodeId": "fetch-posts-by-category",
   "isRunning": true,
   "phase": "fixing"
 }

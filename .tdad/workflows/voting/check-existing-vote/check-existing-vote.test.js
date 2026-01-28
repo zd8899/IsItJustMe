@@ -55,15 +55,11 @@ test.describe('Check Existing Vote', () => {
             anonymousId: voterAnonymousId
         });
 
-        // Assert: Response status should be 400 (already voted)
-        expect(result.statusCode).toBe(400);
+        // Assert: Response status should be 200 (per feature spec)
+        expect(result.statusCode).toBe(200);
 
-        // Assert: Should indicate existing vote was found
+        // Assert: Should indicate existing vote was found (deleted/toggled off)
         expect(hasExistingVote(result)).toBe(true);
-
-        // Assert: Error message should indicate already voted
-        const errorMessage = getErrorFromResult(result);
-        expect(errorMessage).toContain('Already voted');
     });
 
     test('[API-207] Find existing downvote by registered user on post', async ({ page }) => {
@@ -92,15 +88,11 @@ test.describe('Check Existing Vote', () => {
             anonymousId: voterAnonymousId
         });
 
-        // Assert: Response status should be 400 (already voted)
-        expect(result.statusCode).toBe(400);
+        // Assert: Response status should be 200 (per feature spec)
+        expect(result.statusCode).toBe(200);
 
-        // Assert: Should indicate existing vote was found
+        // Assert: Should indicate existing vote was found (deleted/toggled off)
         expect(hasExistingVote(result)).toBe(true);
-
-        // Assert: Error message should indicate already voted
-        const errorMessage = getErrorFromResult(result);
-        expect(errorMessage).toContain('Already voted');
     });
 
     test('[API-208] Find existing vote by anonymous user on post', async ({ page }) => {
@@ -129,10 +121,10 @@ test.describe('Check Existing Vote', () => {
             anonymousId: anonymousUserId
         });
 
-        // Assert: Response status should be 400 (already voted)
-        expect(result.statusCode).toBe(400);
+        // Assert: Response status should be 200 (per feature spec)
+        expect(result.statusCode).toBe(200);
 
-        // Assert: Should indicate existing vote was found
+        // Assert: Should indicate existing vote was found (deleted/toggled off)
         expect(hasExistingVote(result)).toBe(true);
     });
 
@@ -166,15 +158,11 @@ test.describe('Check Existing Vote', () => {
             anonymousId: voterAnonymousId
         });
 
-        // Assert: Response status should be 400 (already voted)
-        expect(result.statusCode).toBe(400);
+        // Assert: Response status should be 200 (per feature spec)
+        expect(result.statusCode).toBe(200);
 
-        // Assert: Should indicate existing vote was found
+        // Assert: Should indicate existing vote was found (deleted/toggled off)
         expect(hasExistingVote(result)).toBe(true);
-
-        // Assert: Error message should indicate already voted on comment
-        const errorMessage = getErrorFromResult(result);
-        expect(errorMessage).toContain('Already voted');
     });
 
     test('[API-210] Find existing vote by anonymous user on comment', async ({ page }) => {
@@ -203,10 +191,10 @@ test.describe('Check Existing Vote', () => {
             anonymousId: anonymousUserId
         });
 
-        // Assert: Response status should be 400 (already voted)
-        expect(result.statusCode).toBe(400);
+        // Assert: Response status should be 200 (per feature spec)
+        expect(result.statusCode).toBe(200);
 
-        // Assert: Should indicate existing vote was found
+        // Assert: Should indicate existing vote was found (deleted/toggled off)
         expect(hasExistingVote(result)).toBe(true);
     });
 

@@ -14,7 +14,7 @@ const {
  *   I want to receive validation feedback on my comment input
  *   So that I can submit properly formatted comments
  *
- *   # NOTE: Comment content must be 1-2000 characters
+ *   # NOTE: Comment content must be 3-2000 characters
  */
 
 test.describe('Validate Comment Input', () => {
@@ -63,9 +63,9 @@ test.describe('Validate Comment Input', () => {
         // Then the response status should be 400
         expect(result.statusCode).toBe(400);
 
-        // And the response error should be "Comment cannot be empty"
+        // And the response error should be "Comment is required"
         const errorMessage = getErrorFromResult(result);
-        expect(errorMessage).toBe('Comment cannot be empty');
+        expect(errorMessage).toBe('Comment is required');
     });
 
     test('[API-165] Create Comment API Failure (Content exceeds maximum length)', async ({ page }) => {
@@ -95,10 +95,10 @@ test.describe('Validate Comment Input', () => {
         expect(postSetup.success).toBe(true);
         expect(postSetup.postId).toBeDefined();
 
-        // When the client sends POST request to "/api/comments" with content "X"
+        // When the client sends POST request to "/api/comments" with content "Yes"
         const result = await performValidateCommentInputAction(page, {
             mode: 'api',
-            content: 'X',
+            content: 'Yes',
             postId: postSetup.postId
         });
 

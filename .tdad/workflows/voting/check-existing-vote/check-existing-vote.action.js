@@ -92,8 +92,18 @@ async function performCheckExistingVoteAction(page, context = {}) {
                     isExistingVote = true;
                 }
             } else {
-                // Successful response means new vote was created
-                isNewVote = true;
+                // Extract vote data to check for existing vote indicators
+                const responseData = body?.result?.data?.json || body?.result?.data || body;
+
+                // Check if response indicates existing vote was found
+                // App returns { ...existingVote, deleted: true } for toggle-off
+                // App returns { ...updatedVote, updated: true } for direction change
+                if (responseData?.deleted === true || responseData?.updated === true) {
+                    isExistingVote = true;
+                } else {
+                    // No deleted/updated flag means new vote was created
+                    isNewVote = true;
+                }
             }
 
             // Extract vote data from successful response

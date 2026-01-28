@@ -43,7 +43,7 @@ Check PASSED test traces as well to understand working patterns. Use trace to fi
 
 ---
 
-# 🎯 TDAD Context Packet: "Show Post Card"
+# 🎯 TDAD Context Packet: "Fetch Posts By Category"
 
 ## 📋 Overview
 TDAD has scaffolded the files for this feature with correct imports and structure.
@@ -54,9 +54,9 @@ Your task is to **fill in the implementation** in the scaffolded files to make t
 ## 📂 Scaffolded Files
 Read these files to understand the current implementation:
 
-- **Feature Spec:** `.tdad/workflows/posts/show-post-card/show-post-card.feature`
-- **Action File:** `.tdad/workflows/posts/show-post-card/show-post-card.action.js`
-- **Test File:** `.tdad/workflows/posts/show-post-card/show-post-card.test.js`
+- **Feature Spec:** `.tdad/workflows/feed/fetch-posts-by-category/fetch-posts-by-category.feature`
+- **Action File:** `.tdad/workflows/feed/fetch-posts-by-category/fetch-posts-by-category.action.js`
+- **Test File:** `.tdad/workflows/feed/fetch-posts-by-category/fetch-posts-by-category.test.js`
 
 
 ---
@@ -78,117 +78,173 @@ Read these files to understand the current implementation:
 
 ## 📊 TEST RESULTS
 
-**Summary:** 5 passed, 1 failed
+**Summary:** 3 passed, 8 failed
 
-### ❌ FAILED: [UI-048] Post card shows username for registered user posts
+### ❌ FAILED: [API-312] Fetch posts by category returns filtered posts
 ──────────────────────────────────────────────────
 **Error:** expect(received).toBe(expected) // Object.is equality
 
-  📍 Code at .tdad\workflows\posts\show-post-card\show-post-card.test.js:97
+  📍 Code at .tdad\workflows\feed\fetch-posts-by-category\fetch-posts-by-category.test.js:59
   ```
-       94│         // Check for registered user author
-       95│         const result = await viewRegisteredUserPostCard(page);
-       96│         expect(result.success).toBe(true);
-  >>   97│         expect(result.hasUsernameAuthor).toBe(true);
-       98│ 
-       99│         // Verify "by [username]" pattern is visible
-      100│         await expect(page.locator('.bg-white.border.border-primary-200.rounded-lg').filter({ hasText: /by \w+/ }).first()).toBeVisible();
+       56│         tdadTrace.setActionResult(result);
+       57│ 
+       58│         // Assertions
+  >>   59│         expect(result.success).toBe(true);
+       60│         expect(result.statusCode).toBe(200);
+       61│         expect(Array.isArray(result.posts)).toBe(true);
+       62│         expect(result.posts.length).toBeGreaterThan(0);
   ```
 
-📁 **Details Trace file and logs:** `.tdad/debug/posts/show-post-card/trace-files/trace-ui-048-post-card-shows-username-for-registered-use.json`
-📸 **Screenshot:** `.tdad/debug/posts/show-post-card/screenshots/ui-048-post-card-shows-username-for-registered-use.png`
-📡 **API Calls:**
-- `GET http://localhost:3000/api/posts?sortBy=hot` → 0 ❌
-- `GET http://localhost:3000/api/categories` → 200 ✅
-- `GET http://localhost:3000/api/auth/session` → 200 ✅
-- `GET http://localhost:3000/api/posts?sortBy=hot` → 200 ✅
-- `GET http://localhost:3000/api/categories` → 200 ✅
-- `GET http://localhost:3000/api/auth/session` → 200 ✅
-- `GET http://localhost:3000/api/posts?sortBy=hot` → 0 ❌
-- `GET http://localhost:3000/api/categories` → 200 ✅
-- `GET http://localhost:3000/api/posts?sortBy=hot` → 200 ✅
-- `GET http://localhost:3000/api/auth/session` → 200 ✅
-- `GET http://localhost:3000/api/categories` → 200 ✅
-- `GET http://localhost:3000/api/auth/session` → 200 ✅
+📁 **Details Trace file and logs:** `.tdad/debug/feed/fetch-posts-by-category/trace-files/trace-api-312-fetch-posts-by-category-returns-filtered-p.json`
+📡 **API Calls:** (none)
 
-### ✅ PASSED TESTS (5)
+### ❌ FAILED: [API-313] Fetch posts by category returns post data with required fields
+──────────────────────────────────────────────────
+**Error:** expect(received).toBe(expected) // Object.is equality
+
+  📍 Code at .tdad\workflows\feed\fetch-posts-by-category\fetch-posts-by-category.test.js:91
+  ```
+       88│         tdadTrace.setActionResult(result);
+       89│ 
+       90│         // Assertions
+  >>   91│         expect(result.success).toBe(true);
+       92│         expect(result.statusCode).toBe(200);
+       93│         expect(result.posts.length).toBeGreaterThan(0);
+       94│ 
+  ```
+
+📁 **Details Trace file and logs:** `.tdad/debug/feed/fetch-posts-by-category/trace-files/trace-api-313-fetch-posts-by-category-returns-post-data-.json`
+📡 **API Calls:** (none)
+
+### ❌ FAILED: [API-314] Fetch posts by category with default pagination limit
+──────────────────────────────────────────────────
+**Error:** expect(received).toBe(expected) // Object.is equality
+
+  📍 Code at .tdad\workflows\feed\fetch-posts-by-category\fetch-posts-by-category.test.js:134
+  ```
+      131│         tdadTrace.setActionResult(result);
+      132│ 
+      133│         // Assertions
+  >>  134│         expect(result.success).toBe(true);
+      135│         expect(result.statusCode).toBe(200);
+      136│         expect(Array.isArray(result.posts)).toBe(true);
+      137│ 
+  ```
+
+📁 **Details Trace file and logs:** `.tdad/debug/feed/fetch-posts-by-category/trace-files/trace-api-314-fetch-posts-by-category-with-default-pagin.json`
+📡 **API Calls:** (none)
+
+### ❌ FAILED: [API-315] Fetch posts by category with custom limit
+──────────────────────────────────────────────────
+**Error:** expect(received).toBe(expected) // Object.is equality
+
+  📍 Code at .tdad\workflows\feed\fetch-posts-by-category\fetch-posts-by-category.test.js:169
+  ```
+      166│         tdadTrace.setActionResult(result);
+      167│ 
+      168│         // Assertions
+  >>  169│         expect(result.success).toBe(true);
+      170│         expect(result.statusCode).toBe(200);
+      171│         expect(Array.isArray(result.posts)).toBe(true);
+      172│         expect(result.posts.length).toBeLessThanOrEqual(10);
+  ```
+
+📁 **Details Trace file and logs:** `.tdad/debug/feed/fetch-posts-by-category/trace-files/trace-api-315-fetch-posts-by-category-with-custom-limit.json`
+📡 **API Calls:** (none)
+
+### ❌ FAILED: [API-316] Fetch posts by category with cursor-based pagination
+──────────────────────────────────────────────────
+**Error:** expect(received).toBe(expected) // Object.is equality
+
+  📍 Code at .tdad\workflows\feed\fetch-posts-by-category\fetch-posts-by-category.test.js:199
+  ```
+      196│         });
+      197│ 
+      198│         // Assertions for first page
+  >>  199│         expect(firstPageResult.success).toBe(true);
+      200│         expect(firstPageResult.statusCode).toBe(200);
+      201│         expect(firstPageResult.posts.length).toBeGreaterThan(0);
+      202│ 
+  ```
+
+📁 **Details Trace file and logs:** `.tdad/debug/feed/fetch-posts-by-category/trace-files/trace-api-316-fetch-posts-by-category-with-cursor-based-.json`
+📡 **API Calls:** (none)
+
+### ❌ FAILED: [API-317] Fetch posts by category returns empty array when category has no posts
+──────────────────────────────────────────────────
+**Error:** expect(received).toBe(expected) // Object.is equality
+
+  📍 Code at .tdad\workflows\feed\fetch-posts-by-category\fetch-posts-by-category.test.js:249
+  ```
+      246│         tdadTrace.setActionResult(result);
+      247│ 
+      248│         // Assertions - verify the response format is correct
+  >>  249│         expect(result.success).toBe(true);
+      250│         expect(result.statusCode).toBe(200);
+      251│         expect(Array.isArray(result.posts)).toBe(true);
+      252│ 
+  ```
+
+📁 **Details Trace file and logs:** `.tdad/debug/feed/fetch-posts-by-category/trace-files/trace-api-317-fetch-posts-by-category-returns-empty-arra.json`
+📡 **API Calls:** (none)
+
+### ❌ FAILED: [API-318] Fetch posts by category with invalid category slug
+──────────────────────────────────────────────────
+**Error:** expect(received).toBe(expected) // Object.is equality
+
+  📍 Code at .tdad\workflows\feed\fetch-posts-by-category\fetch-posts-by-category.test.js:276
+  ```
+      273│ 
+      274│         // Assertions - expect 404 for non-existent category
+      275│         expect(result.success).toBe(false);
+  >>  276│         expect(result.statusCode).toBe(404);
+      277│ 
+      278│         const errorMessage = getErrorFromResult(result);
+      279│         expect(errorMessage).toBeTruthy();
+  ```
+
+📁 **Details Trace file and logs:** `.tdad/debug/feed/fetch-posts-by-category/trace-files/trace-api-318-fetch-posts-by-category-with-invalid-categ.json`
+📡 **API Calls:** (none)
+
+### ❌ FAILED: [API-322] Fetch posts by category returns posts sorted by creation date descending
+──────────────────────────────────────────────────
+**Error:** expect(received).toBe(expected) // Object.is equality
+
+  📍 Code at .tdad\workflows\feed\fetch-posts-by-category\fetch-posts-by-category.test.js:395
+  ```
+      392│         tdadTrace.setActionResult(result);
+      393│ 
+      394│         // Assertions
+  >>  395│         expect(result.success).toBe(true);
+      396│         expect(result.statusCode).toBe(200);
+      397│         expect(result.posts.length).toBeGreaterThan(0);
+      398│ 
+  ```
+
+📁 **Details Trace file and logs:** `.tdad/debug/feed/fetch-posts-by-category/trace-files/trace-api-322-fetch-posts-by-category-returns-posts-sort.json`
+📡 **API Calls:** (none)
+
+### ✅ PASSED TESTS (3)
 ──────────────────────────────────────────────────
 
-**✅ [UI-045] Post card displays all essential information**
-📁 **Details Trace file and logs:** `.tdad/debug/posts/show-post-card/trace-files/trace-ui-045-post-card-displays-all-essential-informatio.json`
-📸 **Screenshot:** `.tdad/debug/posts/show-post-card/screenshots/ui-045-post-card-displays-all-essential-informatio.png`
-📡 **API Calls:**
-- `GET http://localhost:3000/api/posts?sortBy=hot` → 0 ❌
-- `GET http://localhost:3000/api/auth/session` → 200 ✅
-- `GET http://localhost:3000/api/categories` → 200 ✅
-- `GET http://localhost:3000/api/posts?sortBy=hot` → 200 ✅
-- `GET http://localhost:3000/api/auth/session` → 200 ✅
-- `GET http://localhost:3000/api/categories` → 200 ✅
+**✅ [API-319] Fetch posts by category without required categorySlug parameter**
+📁 **Details Trace file and logs:** `.tdad/debug/feed/fetch-posts-by-category/trace-files/trace-api-319-fetch-posts-by-category-without-required-c.json`
+📡 **API Calls:** (none)
 
-**✅ [UI-046] Post card shows vote buttons**
-📁 **Details Trace file and logs:** `.tdad/debug/posts/show-post-card/trace-files/trace-ui-046-post-card-shows-vote-buttons.json`
-📸 **Screenshot:** `.tdad/debug/posts/show-post-card/screenshots/ui-046-post-card-shows-vote-buttons.png`
-📡 **API Calls:**
-- `GET http://localhost:3000/api/posts?sortBy=hot` → 0 ❌
-- `GET http://localhost:3000/api/categories` → 200 ✅
-- `GET http://localhost:3000/api/auth/session` → 200 ✅
-- `GET http://localhost:3000/api/posts?sortBy=hot` → 200 ✅
-- `GET http://localhost:3000/api/categories` → 200 ✅
-- `GET http://localhost:3000/api/auth/session` → 200 ✅
+**✅ [API-320] Fetch posts by category with invalid limit below minimum**
+📁 **Details Trace file and logs:** `.tdad/debug/feed/fetch-posts-by-category/trace-files/trace-api-320-fetch-posts-by-category-with-invalid-limit.json`
+📡 **API Calls:** (none)
 
-**✅ [UI-047] Post card shows anonymous author**
-📁 **Details Trace file and logs:** `.tdad/debug/posts/show-post-card/trace-files/trace-ui-047-post-card-shows-anonymous-author.json`
-📸 **Screenshot:** `.tdad/debug/posts/show-post-card/screenshots/ui-047-post-card-shows-anonymous-author.png`
-📡 **API Calls:**
-- `GET http://localhost:3000/api/posts?sortBy=hot` → 0 ❌
-- `GET http://localhost:3000/api/categories` → 200 ✅
-- `GET http://localhost:3000/api/auth/session` → 200 ✅
-- `GET http://localhost:3000/api/posts?sortBy=hot` → 200 ✅
-- `GET http://localhost:3000/api/categories` → 200 ✅
-- `GET http://localhost:3000/api/auth/session` → 200 ✅
-- `GET http://localhost:3000/api/posts?sortBy=hot` → 0 ❌
-- `GET http://localhost:3000/api/categories` → 200 ✅
-- `GET http://localhost:3000/api/auth/session` → 200 ✅
-- `GET http://localhost:3000/api/posts?sortBy=hot` → 200 ✅
-- `GET http://localhost:3000/api/auth/session` → 200 ✅
-- `GET http://localhost:3000/api/categories` → 200 ✅
-
-**✅ [UI-049] Post card is clickable and navigates to detail page**
-📁 **Details Trace file and logs:** `.tdad/debug/posts/show-post-card/trace-files/trace-ui-049-post-card-is-clickable-and-navigates-to-det.json`
-📸 **Screenshot:** `.tdad/debug/posts/show-post-card/screenshots/ui-049-post-card-is-clickable-and-navigates-to-det.png`
-📡 **API Calls:**
-- `GET http://localhost:3000/api/posts?sortBy=hot` → 0 ❌
-- `GET http://localhost:3000/api/categories` → 200 ✅
-- `GET http://localhost:3000/api/auth/session` → 200 ✅
-- `GET http://localhost:3000/api/posts?sortBy=hot` → 200 ✅
-- `GET http://localhost:3000/api/categories` → 200 ✅
-- `GET http://localhost:3000/api/auth/session` → 200 ✅
-- `GET http://localhost:3000/api/posts/cmkxdhlzg00akbajnt8uv8uyu` → 200 ✅
-- `GET http://localhost:3000/api/posts/cmkxdhlzg00akbajnt8uv8uyu` → 200 ✅
-
-**✅ [UI-050] Post card displays comment count correctly**
-📁 **Details Trace file and logs:** `.tdad/debug/posts/show-post-card/trace-files/trace-ui-050-post-card-displays-comment-count-correctly.json`
-📸 **Screenshot:** `.tdad/debug/posts/show-post-card/screenshots/ui-050-post-card-displays-comment-count-correctly.png`
-📡 **API Calls:**
-- `GET http://localhost:3000/api/posts?sortBy=hot` → 0 ❌
-- `GET http://localhost:3000/api/categories` → 200 ✅
-- `GET http://localhost:3000/api/auth/session` → 200 ✅
-- `GET http://localhost:3000/api/posts?sortBy=hot` → 200 ✅
-- `GET http://localhost:3000/api/categories` → 200 ✅
-- `GET http://localhost:3000/api/auth/session` → 200 ✅
-- `GET http://localhost:3000/api/posts?sortBy=hot` → 0 ❌
-- `GET http://localhost:3000/api/categories` → 200 ✅
-- `GET http://localhost:3000/api/auth/session` → 200 ✅
-- `GET http://localhost:3000/api/categories` → 200 ✅
-- `GET http://localhost:3000/api/posts?sortBy=hot` → 200 ✅
-- `GET http://localhost:3000/api/auth/session` → 200 ✅
+**✅ [API-321] Fetch posts by category with invalid limit above maximum**
+📁 **Details Trace file and logs:** `.tdad/debug/feed/fetch-posts-by-category/trace-files/trace-api-321-fetch-posts-by-category-with-invalid-limit.json`
+📡 **API Calls:** (none)
 
 
 ---
 
 ## ✅ YOUR TASK
 
-1. **Read specs first:** `.tdad/workflows/posts/show-post-card/show-post-card.feature` for requirements, `.tdad/workflows/posts/show-post-card/show-post-card.test.js` for expected values
+1. **Read specs first:** `.tdad/workflows/feed/fetch-posts-by-category/fetch-posts-by-category.feature` for requirements, `.tdad/workflows/feed/fetch-posts-by-category/fetch-posts-by-category.test.js` for expected values
 2. **Use trace to locate:** Find files to fix from trace data (WHERE, not WHAT)
 3. **Fix the APP** to match spec/test expectations
 4. **Verify** no red flags before submitting
