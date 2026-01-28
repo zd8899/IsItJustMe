@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { Select } from "@/components/ui/Select";
 
 const categories = [
@@ -16,15 +15,19 @@ const categories = [
   { value: "other", label: "Other" },
 ];
 
-export function CategoryFilter() {
-  const [selectedCategory, setSelectedCategory] = useState("all");
+interface CategoryFilterProps {
+  value: string;
+  onChange: (value: string) => void;
+}
 
+export function CategoryFilter({ value, onChange }: CategoryFilterProps) {
   return (
     <div className="w-48">
       <Select
         options={categories}
-        value={selectedCategory}
-        onChange={(e) => setSelectedCategory(e.target.value)}
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        data-testid="category-filter"
       />
     </div>
   );

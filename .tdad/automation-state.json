@@ -1,7 +1,7 @@
 {
   "processedNodes": [],
   "failedNodes": [],
-  "currentNodeId": "validate-vote-input",
+  "currentNodeId": "create-prisma-schema",
   "isRunning": true,
-  "phase": "bdd"
+  "phase": "fixing"
 }

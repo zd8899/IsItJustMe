@@ -15,7 +15,11 @@
       "dependencies": [],
       "testLayers": [
         "api"
-      ]
+      ],
+      "testCodeFile": ".tdad\\workflows\\voting\\validate-vote-input/validate-vote-input.test.js",
+      "actionFile": ".tdad\\workflows\\voting\\validate-vote-input/validate-vote-input.action.js",
+      "bddSpecFile": ".tdad\\workflows\\voting\\validate-vote-input\\validate-vote-input.feature",
+      "status": "passed"
     },
     {
       "id": "check-existing-vote",
@@ -31,7 +35,11 @@
       "dependencies": [],
       "testLayers": [
         "api"
-      ]
+      ],
+      "testCodeFile": ".tdad\\workflows\\voting\\check-existing-vote/check-existing-vote.test.js",
+      "actionFile": ".tdad\\workflows\\voting\\check-existing-vote/check-existing-vote.action.js",
+      "bddSpecFile": ".tdad\\workflows\\voting\\check-existing-vote\\check-existing-vote.feature",
+      "status": "passed"
     },
     {
       "id": "create-vote-record",
@@ -50,7 +58,11 @@
       ],
       "testLayers": [
         "api"
-      ]
+      ],
+      "testCodeFile": ".tdad\\workflows\\voting\\create-vote-record/create-vote-record.test.js",
+      "actionFile": ".tdad\\workflows\\voting\\create-vote-record/create-vote-record.action.js",
+      "bddSpecFile": ".tdad\\workflows\\voting\\create-vote-record\\create-vote-record.feature",
+      "status": "passed"
     },
     {
       "id": "update-post-score",
@@ -68,7 +80,11 @@
       ],
       "testLayers": [
         "api"
-      ]
+      ],
+      "testCodeFile": ".tdad\\workflows\\voting\\update-post-score/update-post-score.test.js",
+      "actionFile": ".tdad\\workflows\\voting\\update-post-score/update-post-score.action.js",
+      "bddSpecFile": ".tdad\\workflows\\voting\\update-post-score\\update-post-score.feature",
+      "status": "passed"
     },
     {
       "id": "update-comment-score",
@@ -86,7 +102,11 @@
       ],
       "testLayers": [
         "api"
-      ]
+      ],
+      "testCodeFile": ".tdad\\workflows\\voting\\update-comment-score/update-comment-score.test.js",
+      "actionFile": ".tdad\\workflows\\voting\\update-comment-score/update-comment-score.action.js",
+      "bddSpecFile": ".tdad\\workflows\\voting\\update-comment-score\\update-comment-score.feature",
+      "status": "passed"
     },
     {
       "id": "update-user-karma",
@@ -105,7 +125,11 @@
       ],
       "testLayers": [
         "api"
-      ]
+      ],
+      "testCodeFile": ".tdad\\workflows\\voting\\update-user-karma/update-user-karma.test.js",
+      "actionFile": ".tdad\\workflows\\voting\\update-user-karma/update-user-karma.action.js",
+      "bddSpecFile": ".tdad\\workflows\\voting\\update-user-karma\\update-user-karma.feature",
+      "status": "passed"
     },
     {
       "id": "show-vote-buttons",
@@ -121,7 +145,11 @@
       "dependencies": [],
       "testLayers": [
         "ui"
-      ]
+      ],
+      "testCodeFile": ".tdad\\workflows\\voting\\show-vote-buttons/show-vote-buttons.test.js",
+      "actionFile": ".tdad\\workflows\\voting\\show-vote-buttons/show-vote-buttons.action.js",
+      "bddSpecFile": ".tdad\\workflows\\voting\\show-vote-buttons\\show-vote-buttons.feature",
+      "status": "passed"
     },
     {
       "id": "handle-upvote-click",
@@ -141,7 +169,11 @@
       "testLayers": [
         "ui",
         "api"
-      ]
+      ],
+      "testCodeFile": ".tdad\\workflows\\voting\\handle-upvote-click/handle-upvote-click.test.js",
+      "actionFile": ".tdad\\workflows\\voting\\handle-upvote-click/handle-upvote-click.action.js",
+      "bddSpecFile": ".tdad\\workflows\\voting\\handle-upvote-click\\handle-upvote-click.feature",
+      "status": "passed"
     },
     {
       "id": "handle-downvote-click",
@@ -161,7 +193,11 @@
       "testLayers": [
         "ui",
         "api"
-      ]
+      ],
+      "testCodeFile": ".tdad\\workflows\\voting\\handle-downvote-click/handle-downvote-click.test.js",
+      "actionFile": ".tdad\\workflows\\voting\\handle-downvote-click/handle-downvote-click.action.js",
+      "bddSpecFile": ".tdad\\workflows\\voting\\handle-downvote-click\\handle-downvote-click.feature",
+      "status": "passed"
     },
     {
       "id": "show-score-display",
@@ -179,7 +215,11 @@
       ],
       "testLayers": [
         "ui"
-      ]
+      ],
+      "testCodeFile": ".tdad\\workflows\\voting\\show-score-display/show-score-display.test.js",
+      "actionFile": ".tdad\\workflows\\voting\\show-score-display/show-score-display.action.js",
+      "bddSpecFile": ".tdad\\workflows\\voting\\show-score-display\\show-score-display.feature",
+      "status": "passed"
     }
   ],
   "edges": [

@@ -8,9 +8,18 @@
       "description": "Query posts sorted by hot score",
       "nodeType": "feature",
       "fileName": "fetch-hot-posts",
-      "position": { "x": 100, "y": 100 },
+      "position": {
+        "x": 100,
+        "y": 100
+      },
       "dependencies": [],
-      "testLayers": ["api"]
+      "testLayers": [
+        "api"
+      ],
+      "testCodeFile": ".tdad\\workflows\\feed\\fetch-hot-posts/fetch-hot-posts.test.js",
+      "actionFile": ".tdad\\workflows\\feed\\fetch-hot-posts/fetch-hot-posts.action.js",
+      "bddSpecFile": ".tdad\\workflows\\feed\\fetch-hot-posts\\fetch-hot-posts.feature",
+      "status": "passed"
     },
     {
       "id": "fetch-new-posts",
@@ -19,9 +28,18 @@
       "description": "Query posts sorted by creation date",
       "nodeType": "feature",
       "fileName": "fetch-new-posts",
-      "position": { "x": 300, "y": 100 },
+      "position": {
+        "x": 100,
+        "y": 240
+      },
       "dependencies": [],
-      "testLayers": ["api"]
+      "testLayers": [
+        "api"
+      ],
+      "testCodeFile": ".tdad\\workflows\\feed\\fetch-new-posts/fetch-new-posts.test.js",
+      "actionFile": ".tdad\\workflows\\feed\\fetch-new-posts/fetch-new-posts.action.js",
+      "bddSpecFile": ".tdad\\workflows\\feed\\fetch-new-posts\\fetch-new-posts.feature",
+      "status": "passed"
     },
     {
       "id": "fetch-posts-by-category",
@@ -30,9 +48,18 @@
       "description": "Filter posts by selected category",
       "nodeType": "feature",
       "fileName": "fetch-posts-by-category",
-      "position": { "x": 500, "y": 100 },
+      "position": {
+        "x": 100,
+        "y": 520
+      },
       "dependencies": [],
-      "testLayers": ["api"]
+      "testLayers": [
+        "api"
+      ],
+      "testCodeFile": ".tdad\\workflows\\feed\\fetch-posts-by-category/fetch-posts-by-category.test.js",
+      "actionFile": ".tdad\\workflows\\feed\\fetch-posts-by-category/fetch-posts-by-category.action.js",
+      "bddSpecFile": ".tdad\\workflows\\feed\\fetch-posts-by-category\\fetch-posts-by-category.feature",
+      "status": "passed"
     },
     {
       "id": "show-feed-tabs",
@@ -41,9 +68,18 @@
       "description": "Render hot and new tab buttons",
       "nodeType": "feature",
       "fileName": "show-feed-tabs",
-      "position": { "x": 100, "y": 250 },
+      "position": {
+        "x": 100,
+        "y": 380
+      },
       "dependencies": [],
-      "testLayers": ["ui"]
+      "testLayers": [
+        "ui"
+      ],
+      "testCodeFile": ".tdad\\workflows\\feed\\show-feed-tabs/show-feed-tabs.test.js",
+      "actionFile": ".tdad\\workflows\\feed\\show-feed-tabs/show-feed-tabs.action.js",
+      "bddSpecFile": ".tdad\\workflows\\feed\\show-feed-tabs\\show-feed-tabs.feature",
+      "status": "passed"
     },
     {
       "id": "switch-feed-type",
@@ -52,9 +88,22 @@
       "description": "Toggle between hot and new feeds",
       "nodeType": "feature",
       "fileName": "switch-feed-type",
-      "position": { "x": 300, "y": 250 },
-      "dependencies": ["show-feed-tabs", "fetch-hot-posts", "fetch-new-posts"],
-      "testLayers": ["ui"]
+      "position": {
+        "x": 380,
+        "y": 240
+      },
+      "dependencies": [
+        "show-feed-tabs",
+        "fetch-hot-posts",
+        "fetch-new-posts"
+      ],
+      "testLayers": [
+        "ui"
+      ],
+      "testCodeFile": ".tdad\\workflows\\feed\\switch-feed-type/switch-feed-type.test.js",
+      "actionFile": ".tdad\\workflows\\feed\\switch-feed-type/switch-feed-type.action.js",
+      "bddSpecFile": ".tdad\\workflows\\feed\\switch-feed-type\\switch-feed-type.feature",
+      "status": "passed"
     },
     {
       "id": "show-category-filter",
@@ -63,9 +112,18 @@
       "description": "Render category dropdown selector",
       "nodeType": "feature",
       "fileName": "show-category-filter",
-      "position": { "x": 500, "y": 250 },
+      "position": {
+        "x": 100,
+        "y": 660
+      },
       "dependencies": [],
-      "testLayers": ["ui"]
+      "testLayers": [
+        "ui"
+      ],
+      "testCodeFile": ".tdad\\workflows\\feed\\show-category-filter/show-category-filter.test.js",
+      "actionFile": ".tdad\\workflows\\feed\\show-category-filter/show-category-filter.action.js",
+      "bddSpecFile": ".tdad\\workflows\\feed\\show-category-filter\\show-category-filter.feature",
+      "status": "passed"
     },
     {
       "id": "apply-category-filter",
@@ -74,9 +132,22 @@
       "description": "Filter feed by selected category",
       "nodeType": "feature",
       "fileName": "apply-category-filter",
-      "position": { "x": 700, "y": 250 },
-      "dependencies": ["show-category-filter", "fetch-posts-by-category"],
-      "testLayers": ["ui", "api"]
+      "position": {
+        "x": 380,
+        "y": 590
+      },
+      "dependencies": [
+        "show-category-filter",
+        "fetch-posts-by-category"
+      ],
+      "testLayers": [
+        "ui",
+        "api"
+      ],
+      "testCodeFile": ".tdad\\workflows\\feed\\apply-category-filter/apply-category-filter.test.js",
+      "actionFile": ".tdad\\workflows\\feed\\apply-category-filter/apply-category-filter.action.js",
+      "bddSpecFile": ".tdad\\workflows\\feed\\apply-category-filter\\apply-category-filter.feature",
+      "status": "passed"
     },
     {
       "id": "show-post-list",
@@ -85,9 +156,21 @@
       "description": "Render list of post cards",
       "nodeType": "feature",
       "fileName": "show-post-list",
-      "position": { "x": 400, "y": 400 },
-      "dependencies": ["switch-feed-type", "apply-category-filter"],
-      "testLayers": ["ui"]
+      "position": {
+        "x": 660,
+        "y": 415
+      },
+      "dependencies": [
+        "switch-feed-type",
+        "apply-category-filter"
+      ],
+      "testLayers": [
+        "ui"
+      ],
+      "testCodeFile": ".tdad\\workflows\\feed\\show-post-list/show-post-list.test.js",
+      "actionFile": ".tdad\\workflows\\feed\\show-post-list/show-post-list.action.js",
+      "bddSpecFile": ".tdad\\workflows\\feed\\show-post-list\\show-post-list.feature",
+      "status": "passed"
     },
     {
       "id": "load-more-posts",
@@ -96,19 +179,71 @@
       "description": "Fetch next page of posts",
       "nodeType": "feature",
       "fileName": "load-more-posts",
-      "position": { "x": 600, "y": 400 },
-      "dependencies": ["show-post-list"],
-      "testLayers": ["ui", "api"]
+      "position": {
+        "x": 940,
+        "y": 415
+      },
+      "dependencies": [
+        "show-post-list"
+      ],
+      "testLayers": [
+        "ui",
+        "api"
+      ],
+      "testCodeFile": ".tdad\\workflows\\feed\\load-more-posts/load-more-posts.test.js",
+      "actionFile": ".tdad\\workflows\\feed\\load-more-posts/load-more-posts.action.js",
+      "bddSpecFile": ".tdad\\workflows\\feed\\load-more-posts\\load-more-posts.feature",
+      "status": "passed"
     }
   ],
   "edges": [
-    { "id": "tabs-to-switch", "source": "show-feed-tabs", "target": "switch-feed-type" },
-    { "id": "hot-to-switch", "source": "fetch-hot-posts", "target": "switch-feed-type" },
-    { "id": "new-to-switch", "source": "fetch-new-posts", "target": "switch-feed-type" },
-    { "id": "filter-to-apply", "source": "show-category-filter", "target": "apply-category-filter" },
-    { "id": "category-to-apply", "source": "fetch-posts-by-category", "target": "apply-category-filter" },
-    { "id": "switch-to-list", "source": "switch-feed-type", "target": "show-post-list" },
-    { "id": "apply-to-list", "source": "apply-category-filter", "target": "show-post-list" },
-    { "id": "list-to-load", "source": "show-post-list", "target": "load-more-posts" }
+    {
+      "id": "tabs-to-switch",
+      "source": "show-feed-tabs",
+      "target": "switch-feed-type",
+      "type": "custom"
+    },
+    {
+      "id": "hot-to-switch",
+      "source": "fetch-hot-posts",
+      "target": "switch-feed-type",
+      "type": "custom"
+    },
+    {
+      "id": "new-to-switch",
+      "source": "fetch-new-posts",
+      "target": "switch-feed-type",
+      "type": "custom"
+    },
+    {
+      "id": "filter-to-apply",
+      "source": "show-category-filter",
+      "target": "apply-category-filter",
+      "type": "custom"
+    },
+    {
+      "id": "category-to-apply",
+      "source": "fetch-posts-by-category",
+      "target": "apply-category-filter",
+      "type": "custom"
+    },
+    {
+      "id": "switch-to-list",
+      "source": "switch-feed-type",
+      "target": "show-post-list",
+      "type": "custom"
+    },
+    {
+      "id": "apply-to-list",
+      "source": "apply-category-filter",
+      "target": "show-post-list",
+      "type": "custom"
+    },
+    {
+      "id": "list-to-load",
+      "source": "show-post-list",
+      "target": "load-more-posts",
+      "type": "custom"
+    }
   ]
 }

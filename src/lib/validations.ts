@@ -10,6 +10,8 @@ export const createPostSchema = z.object({
     .min(1, "Please describe who you are")
     .max(100, "Identity must be less than 100 characters"),
   categoryId: z.string({ required_error: "Please select a category" }).min(1, "Please select a category"),
+  userId: z.string().nullable().optional(),
+  anonymousId: z.string().nullable().optional(),
 });
 
 export const createCommentSchema = z.object({

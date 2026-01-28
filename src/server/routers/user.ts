@@ -36,7 +36,7 @@ export const userRouter = router({
     }),
 
   getProfile: publicProcedure
-    .input(z.object({ userId: z.string() }))
+    .input(z.object({ userId: z.string().min(1) }))
     .query(async ({ ctx, input }) => {
       return ctx.prisma.user.findUnique({
         where: { id: input.userId },
@@ -53,10 +53,27 @@ export const userRouter = router({
   getKarma: publicProcedure
     .input(z.object({ userId: z.string() }))
     .query(async ({ ctx, input }) => {
-      const user = await ctx.prisma.user.findUnique({
-        where: { id: input.userId },
-        select: { karma: true },
+      // Calculate postKarma: sum of score from all posts by this user
+      const postKarmaResult = await ctx.prisma.post.aggregate({
+        where: { userId: input.userId },
+        _sum: { score: true },
       });
-      return user?.karma ?? 0;
+      const postKarma = postKarmaResult._sum.score ?? 0;
+
+      // Calculate commentKarma: sum of score from all comments by this user
+      const commentKarmaResult = await ctx.prisma.comment.aggregate({
+        where: { userId: input.userId },
+        _sum: { score: true },
+      });
+      const commentKarma = commentKarmaResult._sum.score ?? 0;
+
+      // Calculate totalKarma
+      const totalKarma = postKarma + commentKarma;
+
+      return {
+        postKarma,
+        commentKarma,
+        totalKarma,
+      };
     }),
 });

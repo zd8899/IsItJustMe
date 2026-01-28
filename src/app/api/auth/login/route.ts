@@ -69,8 +69,8 @@ export async function POST(request: NextRequest) {
       secret: JWT_SECRET,
     });
 
-    // Return login success with token
-    return NextResponse.json(
+    // Return login success with token and set auth cookie
+    const response = NextResponse.json(
       {
         token,
         userId: user.id,
@@ -78,6 +78,17 @@ export async function POST(request: NextRequest) {
       },
       { status: 200 }
     );
+
+    // Set auth cookie for session-based authentication
+    response.cookies.set("auth-token", token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+      maxAge: 24 * 60 * 60, // 24 hours
+      path: "/",
+    });
+
+    return response;
   } catch (error) {
     console.error("Login error:", error);
     return NextResponse.json(

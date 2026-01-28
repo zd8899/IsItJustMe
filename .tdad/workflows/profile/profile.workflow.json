@@ -8,9 +8,18 @@
       "description": "Query user data from database",
       "nodeType": "feature",
       "fileName": "fetch-user-profile",
-      "position": { "x": 100, "y": 100 },
+      "position": {
+        "x": 100,
+        "y": 100
+      },
       "dependencies": [],
-      "testLayers": ["api"]
+      "testLayers": [
+        "api"
+      ],
+      "testCodeFile": ".tdad\\workflows\\profile\\fetch-user-profile/fetch-user-profile.test.js",
+      "actionFile": ".tdad\\workflows\\profile\\fetch-user-profile/fetch-user-profile.action.js",
+      "bddSpecFile": ".tdad\\workflows\\profile\\fetch-user-profile\\fetch-user-profile.feature",
+      "status": "passed"
     },
     {
       "id": "fetch-user-karma",
@@ -19,9 +28,18 @@
       "description": "Calculate total karma score",
       "nodeType": "feature",
       "fileName": "fetch-user-karma",
-      "position": { "x": 300, "y": 100 },
+      "position": {
+        "x": 100,
+        "y": 240
+      },
       "dependencies": [],
-      "testLayers": ["api"]
+      "testLayers": [
+        "api"
+      ],
+      "testCodeFile": ".tdad\\workflows\\profile\\fetch-user-karma/fetch-user-karma.test.js",
+      "actionFile": ".tdad\\workflows\\profile\\fetch-user-karma/fetch-user-karma.action.js",
+      "bddSpecFile": ".tdad\\workflows\\profile\\fetch-user-karma\\fetch-user-karma.feature",
+      "status": "passed"
     },
     {
       "id": "fetch-user-posts",
@@ -30,9 +48,18 @@
       "description": "Query posts created by user",
       "nodeType": "feature",
       "fileName": "fetch-user-posts",
-      "position": { "x": 500, "y": 100 },
+      "position": {
+        "x": 100,
+        "y": 380
+      },
       "dependencies": [],
-      "testLayers": ["api"]
+      "testLayers": [
+        "api"
+      ],
+      "testCodeFile": ".tdad\\workflows\\profile\\fetch-user-posts/fetch-user-posts.test.js",
+      "actionFile": ".tdad\\workflows\\profile\\fetch-user-posts/fetch-user-posts.action.js",
+      "bddSpecFile": ".tdad\\workflows\\profile\\fetch-user-posts\\fetch-user-posts.feature",
+      "status": "passed"
     },
     {
       "id": "show-profile-header",
@@ -41,9 +68,20 @@
       "description": "Render username and join date",
       "nodeType": "feature",
       "fileName": "show-profile-header",
-      "position": { "x": 100, "y": 250 },
-      "dependencies": ["fetch-user-profile"],
-      "testLayers": ["ui"]
+      "position": {
+        "x": 380,
+        "y": 100
+      },
+      "dependencies": [
+        "fetch-user-profile"
+      ],
+      "testLayers": [
+        "ui"
+      ],
+      "testCodeFile": ".tdad\\workflows\\profile\\show-profile-header/show-profile-header.test.js",
+      "actionFile": ".tdad\\workflows\\profile\\show-profile-header/show-profile-header.action.js",
+      "bddSpecFile": ".tdad\\workflows\\profile\\show-profile-header\\show-profile-header.feature",
+      "status": "passed"
     },
     {
       "id": "show-karma-display",
@@ -52,9 +90,20 @@
       "description": "Render karma score badge",
       "nodeType": "feature",
       "fileName": "show-karma-display",
-      "position": { "x": 300, "y": 250 },
-      "dependencies": ["fetch-user-karma"],
-      "testLayers": ["ui"]
+      "position": {
+        "x": 380,
+        "y": 240
+      },
+      "dependencies": [
+        "fetch-user-karma"
+      ],
+      "testLayers": [
+        "ui"
+      ],
+      "testCodeFile": ".tdad\\workflows\\profile\\show-karma-display/show-karma-display.test.js",
+      "actionFile": ".tdad\\workflows\\profile\\show-karma-display/show-karma-display.action.js",
+      "bddSpecFile": ".tdad\\workflows\\profile\\show-karma-display\\show-karma-display.feature",
+      "status": "passed"
     },
     {
       "id": "show-user-posts-list",
@@ -63,9 +112,20 @@
       "description": "Render list of user posts",
       "nodeType": "feature",
       "fileName": "show-user-posts-list",
-      "position": { "x": 500, "y": 250 },
-      "dependencies": ["fetch-user-posts"],
-      "testLayers": ["ui"]
+      "position": {
+        "x": 380,
+        "y": 380
+      },
+      "dependencies": [
+        "fetch-user-posts"
+      ],
+      "testLayers": [
+        "ui"
+      ],
+      "testCodeFile": ".tdad\\workflows\\profile\\show-user-posts-list/show-user-posts-list.test.js",
+      "actionFile": ".tdad\\workflows\\profile\\show-user-posts-list/show-user-posts-list.action.js",
+      "bddSpecFile": ".tdad\\workflows\\profile\\show-user-posts-list\\show-user-posts-list.feature",
+      "status": "passed"
     },
     {
       "id": "show-profile-page",
@@ -74,17 +134,60 @@
       "description": "Render complete profile page layout",
       "nodeType": "feature",
       "fileName": "show-profile-page",
-      "position": { "x": 300, "y": 400 },
-      "dependencies": ["show-profile-header", "show-karma-display", "show-user-posts-list"],
-      "testLayers": ["ui"]
+      "position": {
+        "x": 660,
+        "y": 240
+      },
+      "dependencies": [
+        "show-profile-header",
+        "show-karma-display",
+        "show-user-posts-list"
+      ],
+      "testLayers": [
+        "ui"
+      ],
+      "testCodeFile": ".tdad\\workflows\\profile\\show-profile-page/show-profile-page.test.js",
+      "actionFile": ".tdad\\workflows\\profile\\show-profile-page/show-profile-page.action.js",
+      "bddSpecFile": ".tdad\\workflows\\profile\\show-profile-page\\show-profile-page.feature",
+      "status": "passed"
     }
   ],
   "edges": [
-    { "id": "profile-to-header", "source": "fetch-user-profile", "target": "show-profile-header" },
-    { "id": "karma-to-display", "source": "fetch-user-karma", "target": "show-karma-display" },
-    { "id": "posts-to-list", "source": "fetch-user-posts", "target": "show-user-posts-list" },
-    { "id": "header-to-page", "source": "show-profile-header", "target": "show-profile-page" },
-    { "id": "karma-to-page", "source": "show-karma-display", "target": "show-profile-page" },
-    { "id": "list-to-page", "source": "show-user-posts-list", "target": "show-profile-page" }
+    {
+      "id": "profile-to-header",
+      "source": "fetch-user-profile",
+      "target": "show-profile-header",
+      "type": "custom"
+    },
+    {
+      "id": "karma-to-display",
+      "source": "fetch-user-karma",
+      "target": "show-karma-display",
+      "type": "custom"
+    },
+    {
+      "id": "posts-to-list",
+      "source": "fetch-user-posts",
+      "target": "show-user-posts-list",
+      "type": "custom"
+    },
+    {
+      "id": "header-to-page",
+      "source": "show-profile-header",
+      "target": "show-profile-page",
+      "type": "custom"
+    },
+    {
+      "id": "karma-to-page",
+      "source": "show-karma-display",
+      "target": "show-profile-page",
+      "type": "custom"
+    },
+    {
+      "id": "list-to-page",
+      "source": "show-user-posts-list",
+      "target": "show-profile-page",
+      "type": "custom"
+    }
   ]
 }

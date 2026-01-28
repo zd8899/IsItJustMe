@@ -31,6 +31,7 @@ export const postRouter = router({
           identity: input.identity,
           categoryId: input.categoryId,
           anonymousId: input.anonymousId,
+          userId: ctx.userId || undefined,
           upvotes: 0,
           downvotes: 0,
           score: 0,
@@ -82,6 +83,7 @@ export const postRouter = router({
       const limit = input?.limit ?? 20;
       const posts = await ctx.prisma.post.findMany({
         take: limit + 1,
+        skip: input?.cursor ? 1 : undefined,
         cursor: input?.cursor ? { id: input.cursor } : undefined,
         orderBy: [{ hotScore: "desc" }, { createdAt: "desc" }],
         where: input?.categorySlug
@@ -93,13 +95,13 @@ export const postRouter = router({
         },
       });
 
-      let nextCursor: string | undefined;
+      let nextCursor: string | null = null;
       if (posts.length > limit) {
         const nextItem = posts.pop();
-        nextCursor = nextItem?.id;
+        nextCursor = nextItem?.id ?? null;
       }
 
-      return posts;
+      return { posts, nextCursor };
     }),
 
   listNew: publicProcedure
@@ -116,6 +118,7 @@ export const postRouter = router({
       const limit = input?.limit ?? 20;
       const posts = await ctx.prisma.post.findMany({
         take: limit + 1,
+        skip: input?.cursor ? 1 : undefined,
         cursor: input?.cursor ? { id: input.cursor } : undefined,
         orderBy: { createdAt: "desc" },
         where: input?.categorySlug
@@ -127,38 +130,88 @@ export const postRouter = router({
         },
       });
 
-      let nextCursor: string | undefined;
+      let nextCursor: string | null = null;
       if (posts.length > limit) {
         const nextItem = posts.pop();
-        nextCursor = nextItem?.id;
+        nextCursor = nextItem?.id ?? null;
       }
 
-      return posts;
+      return { posts, nextCursor };
     }),
 
   listByCategory: publicProcedure
-    .input(z.object({ categoryId: z.string() }))
+    .input(
+      z.object({
+        categorySlug: z.string(),
+        limit: z.number().min(1).max(50).default(20),
+        cursor: z.string().optional(),
+      })
+    )
     .query(async ({ ctx, input }) => {
-      return ctx.prisma.post.findMany({
-        where: { categoryId: input.categoryId },
+      // First validate that the category exists
+      const category = await ctx.prisma.category.findUnique({
+        where: { slug: input.categorySlug },
+      });
+
+      if (!category) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Category not found",
+        });
+      }
+
+      const limit = input.limit;
+      const posts = await ctx.prisma.post.findMany({
+        take: limit + 1,
+        skip: input.cursor ? 1 : undefined,
+        cursor: input.cursor ? { id: input.cursor } : undefined,
+        where: { categoryId: category.id },
         orderBy: { createdAt: "desc" },
         include: {
           category: true,
           user: { select: { username: true } },
         },
       });
+
+      let nextCursor: string | null = null;
+      if (posts.length > limit) {
+        const nextItem = posts.pop();
+        nextCursor = nextItem?.id ?? null;
+      }
+
+      // Map posts to include commentCount from _count
+      const postsWithCommentCount = await Promise.all(
+        posts.map(async (post) => {
+          const commentCount = await ctx.prisma.comment.count({
+            where: { postId: post.id },
+          });
+          return {
+            ...post,
+            commentCount,
+          };
+        })
+      );
+
+      return { posts: postsWithCommentCount, nextCursor };
     }),
 
   listByUser: publicProcedure
-    .input(z.object({ userId: z.string() }))
+    .input(z.object({ userId: z.string().min(1) }))
     .query(async ({ ctx, input }) => {
-      return ctx.prisma.post.findMany({
+      const posts = await ctx.prisma.post.findMany({
         where: { userId: input.userId },
         orderBy: { createdAt: "desc" },
         include: {
           category: true,
+          _count: { select: { comments: true } },
         },
       });
+
+      // Map posts to include commentCount
+      return posts.map((post) => ({
+        ...post,
+        commentCount: post._count.comments,
+      }));
     }),
 
   delete: publicProcedure

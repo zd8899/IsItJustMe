@@ -24,9 +24,10 @@ export const voteRouter = router({
         });
       }
 
-      // Check for existing vote by userId (authenticated user)
+      // Check for existing vote by userId (authenticated user) or anonymousId
+      let existingVote = null;
       if (ctx.userId) {
-        const existingVote = await ctx.prisma.vote.findUnique({
+        existingVote = await ctx.prisma.vote.findUnique({
           where: {
             postId_userId: {
               postId: input.postId,
@@ -34,18 +35,8 @@ export const voteRouter = router({
             },
           },
         });
-
-        if (existingVote) {
-          throw new TRPCError({
-            code: "BAD_REQUEST",
-            message: "Already voted on this post",
-          });
-        }
-      }
-
-      // Check for existing vote by anonymousId
-      if (input.anonymousId) {
-        const existingVote = await ctx.prisma.vote.findUnique({
+      } else if (input.anonymousId) {
+        existingVote = await ctx.prisma.vote.findUnique({
           where: {
             postId_anonymousId: {
               postId: input.postId,
@@ -53,16 +44,92 @@ export const voteRouter = router({
             },
           },
         });
+      }
 
-        if (existingVote) {
-          throw new TRPCError({
-            code: "BAD_REQUEST",
-            message: "Already voted on this post",
+      // Handle existing vote: toggle off (delete) or change direction (update)
+      if (existingVote) {
+        if (existingVote.value === input.value) {
+          // Same value - toggle off (delete vote)
+          await ctx.prisma.vote.delete({
+            where: { id: existingVote.id },
           });
+
+          // Update post vote counts
+          if (existingVote.value === 1) {
+            await ctx.prisma.post.update({
+              where: { id: input.postId },
+              data: {
+                upvotes: { decrement: 1 },
+                score: { decrement: 1 },
+              },
+            });
+          } else if (existingVote.value === -1) {
+            await ctx.prisma.post.update({
+              where: { id: input.postId },
+              data: {
+                downvotes: { decrement: 1 },
+                score: { increment: 1 },
+              },
+            });
+          }
+
+          // Update author karma (reverse the vote effect)
+          if (post.userId) {
+            await ctx.prisma.user.update({
+              where: { id: post.userId },
+              data: {
+                karma: { decrement: existingVote.value },
+              },
+            });
+          }
+
+          return { ...existingVote, deleted: true };
+        } else {
+          // Different value - change direction (update vote)
+          const updatedVote = await ctx.prisma.vote.update({
+            where: { id: existingVote.id },
+            data: { value: input.value },
+          });
+
+          // Update post vote counts for direction change
+          if (input.value === 1) {
+            // Changed from downvote to upvote
+            await ctx.prisma.post.update({
+              where: { id: input.postId },
+              data: {
+                upvotes: { increment: 1 },
+                downvotes: { decrement: 1 },
+                score: { increment: 2 },
+              },
+            });
+          } else {
+            // Changed from upvote to downvote
+            await ctx.prisma.post.update({
+              where: { id: input.postId },
+              data: {
+                upvotes: { decrement: 1 },
+                downvotes: { increment: 1 },
+                score: { decrement: 2 },
+              },
+            });
+          }
+
+          // Update author karma (net change of 2: +2 for downvote->upvote, -2 for upvote->downvote)
+          if (post.userId) {
+            const karmaChange = input.value === 1 ? 2 : -2;
+            await ctx.prisma.user.update({
+              where: { id: post.userId },
+              data: {
+                karma: { increment: karmaChange },
+              },
+            });
+          }
+
+          return { ...updatedVote, updated: true };
         }
       }
 
-      // Create vote
+      // Create new vote
       const vote = await ctx.prisma.vote.create({
         data: {
           postId: input.postId,
@@ -92,6 +159,16 @@ export const voteRouter = router({
         });
       }
 
+      // Update author karma for new vote
+      if (post.userId) {
+        await ctx.prisma.user.update({
+          where: { id: post.userId },
+          data: {
+            karma: { increment: input.value },
+          },
+        });
+      }
+
       return vote;
     }),
 
@@ -116,9 +193,10 @@ export const voteRouter = router({
         });
       }
 
-      // Check for existing vote by userId (authenticated user)
+      // Check for existing vote by userId (authenticated user) or anonymousId
+      let existingVote = null;
       if (ctx.userId) {
-        const existingVote = await ctx.prisma.vote.findUnique({
+        existingVote = await ctx.prisma.vote.findUnique({
           where: {
             commentId_userId: {
               commentId: input.commentId,
@@ -126,18 +204,8 @@ export const voteRouter = router({
             },
           },
         });
-
-        if (existingVote) {
-          throw new TRPCError({
-            code: "BAD_REQUEST",
-            message: "Already voted on this comment",
-          });
-        }
-      }
-
-      // Check for existing vote by anonymousId
-      if (input.anonymousId) {
-        const existingVote = await ctx.prisma.vote.findUnique({
+      } else if (input.anonymousId) {
+        existingVote = await ctx.prisma.vote.findUnique({
           where: {
             commentId_anonymousId: {
               commentId: input.commentId,
@@ -145,16 +213,92 @@ export const voteRouter = router({
             },
           },
         });
+      }
 
-        if (existingVote) {
-          throw new TRPCError({
-            code: "BAD_REQUEST",
-            message: "Already voted on this comment",
+      // Handle existing vote: toggle off (delete) or change direction (update)
+      if (existingVote) {
+        if (existingVote.value === input.value) {
+          // Same value - toggle off (delete vote)
+          await ctx.prisma.vote.delete({
+            where: { id: existingVote.id },
           });
+
+          // Update comment vote counts
+          if (existingVote.value === 1) {
+            await ctx.prisma.comment.update({
+              where: { id: input.commentId },
+              data: {
+                upvotes: { decrement: 1 },
+                score: { decrement: 1 },
+              },
+            });
+          } else if (existingVote.value === -1) {
+            await ctx.prisma.comment.update({
+              where: { id: input.commentId },
+              data: {
+                downvotes: { decrement: 1 },
+                score: { increment: 1 },
+              },
+            });
+          }
+
+          // Update author karma (reverse the vote effect)
+          if (comment.userId) {
+            await ctx.prisma.user.update({
+              where: { id: comment.userId },
+              data: {
+                karma: { decrement: existingVote.value },
+              },
+            });
+          }
+
+          return { ...existingVote, deleted: true };
+        } else {
+          // Different value - change direction (update vote)
+          const updatedVote = await ctx.prisma.vote.update({
+            where: { id: existingVote.id },
+            data: { value: input.value },
+          });
+
+          // Update comment vote counts for direction change
+          if (input.value === 1) {
+            // Changed from downvote to upvote
+            await ctx.prisma.comment.update({
+              where: { id: input.commentId },
+              data: {
+                upvotes: { increment: 1 },
+                downvotes: { decrement: 1 },
+                score: { increment: 2 },
+              },
+            });
+          } else {
+            // Changed from upvote to downvote
+            await ctx.prisma.comment.update({
+              where: { id: input.commentId },
+              data: {
+                upvotes: { decrement: 1 },
+                downvotes: { increment: 1 },
+                score: { decrement: 2 },
+              },
+            });
+          }
+
+          // Update author karma (net change of 2: +2 for downvote->upvote, -2 for upvote->downvote)
+          if (comment.userId) {
+            const karmaChange = input.value === 1 ? 2 : -2;
+            await ctx.prisma.user.update({
+              where: { id: comment.userId },
+              data: {
+                karma: { increment: karmaChange },
+              },
+            });
+          }
+
+          return { ...updatedVote, updated: true };
         }
       }
 
-      // Create vote
+      // Create new vote
       const vote = await ctx.prisma.vote.create({
         data: {
           commentId: input.commentId,
@@ -180,6 +324,16 @@ export const voteRouter = router({
           data: {
             downvotes: { increment: 1 },
             score: { decrement: 1 },
+          },
+        });
+      }
+
+      // Update author karma for new vote
+      if (comment.userId) {
+        await ctx.prisma.user.update({
+          where: { id: comment.userId },
+          data: {
+            karma: { increment: input.value },
           },
         });
       }

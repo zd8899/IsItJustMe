@@ -9,6 +9,7 @@ export async function GET(request: NextRequest) {
     const sortBy = searchParams.get("sortBy") || "new";
     const limit = Math.min(parseInt(searchParams.get("limit") || "20"), 100);
     const offset = parseInt(searchParams.get("offset") || "0");
+    const categorySlug = searchParams.get("categorySlug");
 
     let orderBy: object;
     if (sortBy === "hot") {
@@ -19,10 +20,22 @@ export async function GET(request: NextRequest) {
       orderBy = { createdAt: "desc" };
     }
 
+    // Build where clause for category filtering
+    let whereClause: object | undefined = undefined;
+    if (categorySlug && categorySlug !== "all") {
+      const category = await prisma.category.findUnique({
+        where: { slug: categorySlug },
+      });
+      if (category) {
+        whereClause = { categoryId: category.id };
+      }
+    }
+
     const posts = await prisma.post.findMany({
       take: limit,
       skip: offset,
       orderBy: orderBy,
+      where: whereClause,
       include: {
         category: {
           select: {
@@ -88,6 +101,8 @@ export async function POST(request: NextRequest) {
         frustration: validatedData.frustration,
         identity: validatedData.identity,
         categoryId: validatedData.categoryId,
+        userId: validatedData.userId || undefined,
+        anonymousId: validatedData.anonymousId || undefined,
       },
     });
 

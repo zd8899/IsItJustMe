@@ -1,31 +1,35 @@
 "use client";
 
-import { useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { CategoryFilter } from "./CategoryFilter";
 
 type FeedType = "hot" | "new";
 
-export function FeedTabs() {
-  const [activeTab, setActiveTab] = useState<FeedType>("hot");
+interface FeedTabsProps {
+  sortBy: FeedType;
+  onSortByChange: (sortBy: FeedType) => void;
+  categorySlug: string;
+  onCategoryChange: (categorySlug: string) => void;
+}
 
+export function FeedTabs({ sortBy, onSortByChange, categorySlug, onCategoryChange }: FeedTabsProps) {
   return (
     <div className="flex items-center justify-between gap-4">
       <div className="flex gap-2">
         <Button
-          variant={activeTab === "hot" ? "primary" : "ghost"}
-          onClick={() => setActiveTab("hot")}
+          variant={sortBy === "hot" ? "primary" : "ghost"}
+          onClick={() => onSortByChange("hot")}
         >
           Hot
         </Button>
         <Button
-          variant={activeTab === "new" ? "primary" : "ghost"}
-          onClick={() => setActiveTab("new")}
+          variant={sortBy === "new" ? "primary" : "ghost"}
+          onClick={() => onSortByChange("new")}
         >
           New
         </Button>
       </div>
-      <CategoryFilter />
+      <CategoryFilter value={categorySlug} onChange={onCategoryChange} />
     </div>
   );
 }

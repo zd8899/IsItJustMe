@@ -8,6 +8,8 @@ import { PostList } from "@/components/post/PostList";
 
 export default function HomePage() {
   const [refreshKey, setRefreshKey] = useState(0);
+  const [sortBy, setSortBy] = useState<"hot" | "new">("hot");
+  const [categorySlug, setCategorySlug] = useState("all");
 
   const handlePostCreated = () => {
     setRefreshKey((prev) => prev + 1);
@@ -16,10 +18,17 @@ export default function HomePage() {
   return (
     <Container>
       <div className="py-8">
-        <PostForm onPostCreated={handlePostCreated} />
+        <FeedTabs
+          sortBy={sortBy}
+          onSortByChange={setSortBy}
+          categorySlug={categorySlug}
+          onCategoryChange={setCategorySlug}
+        />
+        <div className="mt-4">
+          <PostForm onPostCreated={handlePostCreated} />
+        </div>
         <div className="mt-8">
-          <FeedTabs />
-          <PostList refreshKey={refreshKey} />
+          <PostList refreshKey={refreshKey} sortBy={sortBy} categorySlug={categorySlug} />
         </div>
       </div>
     </Container>
