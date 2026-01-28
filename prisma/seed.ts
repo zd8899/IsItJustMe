@@ -50,13 +50,20 @@ async function main() {
       where: { userId: sampleUser.id },
     });
 
-    if (!existingPost) {
+    if (existingPost) {
+      // Update existing post to ensure high hotScore for visibility in hot feed
+      await prisma.post.update({
+        where: { id: existingPost.id },
+        data: { hotScore: 1000 },
+      });
+    } else {
       await prisma.post.create({
         data: {
           frustration: "find time for everything",
           identity: "a busy professional",
           categoryId: dailyLifeCategory.id,
           userId: sampleUser.id,
+          hotScore: 1000, // High score to ensure visibility in hot feed
         },
       });
     }

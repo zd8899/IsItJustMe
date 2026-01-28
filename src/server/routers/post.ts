@@ -130,21 +130,45 @@ export const postRouter = router({
   listByCategory: publicProcedure
     .input(
       z.object({
-        categorySlug: z.string(),
+        categorySlug: z.string().optional(),
+        categoryId: z.string().optional(),
         limit: z.number().min(1).max(50).default(20),
         cursor: z.string().optional(),
       })
     )
     .query(async ({ ctx, input }) => {
-      // Validate that the category exists by slug
-      const category = await ctx.prisma.category.findUnique({
-        where: { slug: input.categorySlug },
-      });
+      let categoryIdToUse: string;
 
-      if (!category) {
+      if (input.categoryId) {
+        // If categoryId is provided, verify it exists
+        const category = await ctx.prisma.category.findUnique({
+          where: { id: input.categoryId },
+        });
+
+        if (!category) {
+          throw new TRPCError({
+            code: "NOT_FOUND",
+            message: "Category not found",
+          });
+        }
+        categoryIdToUse = input.categoryId;
+      } else if (input.categorySlug) {
+        // If categorySlug is provided, look up the category
+        const category = await ctx.prisma.category.findUnique({
+          where: { slug: input.categorySlug },
+        });
+
+        if (!category) {
+          throw new TRPCError({
+            code: "NOT_FOUND",
+            message: "Category not found",
+          });
+        }
+        categoryIdToUse = category.id;
+      } else {
         throw new TRPCError({
-          code: "NOT_FOUND",
-          message: "Category not found",
+          code: "BAD_REQUEST",
+          message: "Either categoryId or categorySlug must be provided",
         });
       }
 
@@ -153,7 +177,7 @@ export const postRouter = router({
         take: limit,
         skip: input.cursor ? 1 : undefined,
         cursor: input.cursor ? { id: input.cursor } : undefined,
-        where: { categoryId: category.id },
+        where: { categoryId: categoryIdToUse },
         orderBy: { createdAt: "desc" },
         include: {
           category: true,

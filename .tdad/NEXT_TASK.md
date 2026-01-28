@@ -5,7 +5,7 @@
 ---
 
 ## Summary
-Node "Handle Downvote Click" passed all tests.
+Node "Load More Posts" passed all tests.
 
 ---
 
