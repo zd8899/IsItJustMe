@@ -81,8 +81,9 @@ export const postRouter = router({
     )
     .query(async ({ ctx, input }) => {
       const limit = input?.limit ?? 20;
+      // Fetch one extra to determine if there are more posts
       const posts = await ctx.prisma.post.findMany({
-        take: limit,
+        take: limit + 1,
         skip: input?.cursor ? 1 : undefined,
         cursor: input?.cursor ? { id: input.cursor } : undefined,
         orderBy: [{ hotScore: "desc" }, { createdAt: "desc" }],
@@ -95,7 +96,15 @@ export const postRouter = router({
         },
       });
 
-      return posts;
+      // Check if there are more posts beyond the limit
+      const hasMore = posts.length > limit;
+      const postsToReturn = hasMore ? posts.slice(0, limit) : posts;
+      const nextCursor = hasMore ? postsToReturn[postsToReturn.length - 1]?.id ?? null : null;
+
+      return {
+        posts: postsToReturn,
+        nextCursor,
+      };
     }),
 
   listNew: publicProcedure
@@ -110,8 +119,9 @@ export const postRouter = router({
     )
     .query(async ({ ctx, input }) => {
       const limit = input?.limit ?? 20;
+      // Fetch one extra to determine if there are more posts
       const posts = await ctx.prisma.post.findMany({
-        take: limit,
+        take: limit + 1,
         skip: input?.cursor ? 1 : undefined,
         cursor: input?.cursor ? { id: input.cursor } : undefined,
         orderBy: { createdAt: "desc" },
@@ -124,7 +134,15 @@ export const postRouter = router({
         },
       });
 
-      return posts;
+      // Check if there are more posts beyond the limit
+      const hasMore = posts.length > limit;
+      const postsToReturn = hasMore ? posts.slice(0, limit) : posts;
+      const nextCursor = hasMore ? postsToReturn[postsToReturn.length - 1]?.id ?? null : null;
+
+      return {
+        posts: postsToReturn,
+        nextCursor,
+      };
     }),
 
   listByCategory: publicProcedure
@@ -173,8 +191,9 @@ export const postRouter = router({
       }
 
       const limit = input.limit;
+      // Fetch one extra to determine if there are more posts
       const posts = await ctx.prisma.post.findMany({
-        take: limit,
+        take: limit + 1,
         skip: input.cursor ? 1 : undefined,
         cursor: input.cursor ? { id: input.cursor } : undefined,
         where: { categoryId: categoryIdToUse },
@@ -186,13 +205,22 @@ export const postRouter = router({
         },
       });
 
+      // Check if there are more posts beyond the limit
+      const hasMore = posts.length > limit;
+      const postsToReturn = hasMore ? posts.slice(0, limit) : posts;
+
       // Map posts to include commentCount
-      const postsWithCommentCount = posts.map((post) => ({
+      const postsWithCommentCount = postsToReturn.map((post) => ({
         ...post,
         commentCount: post._count.comments,
       }));
 
-      return postsWithCommentCount;
+      const nextCursor = hasMore ? postsWithCommentCount[postsWithCommentCount.length - 1]?.id ?? null : null;
+
+      return {
+        posts: postsWithCommentCount,
+        nextCursor,
+      };
     }),
 
   listByUser: publicProcedure

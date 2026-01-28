@@ -36,6 +36,9 @@ export function PostList({ sortBy = "new", refreshKey = 0, categorySlug = "all" 
     const abortController = new AbortController();
     abortControllerRef.current = abortController;
 
+    // Clear posts when filter changes to avoid showing stale data
+    setPosts([]);
+
     const fetchPosts = async () => {
       try {
         setIsLoading(true);
