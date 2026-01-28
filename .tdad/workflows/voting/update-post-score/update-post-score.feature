@@ -94,36 +94,7 @@ Feature: Update Post Score
     And the post downvotes should be 1
     And the post score should be 3
 
-  # --- Comment Score Updates ---
-  Scenario: [API] Comment score increases after new upvote
-    Given a comment exists with upvotes 0, downvotes 0, and score 0
-    And the user is logged in
-    And the user has not voted on the comment
-    When the client sends POST request to "/api/trpc/vote.castCommentVote" with value 1
-    Then the response status should be 200
-    And the comment upvotes should be 1
-    And the comment downvotes should be 0
-    And the comment score should be 1
-
-  Scenario: [API] Comment score decreases after new downvote
-    Given a comment exists with upvotes 0, downvotes 0, and score 0
-    And the user is logged in
-    And the user has not voted on the comment
-    When the client sends POST request to "/api/trpc/vote.castCommentVote" with value -1
-    Then the response status should be 200
-    And the comment upvotes should be 0
-    And the comment downvotes should be 1
-    And the comment score should be -1
-
-  Scenario: [API] Comment score updates correctly when vote direction changes
-    Given a comment exists with upvotes 8, downvotes 2, and score 6
-    And the user is logged in
-    And the user has previously upvoted the comment
-    When the client sends POST request to "/api/trpc/vote.castCommentVote" with value -1
-    Then the response status should be 200
-    And the comment upvotes should be 7
-    And the comment downvotes should be 3
-    And the comment score should be 4
+  # NOTE: Comment score scenarios are defined in update-comment-score.feature
 
   # --- Edge Case: Score Handles Negative Values ---
   Scenario: [API] Post score correctly handles negative values

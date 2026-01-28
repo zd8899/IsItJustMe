@@ -82,7 +82,7 @@ export const postRouter = router({
     .query(async ({ ctx, input }) => {
       const limit = input?.limit ?? 20;
       const posts = await ctx.prisma.post.findMany({
-        take: limit + 1,
+        take: limit,
         skip: input?.cursor ? 1 : undefined,
         cursor: input?.cursor ? { id: input.cursor } : undefined,
         orderBy: [{ hotScore: "desc" }, { createdAt: "desc" }],
@@ -95,13 +95,7 @@ export const postRouter = router({
         },
       });
 
-      let nextCursor: string | null = null;
-      if (posts.length > limit) {
-        const nextItem = posts.pop();
-        nextCursor = nextItem?.id ?? null;
-      }
-
-      return { posts, nextCursor };
+      return posts;
     }),
 
   listNew: publicProcedure
@@ -117,7 +111,7 @@ export const postRouter = router({
     .query(async ({ ctx, input }) => {
       const limit = input?.limit ?? 20;
       const posts = await ctx.prisma.post.findMany({
-        take: limit + 1,
+        take: limit,
         skip: input?.cursor ? 1 : undefined,
         cursor: input?.cursor ? { id: input.cursor } : undefined,
         orderBy: { createdAt: "desc" },
@@ -130,27 +124,21 @@ export const postRouter = router({
         },
       });
 
-      let nextCursor: string | null = null;
-      if (posts.length > limit) {
-        const nextItem = posts.pop();
-        nextCursor = nextItem?.id ?? null;
-      }
-
-      return { posts, nextCursor };
+      return posts;
     }),
 
   listByCategory: publicProcedure
     .input(
       z.object({
-        categorySlug: z.string(),
+        categoryId: z.string(),
         limit: z.number().min(1).max(50).default(20),
         cursor: z.string().optional(),
       })
     )
     .query(async ({ ctx, input }) => {
-      // First validate that the category exists
+      // Validate that the category exists
       const category = await ctx.prisma.category.findUnique({
-        where: { slug: input.categorySlug },
+        where: { id: input.categoryId },
       });
 
       if (!category) {
@@ -162,37 +150,25 @@ export const postRouter = router({
 
       const limit = input.limit;
       const posts = await ctx.prisma.post.findMany({
-        take: limit + 1,
+        take: limit,
         skip: input.cursor ? 1 : undefined,
         cursor: input.cursor ? { id: input.cursor } : undefined,
-        where: { categoryId: category.id },
+        where: { categoryId: input.categoryId },
         orderBy: { createdAt: "desc" },
         include: {
           category: true,
           user: { select: { username: true } },
+          _count: { select: { comments: true } },
         },
       });
 
-      let nextCursor: string | null = null;
-      if (posts.length > limit) {
-        const nextItem = posts.pop();
-        nextCursor = nextItem?.id ?? null;
-      }
+      // Map posts to include commentCount
+      const postsWithCommentCount = posts.map((post) => ({
+        ...post,
+        commentCount: post._count.comments,
+      }));
 
-      // Map posts to include commentCount from _count
-      const postsWithCommentCount = await Promise.all(
-        posts.map(async (post) => {
-          const commentCount = await ctx.prisma.comment.count({
-            where: { postId: post.id },
-          });
-          return {
-            ...post,
-            commentCount,
-          };
-        })
-      );
-
-      return { posts: postsWithCommentCount, nextCursor };
+      return postsWithCommentCount;
     }),
 
   listByUser: publicProcedure

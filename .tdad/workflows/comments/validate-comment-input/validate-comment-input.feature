@@ -3,7 +3,7 @@ Feature: Validate Comment Input
   I want to receive validation feedback on my comment input
   So that I can submit properly formatted comments
 
-  # NOTE: Comment content must be 1-2000 characters
+  # NOTE: Comment content must be 3-2000 characters
 
 
   # ==========================================
@@ -20,7 +20,13 @@ Feature: Validate Comment Input
     Given a post exists in the system
     When the client sends POST request to "/api/comments" with empty content
     Then the response status should be 400
-    And the response error should be "Comment cannot be empty"
+    And the response error should be "Comment is required"
+
+  Scenario: [API] Create Comment API Failure (Content too short)
+    Given a post exists in the system
+    When the client sends POST request to "/api/comments" with content "ab"
+    Then the response status should be 400
+    And the response error should be "Comment must be at least 3 characters"
 
   Scenario: [API] Create Comment API Failure (Content exceeds maximum length)
     Given a post exists in the system
@@ -30,7 +36,7 @@ Feature: Validate Comment Input
 
   Scenario: [API] Create Comment API Success with minimum valid content
     Given a post exists in the system
-    When the client sends POST request to "/api/comments" with content "X"
+    When the client sends POST request to "/api/comments" with content "Yes"
     Then the response status should be 201
     And the response body should contain "id"
 

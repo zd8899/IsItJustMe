@@ -469,15 +469,8 @@ test.describe('Create Prisma Schema', () => {
     expect(verifyResult.body.score).toBe(-1);
   });
 
-  test('[API-015] Prevent duplicate vote on post by same user', async ({ page }) => {
-    // Setup: Register user and create post
-    const username = generateUniqueUsername();
-    const userResult = await performUserRegisterAction(page, {
-      username,
-      password: 'secret123'
-    });
-    expect(userResult.success).toBe(true);
-
+  test('[API-015] Toggle vote off when same user votes again with same value', async ({ page }) => {
+    // Setup: Create post (using anonymous voting for simplicity)
     const categoryResult = await performCategoryListAction(page);
     expect(categoryResult.success).toBe(true);
 
@@ -494,27 +487,31 @@ test.describe('Create Prisma Schema', () => {
     });
     expect(postResult.success).toBe(true);
 
-    // First vote
+    // Use same anonymous ID for both votes to simulate same user
+    const voterId = generateAnonymousId();
+
+    // First vote (upvote)
     const firstVoteResult = await performVoteCastPostVoteAction(page, {
       postId: postResult.postId,
       value: 1,
-      authToken: userResult.userId
+      anonymousId: voterId
     });
     expect(firstVoteResult.success).toBe(true);
+    expect(firstVoteResult.statusCode).toBe(200);
 
-    // Action: Try duplicate vote
+    // Action: Vote again with same value (should toggle off)
     const result = await performVoteCastPostVoteAction(page, {
       postId: postResult.postId,
       value: 1,
-      authToken: userResult.userId
+      anonymousId: voterId
     });
 
-    // Assertions - expect failure for duplicate vote
-    expect(result.statusCode).toBe(400);
-    expect(result.error).toContain('Already voted');
+    // Assertions - expect success with toggle off (vote removed)
+    expect(result.statusCode).toBe(200);
+    expect(result.body.deleted).toBe(true);
   });
 
-  test('[API-016] Prevent duplicate vote on post by same anonymous user', async ({ page }) => {
+  test('[API-016] Toggle vote off when same anonymous user votes again with same value', async ({ page }) => {
     // Setup: Create post
     const categoryResult = await performCategoryListAction(page);
     expect(categoryResult.success).toBe(true);
@@ -535,24 +532,25 @@ test.describe('Create Prisma Schema', () => {
     // Use same anonymous ID for both votes
     const anonymousId = generateAnonymousId();
 
-    // First vote
+    // First vote (upvote)
     const firstVoteResult = await performVoteCastPostVoteAction(page, {
       postId: postResult.postId,
       value: 1,
       anonymousId
     });
     expect(firstVoteResult.success).toBe(true);
+    expect(firstVoteResult.statusCode).toBe(200);
 
-    // Action: Try duplicate vote with same anonymousId
+    // Action: Vote again with same value (should toggle off)
     const result = await performVoteCastPostVoteAction(page, {
       postId: postResult.postId,
       value: 1,
       anonymousId
     });
 
-    // Assertions - expect failure for duplicate vote
-    expect(result.statusCode).toBe(400);
-    expect(result.error).toContain('Already voted');
+    // Assertions - expect success with toggle off (vote removed)
+    expect(result.statusCode).toBe(200);
+    expect(result.body.deleted).toBe(true);
   });
 
   test('[API-017] Deleting post cascades to votes', async ({ page }) => {

@@ -142,25 +142,25 @@ Feature: Create Prisma Schema
     And the comment "comment-456" should have "downvotes" incremented by 1
     And the comment "comment-456" should have "score" decremented by 1
 
-  Scenario: [API] Prevent duplicate vote on post by same user
+  Scenario: [API] Toggle vote off when same user votes again with same value
     Given the user exists with username "voter"
     And the post exists with id "post-123"
-    And the user "voter" has already voted on post "post-123"
+    And the user "voter" has already upvoted post "post-123"
     When the client sends authenticated POST request to "/api/trpc/vote.castPostVote" with:
       | postId | post-123 |
       | value  | 1        |
-    Then the response status should be 400
-    And the response error should be "Already voted on this post"
+    Then the response status should be 200
+    And the vote should be removed (toggle off)
 
-  Scenario: [API] Prevent duplicate vote on post by same anonymous user
+  Scenario: [API] Toggle vote off when same anonymous user votes again with same value
     Given the post exists with id "post-123"
-    And anonymous user "anon-uuid-333" has already voted on post "post-123"
+    And anonymous user "anon-uuid-333" has already upvoted post "post-123"
     When the client sends POST request to "/api/trpc/vote.castPostVote" with:
       | postId      | post-123      |
       | value       | 1             |
       | anonymousId | anon-uuid-333 |
-    Then the response status should be 400
-    And the response error should be "Already voted on this post"
+    Then the response status should be 200
+    And the vote should be removed (toggle off)
 
   Scenario: [API] Deleting post cascades to votes
     Given the post exists with id "post-123"

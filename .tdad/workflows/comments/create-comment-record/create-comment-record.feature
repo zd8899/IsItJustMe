@@ -4,7 +4,7 @@ Feature: Create Comment Record
   So that it becomes part of the post's discussion
 
   # NOTE: This feature handles database insertion after comment validation passes
-  # Upstream: Validate Comment Input (comment content is 1-2000 characters)
+  # Upstream: Validate Comment Input (comment content is 3-2000 characters)
 
 
   # ==========================================

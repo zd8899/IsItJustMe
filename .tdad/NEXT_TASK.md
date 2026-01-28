@@ -43,7 +43,7 @@ Check PASSED test traces as well to understand working patterns. Use trace to fi
 
 ---
 
-# 🎯 TDAD Context Packet: "Create Prisma Schema"
+# 🎯 TDAD Context Packet: "Show Register Form"
 
 ## 📋 Overview
 TDAD has scaffolded the files for this feature with correct imports and structure.
@@ -54,9 +54,9 @@ Your task is to **fill in the implementation** in the scaffolded files to make t
 ## 📂 Scaffolded Files
 Read these files to understand the current implementation:
 
-- **Feature Spec:** `.tdad/workflows/database/create-prisma-schema/create-prisma-schema.feature`
-- **Action File:** `.tdad/workflows/database/create-prisma-schema/create-prisma-schema.action.js`
-- **Test File:** `.tdad/workflows/database/create-prisma-schema/create-prisma-schema.test.js`
+- **Feature Spec:** `.tdad/workflows/auth/show-register-form/show-register-form.feature`
+- **Action File:** `.tdad/workflows/auth/show-register-form/show-register-form.action.js`
+- **Test File:** `.tdad/workflows/auth/show-register-form/show-register-form.test.js`
 
 
 ---
@@ -78,171 +78,68 @@ Read these files to understand the current implementation:
 
 ## 📊 TEST RESULTS
 
-**Summary:** 16 passed, 5 failed
+**Summary:** 4 passed, 1 failed
 
-### ❌ FAILED: [API-015] Prevent duplicate vote on post by same user
+**Frontend Source Files:**
+- `auth/register`
+
+### ❌ FAILED: [UI-001] Display registration form with all required fields
 ──────────────────────────────────────────────────
 **Error:** expect(received).toBe(expected) // Object.is equality
 
-  📍 Code at .tdad\workflows\database\create-prisma-schema\create-prisma-schema.test.js:513
+  📍 Code at .tdad\workflows\auth\show-register-form\show-register-form.test.js:31
   ```
-      510│     });
-      511│ 
-      512│     // Assertions - expect failure for duplicate vote
-  >>  513│     expect(result.statusCode).toBe(400);
-      514│     expect(result.error).toContain('Already voted');
-      515│   });
-      516│ 
-  ```
-
-📁 **Details Trace file and logs:** `.tdad/debug/database/create-prisma-schema/trace-files/trace-api-015-prevent-duplicate-vote-on-post-by-same-use.json`
-📡 **API Calls:** (none)
-
-### ❌ FAILED: [API-016] Prevent duplicate vote on post by same anonymous user
-──────────────────────────────────────────────────
-**Error:** expect(received).toBe(expected) // Object.is equality
-
-  📍 Code at .tdad\workflows\database\create-prisma-schema\create-prisma-schema.test.js:554
-  ```
-      551│     });
-      552│ 
-      553│     // Assertions - expect failure for duplicate vote
-  >>  554│     expect(result.statusCode).toBe(400);
-      555│     expect(result.error).toContain('Already voted');
-      556│   });
-      557│ 
+       28│         const result = await performShowRegisterFormAction(page, { navigationType: 'header' });
+       29│ 
+       30│         // Unconditional assertion - always assert
+  >>   31│         expect(result.success).toBe(true);
+       32│ 
+       33│         // Then the user should see the registration form
+       34│         // And the user should see a "Username" input field
   ```
 
-📁 **Details Trace file and logs:** `.tdad/debug/database/create-prisma-schema/trace-files/trace-api-016-prevent-duplicate-vote-on-post-by-same-ano.json`
-📡 **API Calls:** (none)
+📁 **Details Trace file and logs:** `.tdad/debug/auth/show-register-form/trace-files/trace-ui-001-display-registration-form-with-all-required.json`
+📸 **Screenshot:** `.tdad/debug/auth/show-register-form/screenshots/ui-001-display-registration-form-with-all-required.png`
+📡 **API Calls:**
+- `GET http://localhost:3000/api/posts?sortBy=hot` → 0 ❌
 
-### ❌ FAILED: [API-019] Query posts by category efficiently
-──────────────────────────────────────────────────
-**Error:** expect(received).toBe(expected) // Object.is equality
-
-  📍 Code at .tdad\workflows\database\create-prisma-schema\create-prisma-schema.test.js:691
-  ```
-      688│     });
-      689│ 
-      690│     // Assertions
-  >>  691│     expect(result.success).toBe(true);
-      692│     expect(result.statusCode).toBe(200);
-      693│     expect(Array.isArray(result.posts)).toBe(true);
-      694│ 
-  ```
-
-📁 **Details Trace file and logs:** `.tdad/debug/database/create-prisma-schema/trace-files/trace-api-019-query-posts-by-category-efficiently.json`
-📡 **API Calls:** (none)
-
-### ❌ FAILED: [API-020] Query posts sorted by score and date (hot)
-──────────────────────────────────────────────────
-**Error:** expect(received).toBe(expected) // Object.is equality
-
-  📍 Code at .tdad\workflows\database\create-prisma-schema\create-prisma-schema.test.js:733
-  ```
-      730│     // Assertions
-      731│     expect(result.success).toBe(true);
-      732│     expect(result.statusCode).toBe(200);
-  >>  733│     expect(Array.isArray(result.posts)).toBe(true);
-      734│     // Posts should be returned (sorted by hot score algorithm)
-      735│   });
-      736│ 
-  ```
-
-📁 **Details Trace file and logs:** `.tdad/debug/database/create-prisma-schema/trace-files/trace-api-020-query-posts-sorted-by-score-and-date-hot.json`
-📡 **API Calls:** (none)
-
-### ❌ FAILED: [API-021] Query posts sorted by creation date (new)
-──────────────────────────────────────────────────
-**Error:** expect(received).toBe(expected) // Object.is equality
-
-  📍 Code at .tdad\workflows\database\create-prisma-schema\create-prisma-schema.test.js:771
-  ```
-      768│     // Assertions
-      769│     expect(result.success).toBe(true);
-      770│     expect(result.statusCode).toBe(200);
-  >>  771│     expect(Array.isArray(result.posts)).toBe(true);
-      772│ 
-      773│     // Posts should be sorted by createdAt descending (newest first)
-      774│     if (result.posts.length >= 2) {
-  ```
-
-📁 **Details Trace file and logs:** `.tdad/debug/database/create-prisma-schema/trace-files/trace-api-021-query-posts-sorted-by-creation-date-new.json`
-📡 **API Calls:** (none)
-
-### ✅ PASSED TESTS (16)
+### ✅ PASSED TESTS (4)
 ──────────────────────────────────────────────────
 
-**✅ [API-001] Create user with required fields**
-📁 **Details Trace file and logs:** `.tdad/debug/database/create-prisma-schema/trace-files/trace-api-001-create-user-with-required-fields.json`
-📡 **API Calls:** (none)
+**✅ [UI-002] Navigate directly to registration page**
+📁 **Details Trace file and logs:** `.tdad/debug/auth/show-register-form/trace-files/trace-ui-002-navigate-directly-to-registration-page.json`
+📸 **Screenshot:** `.tdad/debug/auth/show-register-form/screenshots/ui-002-navigate-directly-to-registration-page.png`
+📡 **API Calls:**
+- `GET http://localhost:3000/api/auth/session` → 200 ✅
+- `GET http://localhost:3000/api/auth/session` → 200 ✅
 
-**✅ [API-002] User username must be unique**
-📁 **Details Trace file and logs:** `.tdad/debug/database/create-prisma-schema/trace-files/trace-api-002-user-username-must-be-unique.json`
-📡 **API Calls:** (none)
+**✅ [UI-003] Form fields are empty by default**
+📁 **Details Trace file and logs:** `.tdad/debug/auth/show-register-form/trace-files/trace-ui-003-form-fields-are-empty-by-default.json`
+📸 **Screenshot:** `.tdad/debug/auth/show-register-form/screenshots/ui-003-form-fields-are-empty-by-default.png`
+📡 **API Calls:**
+- `GET http://localhost:3000/api/auth/session` → 200 ✅
+- `GET http://localhost:3000/api/auth/session` → 200 ✅
 
-**✅ [API-003] List all categories**
-📁 **Details Trace file and logs:** `.tdad/debug/database/create-prisma-schema/trace-files/trace-api-003-list-all-categories.json`
-📡 **API Calls:** (none)
+**✅ [UI-004] Password field masks input**
+📁 **Details Trace file and logs:** `.tdad/debug/auth/show-register-form/trace-files/trace-ui-004-password-field-masks-input.json`
+📸 **Screenshot:** `.tdad/debug/auth/show-register-form/screenshots/ui-004-password-field-masks-input.png`
+📡 **API Calls:**
+- `GET http://localhost:3000/api/auth/session` → 200 ✅
+- `GET http://localhost:3000/api/auth/session` → 200 ✅
 
-**✅ [API-004] Category name and slug must be unique**
-📁 **Details Trace file and logs:** `.tdad/debug/database/create-prisma-schema/trace-files/trace-api-004-category-name-and-slug-must-be-unique.json`
-📡 **API Calls:** (none)
-
-**✅ [API-005] Create anonymous post with required fields**
-📁 **Details Trace file and logs:** `.tdad/debug/database/create-prisma-schema/trace-files/trace-api-005-create-anonymous-post-with-required-fields.json`
-📡 **API Calls:** (none)
-
-**✅ [API-006] Create post with user association**
-📁 **Details Trace file and logs:** `.tdad/debug/database/create-prisma-schema/trace-files/trace-api-006-create-post-with-user-association.json`
-📡 **API Calls:** (none)
-
-**✅ [API-007] Post must have valid category reference**
-📁 **Details Trace file and logs:** `.tdad/debug/database/create-prisma-schema/trace-files/trace-api-007-post-must-have-valid-category-reference.json`
-📡 **API Calls:** (none)
-
-**✅ [API-008] Get post by ID with category relation**
-📁 **Details Trace file and logs:** `.tdad/debug/database/create-prisma-schema/trace-files/trace-api-008-get-post-by-id-with-category-relation.json`
-📡 **API Calls:** (none)
-
-**✅ [API-009] Create comment on post**
-📁 **Details Trace file and logs:** `.tdad/debug/database/create-prisma-schema/trace-files/trace-api-009-create-comment-on-post.json`
-📡 **API Calls:** (none)
-
-**✅ [API-010] Create nested comment reply**
-📁 **Details Trace file and logs:** `.tdad/debug/database/create-prisma-schema/trace-files/trace-api-010-create-nested-comment-reply.json`
-📡 **API Calls:** (none)
-
-**✅ [API-011] Comment must reference valid post**
-📁 **Details Trace file and logs:** `.tdad/debug/database/create-prisma-schema/trace-files/trace-api-011-comment-must-reference-valid-post.json`
-📡 **API Calls:** (none)
-
-**✅ [API-012] Deleting post cascades to comments**
-📁 **Details Trace file and logs:** `.tdad/debug/database/create-prisma-schema/trace-files/trace-api-012-deleting-post-cascades-to-comments.json`
-📡 **API Calls:** (none)
-
-**✅ [API-013] Cast upvote on post**
-📁 **Details Trace file and logs:** `.tdad/debug/database/create-prisma-schema/trace-files/trace-api-013-cast-upvote-on-post.json`
-📡 **API Calls:** (none)
-
-**✅ [API-014] Cast downvote on comment**
-📁 **Details Trace file and logs:** `.tdad/debug/database/create-prisma-schema/trace-files/trace-api-014-cast-downvote-on-comment.json`
-📡 **API Calls:** (none)
-
-**✅ [API-017] Deleting post cascades to votes**
-📁 **Details Trace file and logs:** `.tdad/debug/database/create-prisma-schema/trace-files/trace-api-017-deleting-post-cascades-to-votes.json`
-📡 **API Calls:** (none)
-
-**✅ [API-018] Deleting comment cascades to votes**
-📁 **Details Trace file and logs:** `.tdad/debug/database/create-prisma-schema/trace-files/trace-api-018-deleting-comment-cascades-to-votes.json`
-📡 **API Calls:** (none)
+**✅ [UI-005] Display link to login page for existing users**
+📁 **Details Trace file and logs:** `.tdad/debug/auth/show-register-form/trace-files/trace-ui-005-display-link-to-login-page-for-existing-use.json`
+📸 **Screenshot:** `.tdad/debug/auth/show-register-form/screenshots/ui-005-display-link-to-login-page-for-existing-use.png`
+📡 **API Calls:**
+- `GET http://localhost:3000/api/auth/session` → 200 ✅
+- `GET http://localhost:3000/api/auth/session` → 200 ✅
 
 
 ---
 
 ## ✅ YOUR TASK
 
-1. **Read specs first:** `.tdad/workflows/database/create-prisma-schema/create-prisma-schema.feature` for requirements, `.tdad/workflows/database/create-prisma-schema/create-prisma-schema.test.js` for expected values
+1. **Read specs first:** `.tdad/workflows/auth/show-register-form/show-register-form.feature` for requirements, `.tdad/workflows/auth/show-register-form/show-register-form.test.js` for expected values
 2. **Use trace to locate:** Find files to fix from trace data (WHERE, not WHAT)
 3. **Fix the APP** to match spec/test expectations
 4. **Verify** no red flags before submitting
