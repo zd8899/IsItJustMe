@@ -70,7 +70,10 @@ async function performFetchHotPostsAction(page, context = {}) {
 
             // Extract posts data from successful response
             // tRPC with superjson returns data in result.data.json format
-            const posts = body?.result?.data?.json || body?.result?.data || [];
+            // API returns { posts: [...], nextCursor: string | null }
+            const responseData = body?.result?.data?.json || body?.result?.data || {};
+            const posts = Array.isArray(responseData) ? responseData : (responseData.posts || []);
+            const nextCursor = responseData.nextCursor ?? null;
 
             return {
                 success: response.ok(),
@@ -78,6 +81,7 @@ async function performFetchHotPostsAction(page, context = {}) {
                 body: body,
                 posts: Array.isArray(posts) ? posts : [],
                 postCount: Array.isArray(posts) ? posts.length : 0,
+                nextCursor: nextCursor,
                 errorMessage: errorMessage
             };
         }
