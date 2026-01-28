@@ -40,6 +40,8 @@ export function PostList({ sortBy = "new", refreshKey = 0, categorySlug = "all" 
       try {
         setIsLoading(true);
         setError(null);
+        // Clear posts when fetching to ensure UI reflects current filter state
+        setPosts([]);
         let url = `/api/posts?sortBy=${sortBy}`;
         if (categorySlug && categorySlug !== "all") {
           url += `&categorySlug=${encodeURIComponent(categorySlug)}`;
