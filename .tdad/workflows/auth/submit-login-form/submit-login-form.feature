@@ -55,7 +55,7 @@ Feature: Submit Login Form
     And the user is on the login page
     When the user enters "testuser" in the "Username" field
     And the user enters "Password123" in the "Password" field
-    And the user clicks the "Log In" button
+    And the user clicks the "Sign In" button
     Then the user should be redirected to the home page
     And the user should see their username "testuser" in the header
 
@@ -64,7 +64,7 @@ Feature: Submit Login Form
     And the user is on the login page
     When the user enters "testuser" in the "Username" field
     And the user enters "wrongpassword" in the "Password" field
-    And the user clicks the "Log In" button
+    And the user clicks the "Sign In" button
     Then the user should see error message "Invalid username or password"
     And the user should remain on the login page
 
@@ -73,7 +73,7 @@ Feature: Submit Login Form
     And the user is on the login page
     When the user enters "nonexistent" in the "Username" field
     And the user enters "Password123" in the "Password" field
-    And the user clicks the "Log In" button
+    And the user clicks the "Sign In" button
     Then the user should see error message "Invalid username or password"
     And the user should remain on the login page
 
@@ -81,13 +81,13 @@ Feature: Submit Login Form
     Given the user is on the login page
     When the user leaves the "Username" field empty
     And the user enters "Password123" in the "Password" field
-    And the user clicks the "Log In" button
+    And the user clicks the "Sign In" button
     Then the user should see validation error "Username is required"
 
   Scenario: [UI] Client-side validation - Empty password
     Given the user is on the login page
     When the user enters "testuser" in the "Username" field
     And the user leaves the "Password" field empty
-    And the user clicks the "Log In" button
+    And the user clicks the "Sign In" button
     Then the user should see validation error "Password is required"
 

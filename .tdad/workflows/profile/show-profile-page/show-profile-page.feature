@@ -4,7 +4,7 @@ Feature: Show Profile Page
   So that I can view user information, karma, and posts in one place
 
   # NOTE: Profile page composes profile header, karma display, and user posts list
-  # Profile accessible via /profile/[userId] route
+  # Routes: /profile (current user's profile), /profile/[userId] (specific user's profile)
 
   # ==========================================
   # UI SCENARIOS (User Actions & UI)

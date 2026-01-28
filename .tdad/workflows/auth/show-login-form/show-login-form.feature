@@ -8,18 +8,18 @@ Feature: Show Login Form
   # ==========================================
   Scenario: [UI] Display login form with all required fields
     Given the user is on the home page
-    When the user clicks the "Log In" link in the header
+    When the user clicks the "Sign In" link in the header
     Then the user should see the login form
     And the user should see a "Username" input field
     And the user should see a "Password" input field
-    And the user should see a "Log In" button
+    And the user should see a "Sign In" button
 
   Scenario: [UI] Navigate directly to login page
     Given the user navigates to the "/auth/login" page
     Then the user should see the login form
     And the user should see a "Username" input field
     And the user should see a "Password" input field
-    And the user should see a "Log In" button
+    And the user should see a "Sign In" button
 
   Scenario: [UI] Form fields are empty by default
     Given the user is on the login page
