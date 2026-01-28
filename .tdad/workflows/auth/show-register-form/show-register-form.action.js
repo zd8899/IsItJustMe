@@ -20,7 +20,9 @@ async function performShowRegisterFormAction(page, context = {}) {
             // Click the Sign Up link in the header
             const signUpLink = page.getByRole('link', { name: /sign up/i });
 
-            const errorLocator = page.getByRole('alert');
+            // Use a more specific selector that excludes Next.js route announcer (empty alert with id __next-route-announcer__)
+            // Only match alerts that contain actual text content
+            const errorLocator = page.getByRole('alert').filter({ hasText: /.+/ });
             const outcome = await Promise.race([
                 signUpLink.waitFor({ state: 'visible', timeout: 5000 }).then(() => ({ type: 'found' })),
                 errorLocator.first().waitFor({ state: 'visible', timeout: 5000 }).then(() => ({ type: 'error' }))
@@ -49,7 +51,8 @@ async function performShowRegisterFormAction(page, context = {}) {
         const createAccountButton = page.getByRole('button', { name: /create account/i });
 
         // Check for errors first
-        const errorLocator = page.getByRole('alert');
+        // Use a more specific selector that excludes Next.js route announcer (empty alert)
+        const errorLocator = page.getByRole('alert').filter({ hasText: /.+/ });
         const formOutcome = await Promise.race([
             usernameField.waitFor({ state: 'visible', timeout: 5000 }).then(() => ({ type: 'success' })),
             errorLocator.first().waitFor({ state: 'visible', timeout: 5000 }).then(() => ({ type: 'error' }))

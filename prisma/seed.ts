@@ -1,4 +1,5 @@
 import { PrismaClient } from "@prisma/client";
+import * as bcrypt from "bcryptjs";
 
 const prisma = new PrismaClient();
 
@@ -22,6 +23,38 @@ async function main() {
       where: { slug: category.slug },
       update: {},
       create: category,
+    });
+  }
+
+  // Create a sample user for demonstration and testing
+  console.log("Seeding sample user...");
+  const passwordHash = await bcrypt.hash("password123", 10);
+  const sampleUser = await prisma.user.upsert({
+    where: { username: "testuser" },
+    update: {},
+    create: {
+      username: "testuser",
+      passwordHash: passwordHash,
+    },
+  });
+
+  // Create a sample post by the registered user
+  console.log("Seeding sample post by registered user...");
+  const dailyLifeCategory = await prisma.category.findUnique({
+    where: { slug: "daily-life" },
+  });
+
+  if (dailyLifeCategory) {
+    await prisma.post.upsert({
+      where: { id: "sample-registered-user-post" },
+      update: {},
+      create: {
+        id: "sample-registered-user-post",
+        frustration: "find time for everything",
+        identity: "a busy professional",
+        categoryId: dailyLifeCategory.id,
+        userId: sampleUser.id,
+      },
     });
   }
 

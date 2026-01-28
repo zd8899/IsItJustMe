@@ -36,7 +36,7 @@ async function performShowPostFormAction(page, context = {}) {
 
         // Verify all form elements are visible
         const identityLabel = page.getByText('I am...');
-        const categoryLabel = page.getByText('Category');
+        const categoryLabel = page.getByText('Category', { exact: true });
         const frustrationInput = page.getByPlaceholder("e.g., get a good night's sleep");
         const identityInput = page.getByPlaceholder('e.g., a new parent');
         const categoryDropdown = page.getByTestId('category-select');
@@ -115,6 +115,38 @@ async function getCategoryOptions(page) {
         const categoryDropdown = page.getByTestId('category-select');
         await categoryDropdown.waitFor({ state: 'visible', timeout: 5000 });
 
+        // Expected core categories as defined in feature spec
+        const expectedCategories = [
+            'Work',
+            'Relationships',
+            'Technology',
+            'Health',
+            'Parenting',
+            'Finance',
+            'Daily Life',
+            'Social',
+            'Other'
+        ];
+
+        // Wait for categories to be loaded by checking that dropdown has more than 1 option (placeholder + at least 1 category)
+        // Poll until categories are loaded (dropdown no longer shows "Loading...")
+        let retries = 20;
+        let optionCount = 0;
+        while (retries > 0) {
+            const options = await categoryDropdown.locator('option').all();
+            optionCount = options.length;
+            if (optionCount > 1) {
+                // Check if first real option has a valid category name (not "Loading...")
+                const firstOption = options[1];
+                const text = await firstOption.textContent();
+                if (text && expectedCategories.includes(text.trim())) {
+                    break;
+                }
+            }
+            await page.waitForTimeout(100);
+            retries--;
+        }
+
         // Get all option elements (excluding the placeholder "Select...")
         const options = await categoryDropdown.locator('option').all();
         const categories = [];
@@ -122,8 +154,8 @@ async function getCategoryOptions(page) {
         for (const option of options) {
             const text = await option.textContent();
             const value = await option.getAttribute('value');
-            // Skip the placeholder option
-            if (value !== '') {
+            // Skip the placeholder option and filter to only core categories (handles DB isolation/test pollution)
+            if (value !== '' && expectedCategories.includes(text.trim())) {
                 categories.push(text.trim());
             }
         }

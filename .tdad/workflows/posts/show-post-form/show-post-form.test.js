@@ -43,7 +43,7 @@ test.describe('Show Post Form', () => {
         await expect(page.getByPlaceholder('e.g., a new parent')).toBeVisible();
 
         // And the user should see the label "Category"
-        await expect(page.getByText('Category')).toBeVisible();
+        await expect(page.getByText('Category', { exact: true })).toBeVisible();
 
         // And the user should see a category dropdown
         await expect(page.getByTestId('category-select')).toBeVisible();
@@ -82,7 +82,7 @@ test.describe('Show Post Form', () => {
         await expect(categoryDropdown).toBeVisible();
 
         for (const category of expectedCategories) {
-            await expect(categoryDropdown.locator(`option:text("${category}")`)).toBeAttached();
+            await expect(categoryDropdown.locator(`option:text-is("${category}")`)).toBeAttached();
         }
     });
 

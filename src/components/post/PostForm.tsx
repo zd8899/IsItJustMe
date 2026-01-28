@@ -37,8 +37,39 @@ export function PostForm({ onPostCreated }: PostFormProps) {
           throw new Error("Failed to load categories");
         }
         const data: Category[] = await response.json();
+
+        // Define the expected order for core categories
+        const categoryOrder = [
+          'Work',
+          'Relationships',
+          'Technology',
+          'Health',
+          'Parenting',
+          'Finance',
+          'Daily Life',
+          'Social',
+          'Other'
+        ];
+
+        // Sort categories by the expected order, unknown categories go at the end
+        const sortedData = [...data].sort((a, b) => {
+          const indexA = categoryOrder.indexOf(a.name);
+          const indexB = categoryOrder.indexOf(b.name);
+
+          // If both are in the order list, sort by order
+          if (indexA !== -1 && indexB !== -1) {
+            return indexA - indexB;
+          }
+          // If only a is in the list, a comes first
+          if (indexA !== -1) return -1;
+          // If only b is in the list, b comes first
+          if (indexB !== -1) return 1;
+          // If neither are in the list, sort alphabetically
+          return a.name.localeCompare(b.name);
+        });
+
         setCategories(
-          data.map((cat) => ({
+          sortedData.map((cat) => ({
             value: cat.id,
             label: cat.name,
           }))
@@ -151,6 +182,7 @@ export function PostForm({ onPostCreated }: PostFormProps) {
             onChange={(e) => setFrustration(e.target.value)}
             placeholder="e.g., get a good night's sleep"
             disabled={isSubmitting}
+            required
           />
         </div>
         <div>
@@ -162,6 +194,7 @@ export function PostForm({ onPostCreated }: PostFormProps) {
             onChange={(e) => setIdentity(e.target.value)}
             placeholder="e.g., a new parent"
             disabled={isSubmitting}
+            required
           />
         </div>
         {categoriesError ? (
@@ -181,6 +214,7 @@ export function PostForm({ onPostCreated }: PostFormProps) {
             placeholder="Select a category"
             loading={isLoadingCategories}
             disabled={isSubmitting}
+            required
           />
         )}
         <Button

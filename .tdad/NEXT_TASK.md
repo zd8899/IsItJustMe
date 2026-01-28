@@ -43,7 +43,7 @@ Check PASSED test traces as well to understand working patterns. Use trace to fi
 
 ---
 
-# 🎯 TDAD Context Packet: "Show Register Form"
+# 🎯 TDAD Context Packet: "Show Post Card"
 
 ## 📋 Overview
 TDAD has scaffolded the files for this feature with correct imports and structure.
@@ -54,9 +54,9 @@ Your task is to **fill in the implementation** in the scaffolded files to make t
 ## 📂 Scaffolded Files
 Read these files to understand the current implementation:
 
-- **Feature Spec:** `.tdad/workflows/auth/show-register-form/show-register-form.feature`
-- **Action File:** `.tdad/workflows/auth/show-register-form/show-register-form.action.js`
-- **Test File:** `.tdad/workflows/auth/show-register-form/show-register-form.test.js`
+- **Feature Spec:** `.tdad/workflows/posts/show-post-card/show-post-card.feature`
+- **Action File:** `.tdad/workflows/posts/show-post-card/show-post-card.action.js`
+- **Test File:** `.tdad/workflows/posts/show-post-card/show-post-card.test.js`
 
 
 ---
@@ -78,60 +78,109 @@ Read these files to understand the current implementation:
 
 ## 📊 TEST RESULTS
 
-**Summary:** 4 passed, 1 failed
+**Summary:** 5 passed, 1 failed
 
-**Frontend Source Files:**
-- `auth/register`
-
-### ❌ FAILED: [UI-001] Display registration form with all required fields
+### ❌ FAILED: [UI-048] Post card shows username for registered user posts
 ──────────────────────────────────────────────────
 **Error:** expect(received).toBe(expected) // Object.is equality
 
-  📍 Code at .tdad\workflows\auth\show-register-form\show-register-form.test.js:31
+  📍 Code at .tdad\workflows\posts\show-post-card\show-post-card.test.js:97
   ```
-       28│         const result = await performShowRegisterFormAction(page, { navigationType: 'header' });
-       29│ 
-       30│         // Unconditional assertion - always assert
-  >>   31│         expect(result.success).toBe(true);
-       32│ 
-       33│         // Then the user should see the registration form
-       34│         // And the user should see a "Username" input field
+       94│         // Check for registered user author
+       95│         const result = await viewRegisteredUserPostCard(page);
+       96│         expect(result.success).toBe(true);
+  >>   97│         expect(result.hasUsernameAuthor).toBe(true);
+       98│ 
+       99│         // Verify "by [username]" pattern is visible
+      100│         await expect(page.locator('.bg-white.border.border-primary-200.rounded-lg').filter({ hasText: /by \w+/ }).first()).toBeVisible();
   ```
 
-📁 **Details Trace file and logs:** `.tdad/debug/auth/show-register-form/trace-files/trace-ui-001-display-registration-form-with-all-required.json`
-📸 **Screenshot:** `.tdad/debug/auth/show-register-form/screenshots/ui-001-display-registration-form-with-all-required.png`
+📁 **Details Trace file and logs:** `.tdad/debug/posts/show-post-card/trace-files/trace-ui-048-post-card-shows-username-for-registered-use.json`
+📸 **Screenshot:** `.tdad/debug/posts/show-post-card/screenshots/ui-048-post-card-shows-username-for-registered-use.png`
 📡 **API Calls:**
 - `GET http://localhost:3000/api/posts?sortBy=hot` → 0 ❌
+- `GET http://localhost:3000/api/categories` → 200 ✅
+- `GET http://localhost:3000/api/auth/session` → 200 ✅
+- `GET http://localhost:3000/api/posts?sortBy=hot` → 200 ✅
+- `GET http://localhost:3000/api/categories` → 200 ✅
+- `GET http://localhost:3000/api/auth/session` → 200 ✅
+- `GET http://localhost:3000/api/posts?sortBy=hot` → 0 ❌
+- `GET http://localhost:3000/api/categories` → 200 ✅
+- `GET http://localhost:3000/api/posts?sortBy=hot` → 200 ✅
+- `GET http://localhost:3000/api/auth/session` → 200 ✅
+- `GET http://localhost:3000/api/categories` → 200 ✅
+- `GET http://localhost:3000/api/auth/session` → 200 ✅
 
-### ✅ PASSED TESTS (4)
+### ✅ PASSED TESTS (5)
 ──────────────────────────────────────────────────
 
-**✅ [UI-002] Navigate directly to registration page**
-📁 **Details Trace file and logs:** `.tdad/debug/auth/show-register-form/trace-files/trace-ui-002-navigate-directly-to-registration-page.json`
-📸 **Screenshot:** `.tdad/debug/auth/show-register-form/screenshots/ui-002-navigate-directly-to-registration-page.png`
+**✅ [UI-045] Post card displays all essential information**
+📁 **Details Trace file and logs:** `.tdad/debug/posts/show-post-card/trace-files/trace-ui-045-post-card-displays-all-essential-informatio.json`
+📸 **Screenshot:** `.tdad/debug/posts/show-post-card/screenshots/ui-045-post-card-displays-all-essential-informatio.png`
 📡 **API Calls:**
+- `GET http://localhost:3000/api/posts?sortBy=hot` → 0 ❌
 - `GET http://localhost:3000/api/auth/session` → 200 ✅
+- `GET http://localhost:3000/api/categories` → 200 ✅
+- `GET http://localhost:3000/api/posts?sortBy=hot` → 200 ✅
+- `GET http://localhost:3000/api/auth/session` → 200 ✅
+- `GET http://localhost:3000/api/categories` → 200 ✅
+
+**✅ [UI-046] Post card shows vote buttons**
+📁 **Details Trace file and logs:** `.tdad/debug/posts/show-post-card/trace-files/trace-ui-046-post-card-shows-vote-buttons.json`
+📸 **Screenshot:** `.tdad/debug/posts/show-post-card/screenshots/ui-046-post-card-shows-vote-buttons.png`
+📡 **API Calls:**
+- `GET http://localhost:3000/api/posts?sortBy=hot` → 0 ❌
+- `GET http://localhost:3000/api/categories` → 200 ✅
+- `GET http://localhost:3000/api/auth/session` → 200 ✅
+- `GET http://localhost:3000/api/posts?sortBy=hot` → 200 ✅
+- `GET http://localhost:3000/api/categories` → 200 ✅
 - `GET http://localhost:3000/api/auth/session` → 200 ✅
 
-**✅ [UI-003] Form fields are empty by default**
-📁 **Details Trace file and logs:** `.tdad/debug/auth/show-register-form/trace-files/trace-ui-003-form-fields-are-empty-by-default.json`
-📸 **Screenshot:** `.tdad/debug/auth/show-register-form/screenshots/ui-003-form-fields-are-empty-by-default.png`
+**✅ [UI-047] Post card shows anonymous author**
+📁 **Details Trace file and logs:** `.tdad/debug/posts/show-post-card/trace-files/trace-ui-047-post-card-shows-anonymous-author.json`
+📸 **Screenshot:** `.tdad/debug/posts/show-post-card/screenshots/ui-047-post-card-shows-anonymous-author.png`
 📡 **API Calls:**
+- `GET http://localhost:3000/api/posts?sortBy=hot` → 0 ❌
+- `GET http://localhost:3000/api/categories` → 200 ✅
 - `GET http://localhost:3000/api/auth/session` → 200 ✅
+- `GET http://localhost:3000/api/posts?sortBy=hot` → 200 ✅
+- `GET http://localhost:3000/api/categories` → 200 ✅
 - `GET http://localhost:3000/api/auth/session` → 200 ✅
+- `GET http://localhost:3000/api/posts?sortBy=hot` → 0 ❌
+- `GET http://localhost:3000/api/categories` → 200 ✅
+- `GET http://localhost:3000/api/auth/session` → 200 ✅
+- `GET http://localhost:3000/api/posts?sortBy=hot` → 200 ✅
+- `GET http://localhost:3000/api/auth/session` → 200 ✅
+- `GET http://localhost:3000/api/categories` → 200 ✅
 
-**✅ [UI-004] Password field masks input**
-📁 **Details Trace file and logs:** `.tdad/debug/auth/show-register-form/trace-files/trace-ui-004-password-field-masks-input.json`
-📸 **Screenshot:** `.tdad/debug/auth/show-register-form/screenshots/ui-004-password-field-masks-input.png`
+**✅ [UI-049] Post card is clickable and navigates to detail page**
+📁 **Details Trace file and logs:** `.tdad/debug/posts/show-post-card/trace-files/trace-ui-049-post-card-is-clickable-and-navigates-to-det.json`
+📸 **Screenshot:** `.tdad/debug/posts/show-post-card/screenshots/ui-049-post-card-is-clickable-and-navigates-to-det.png`
 📡 **API Calls:**
+- `GET http://localhost:3000/api/posts?sortBy=hot` → 0 ❌
+- `GET http://localhost:3000/api/categories` → 200 ✅
 - `GET http://localhost:3000/api/auth/session` → 200 ✅
+- `GET http://localhost:3000/api/posts?sortBy=hot` → 200 ✅
+- `GET http://localhost:3000/api/categories` → 200 ✅
 - `GET http://localhost:3000/api/auth/session` → 200 ✅
+- `GET http://localhost:3000/api/posts/cmkxdhlzg00akbajnt8uv8uyu` → 200 ✅
+- `GET http://localhost:3000/api/posts/cmkxdhlzg00akbajnt8uv8uyu` → 200 ✅
 
-**✅ [UI-005] Display link to login page for existing users**
-📁 **Details Trace file and logs:** `.tdad/debug/auth/show-register-form/trace-files/trace-ui-005-display-link-to-login-page-for-existing-use.json`
-📸 **Screenshot:** `.tdad/debug/auth/show-register-form/screenshots/ui-005-display-link-to-login-page-for-existing-use.png`
+**✅ [UI-050] Post card displays comment count correctly**
+📁 **Details Trace file and logs:** `.tdad/debug/posts/show-post-card/trace-files/trace-ui-050-post-card-displays-comment-count-correctly.json`
+📸 **Screenshot:** `.tdad/debug/posts/show-post-card/screenshots/ui-050-post-card-displays-comment-count-correctly.png`
 📡 **API Calls:**
+- `GET http://localhost:3000/api/posts?sortBy=hot` → 0 ❌
+- `GET http://localhost:3000/api/categories` → 200 ✅
 - `GET http://localhost:3000/api/auth/session` → 200 ✅
+- `GET http://localhost:3000/api/posts?sortBy=hot` → 200 ✅
+- `GET http://localhost:3000/api/categories` → 200 ✅
+- `GET http://localhost:3000/api/auth/session` → 200 ✅
+- `GET http://localhost:3000/api/posts?sortBy=hot` → 0 ❌
+- `GET http://localhost:3000/api/categories` → 200 ✅
+- `GET http://localhost:3000/api/auth/session` → 200 ✅
+- `GET http://localhost:3000/api/categories` → 200 ✅
+- `GET http://localhost:3000/api/posts?sortBy=hot` → 200 ✅
 - `GET http://localhost:3000/api/auth/session` → 200 ✅
 
 
@@ -139,7 +188,7 @@ Read these files to understand the current implementation:
 
 ## ✅ YOUR TASK
 
-1. **Read specs first:** `.tdad/workflows/auth/show-register-form/show-register-form.feature` for requirements, `.tdad/workflows/auth/show-register-form/show-register-form.test.js` for expected values
+1. **Read specs first:** `.tdad/workflows/posts/show-post-card/show-post-card.feature` for requirements, `.tdad/workflows/posts/show-post-card/show-post-card.test.js` for expected values
 2. **Use trace to locate:** Find files to fix from trace data (WHERE, not WHAT)
 3. **Fix the APP** to match spec/test expectations
 4. **Verify** no red flags before submitting

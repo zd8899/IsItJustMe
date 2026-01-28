@@ -35,6 +35,8 @@ async function performShowLoginFormAction(page, context = {}) {
             }
 
             await signInLink.click();
+            // Wait for navigation to complete - important for Next.js client-side routing
+            await page.waitForURL(/.*\/auth\/login/, { timeout: 10000 });
             await page.waitForLoadState('domcontentloaded');
         } else {
             // Navigate directly to login page
